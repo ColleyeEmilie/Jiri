@@ -7,6 +7,7 @@
         <title>{{ $title ?? 'Page Title' }}</title>
     </head>
     <body>
-        {{ $slot }}
+    @include('layouts.navigation')
+    {{ $slot }}
     </body>
 </html>

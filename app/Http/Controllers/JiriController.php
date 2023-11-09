@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Jiri;
+use App\Models\Note;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Gate;
 use Request;
 
 class JiriController extends Controller
@@ -18,6 +20,10 @@ class JiriController extends Controller
         return view('pages.jiris.index', compact('jiris'));
     }
 
+    public function show(Jiri $jiri)
+    {
+        return view('pages.jiris.show', compact('jiri'));
+    }
     public function create(): View
     {
         info('JiriController@index');

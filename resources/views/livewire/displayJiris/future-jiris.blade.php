@@ -6,7 +6,7 @@
         </div>
         <div x-show="open" x-cloak x-transition>
             @foreach($futureJiris as $jiri)
-                <li>{{ $jiri->name }} - crée le {{ $jiri->created_at }} - pour le {{ $jiri->starting_at }}</li>
+                <li><a href="/jiris/{{ $jiri->id }}"> {{ $jiri->name }} - crée le {{ $jiri->created_at }} - pour le {{ $jiri->starting_at }} </a></li>
             @endforeach
         </div>
     </div>

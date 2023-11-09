@@ -21,7 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('jiris', function () {
-    return User::whereEmail('dominique.vilain@hepl.be')
+    return User::whereEmail('colleyeemilie@hotmail.com')
         ->firstOrFail();
 });
 

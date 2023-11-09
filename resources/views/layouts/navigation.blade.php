@@ -12,9 +12,8 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('jiris.index')" :active="request()->routeIs('jiris.index')">
-                        {{ __('Jiris') }}
-                    </x-nav-link>
+                    <x-nav-link :href="route('jiris.index')" :active="request()->routeIs('jiris.index') "> {{ __("Épreuves") }} </x-nav-link>
+                    <x-nav-link :href="route('jiris.create')" :active="request()->routeIs('jiris.create')"> {{ __("Créer une épreuve") }} </x-nav-link>
                 </div>
             </div>
 
