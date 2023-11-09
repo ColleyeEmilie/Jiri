@@ -35,7 +35,6 @@ class JiriController extends Controller
         $data = Request::validate([
             'name' => 'required',
             'starting_at' => 'required|date',
-            'duration' => 'required|integer',
         ]);
 
         auth()->user()?->jiris()->create($data);
