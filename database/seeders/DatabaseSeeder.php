@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $dominique = User::factory()
+        $emilie = User::factory()
             ->has(Jiri::factory()->count(2))
             ->has(Project::factory()->count(4))
             ->has(Contact::factory()->count(20))
@@ -37,7 +37,7 @@ class DatabaseSeeder extends Seeder
                 'password' => bcrypt('change_this'),
             ]);
 
-        $users = collect([$dominique, $myriam]);
+        $users = collect([$emilie, $myriam]);
 
         foreach ($users as $user) {
             foreach ($user->jiris as $jiri) {
