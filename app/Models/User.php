@@ -3,7 +3,12 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -42,4 +47,28 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function jiris(): HasMany
+    {
+        return $this
+            ->hasMany(Jiri::class);
+    }
+
+    public function contacts(): HasMany
+    {
+        return $this
+            ->HasMany(Contact::class);
+    }
+
+    public function projects(): HasMany
+    {
+        return $this
+            ->hasMany(Project::class);
+    }
+
+    public function attendances(): hasManyThrough
+    {
+        return $this
+            ->hasManyThrough(Attendance::class, Jiri::class);
+    }
 }
