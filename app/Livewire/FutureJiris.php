@@ -11,7 +11,7 @@ class FutureJiris extends Component
     public $futureJiris;
     public function mount()
     {
-        $this->futureJiris = Jiri::orderBy('created_at','asc')->whereDate('starting_at', '>', Carbon::today()->toDateString())->get();
+        $this->futureJiris = Jiri::orderBy('created_at','desc')->whereDate('starting_at', '>', Carbon::today()->toDateString())->get();
     }
 
     public function render()
