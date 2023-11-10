@@ -2,6 +2,8 @@
 
 namespace App\Livewire\CreateJiri;
 
+use App\Models\Jiri;
+use Livewire\Attributes\Rule;
 use Livewire\Component;
 
 class General extends Component
