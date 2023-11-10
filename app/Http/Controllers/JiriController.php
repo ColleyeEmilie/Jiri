@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Jiri;
-use App\Models\Note;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Gate;
