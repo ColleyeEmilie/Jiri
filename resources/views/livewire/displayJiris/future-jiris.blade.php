@@ -5,9 +5,11 @@
             <button @click="open=!open" x-html="open ? '-' :'+' " ></button>
         </div>
         <div x-show="open" x-cloak x-transition>
-            @foreach($futureJiris as $jiri)
-                <li><a href="/jiris/{{ $jiri->id }}"> {{ $jiri->name }} - pour le {{ $jiri->starting_at }} </a></li>
-            @endforeach
+            <ol>
+                @foreach($futureJiris as $jiri)
+                    <li><a href="/jiris/{{ $jiri->id }}"> {{ $jiri->name }} - pour le {{ $jiri->starting_at }} </a></li>
+                @endforeach
+            </ol>
         </div>
     </div>
 </div>
