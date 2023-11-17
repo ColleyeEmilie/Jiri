@@ -32,12 +32,16 @@ class ContactsController extends Controller
     }
 
 
-    public function edit($id)
+    public function edit(Contact $contact)
     {
+        return view('pages.contacts.edit', compact('contact'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, Contact $contact)
     {
+        dd($contact);
+        $contact->update($request->validated());
+        return redirect('/contacts/' . $contact->id);
     }
 
     public function destroy($id)
