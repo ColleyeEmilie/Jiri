@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\DisplayJiri;
 
 use App\Models\Jiri;
 use Livewire\Component;

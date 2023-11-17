@@ -10,9 +10,9 @@
     </x-slot>
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                    <livewire:lastJiriCreated/>
-                    <livewire:futureJiris/>
-                    <livewire:oldJiris/>
+                    <livewire:display-jiri.lastJiriCreated/>
+                    <livewire:display-jiri.futureJiris/>
+                    <livewire:display-jiri.oldJiris/>
         </div>
     </div>
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Contact;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class ContactsController extends Controller
 {
@@ -25,8 +26,9 @@ class ContactsController extends Controller
         return view('pages.contacts.create');
     }
 
-    public function store(Request $request)
+    public function store(): RedirectResponse
     {
+        return redirect('contacts');
     }
 
 
