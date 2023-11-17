@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
     {
         $emilie = User::factory()
             ->has(Jiri::factory()->count(2))
-            ->has(Project::factory()->count(4))
+            ->has(Project::factory()->count(5))
             ->has(Contact::factory()->count(20))
             ->create([
                 'name' => 'Emilie Colleye',

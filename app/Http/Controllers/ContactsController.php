@@ -18,6 +18,7 @@ class ContactsController extends Controller
 
     public function show(Contact $contact)
     {
+        dd($contact);
         return view('pages.contacts.show', compact('contact'));
     }
     public function create()
