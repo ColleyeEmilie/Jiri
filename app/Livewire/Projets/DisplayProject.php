@@ -4,15 +4,13 @@ namespace App\Livewire\Projets;
 
 use App\Models\Project;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class DisplayProject extends Component
 {
-    public $projects;
-    public function mount(){
-        $this->projects = Project::orderBy('created_at','desc')->get();
-    }
+    use WithPagination;
     public function render()
     {
-        return view('livewire.projets.display-project');
+        return view('livewire.projets.display-project', ['projects' => Project::orderBy('name','asc')->paginate(15)]);
     }
 }

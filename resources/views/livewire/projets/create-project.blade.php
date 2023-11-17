@@ -22,7 +22,7 @@
             @error('description') <span class="error">{{ $message }}</span> @enderror
         </div>
         <div>
-            <button wire:click="newProject"  class="bg-transparent hover:bg-orange-400 text-orange-400 font-semibold hover:text-white py-2 px-4 border border-orange-400 hover:border-transparent rounded" type="submit">
+            <button wire:click="newProject" @if($errors->any()) disabled @endif @if(empty($name || $ponderation || $link)) disabled @endif class="bg-transparent hover:bg-orange-400 text-orange-400 font-semibold hover:text-white py-2 px-4 border border-orange-400 hover:border-transparent rounded" type="submit">
                 {{ __('+ Ajouter le projet') }}
             </button>
         </div>
