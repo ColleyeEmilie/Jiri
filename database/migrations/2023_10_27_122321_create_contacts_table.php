@@ -10,6 +10,7 @@ return new class extends Migration {
         Schema::create('contacts', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('firstname');
             $table->string('email');
             // Not setting unique allows to have multiple contacts with the same email
             // It makes sense because one person can be a contact for multiple users

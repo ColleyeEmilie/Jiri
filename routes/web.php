@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ContactsController;
 use App\Http\Controllers\JiriController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -27,6 +28,9 @@ Route::middleware('auth')->group(function () {
         ->name('jiris.store');
     Route::get('/jiris/{jiri}', [JiriController::class, 'show'])
         ->name('jiris.show');
+
+    Route::resource('contacts', ContactsController::class);
+
 
     Route::get('/profile', [ProfileController::class, 'edit'])
         ->name('profile.edit');

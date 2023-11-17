@@ -14,6 +14,8 @@
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('jiris.index')" :active="request()->routeIs('jiris.index') "> {{ __("Épreuves") }} </x-nav-link>
                     <x-nav-link :href="route('jiris.create')" :active="request()->routeIs('jiris.create')"> {{ __("Créer une épreuve") }} </x-nav-link>
+                    <x-nav-link :href="route('contacts.index')" :active="request()->routeIs('contacts.index')"> {{ __("Contacts") }} </x-nav-link>
+                    <x-nav-link :href="route('contacts.create')" :active="request()->routeIs('contacts.create')"> {{ __("Créer un contact") }} </x-nav-link>
                 </div>
             </div>
 
@@ -40,7 +42,6 @@
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
-
                             <x-dropdown-link :href="route('logout')"
                                     onclick="event.preventDefault();
                                                 this.closest('form').submit();">

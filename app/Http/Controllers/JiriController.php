@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Jiri;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Gate;
 use Request;
 
 class JiriController extends Controller
