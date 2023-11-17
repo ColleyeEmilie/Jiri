@@ -19,13 +19,8 @@ class EditContact extends Component
     {
         return view('livewire.contacts.edit-contact');
     }
-    public function newContact(){
+    public function editContact(){
         $this->validate();
-        Contact::factory()->update([
-            'name' => $this->name,
-            'firstname' => $this->firstname,
-            'email' => $this->email,
-            'user_id' => auth()->id(),
-        ]);
+
     }
 }

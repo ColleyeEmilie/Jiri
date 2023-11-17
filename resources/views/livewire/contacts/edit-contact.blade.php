@@ -18,7 +18,7 @@
 
         </div>
         <div>
-            <button @if($errors->any()) disabled @endif @if(empty($email || $firstname || $name)) disabled @endif wire:click="newContact" class="bg-transparent hover:bg-orange-400 text-orange-400 font-semibold hover:text-white py-2 px-4 border border-orange-400 hover:border-transparent rounded" type="submit">
+            <button @if($errors->any()) disabled @endif @if(empty($email || $firstname || $name)) disabled @endif wire:click="editContact" class="bg-transparent hover:bg-orange-400 text-orange-400 font-semibold hover:text-white py-2 px-4 border border-orange-400 hover:border-transparent rounded" type="submit">
                 {{ __(('+ Ajouter le contact')) }}
             </button>
         </div>
