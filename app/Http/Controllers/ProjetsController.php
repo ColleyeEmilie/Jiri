@@ -13,11 +13,13 @@ class ProjetsController extends Controller
         $projects = Project
             ::orderBy('created_at','asc')
             ->get();
+
         return view('pages.projets.index', compact('projects'));
     }
 
-    public function show(Project $project)
+    public function show($projectId)
     {
+        $project = Project::findOrFail($projectId);
         return view('pages.projets.show', compact('project'));
     }
 
