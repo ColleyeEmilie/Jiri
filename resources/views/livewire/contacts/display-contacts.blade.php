@@ -4,4 +4,5 @@
             <li><a href="/contacts/{{ $contact->id }}"> {{ $contact->name }} {{ $contact->firstname }} </a></li>
         @endforeach
     </ul>
+    {{ $contacts->links() }}
 </div>
