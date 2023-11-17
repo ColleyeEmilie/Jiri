@@ -10,6 +10,13 @@ class Project extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'link',
+        'ponderation',
+        'description',
+    ];
+
     public function implementations(): HasMany
     {
         return $this

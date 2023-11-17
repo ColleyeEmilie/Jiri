@@ -3,17 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Models\Project;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class ProjetsController extends Controller
 {
     public function index()
     {
-        $projets = Project
+        $projects = Project
             ::orderBy('created_at','asc')
             ->get();
+        return view('pages.projets.index', compact('projects'));
+    }
 
-        return view('pages.projets.index', compact('projets'));
+    public function show(Project $project)
+    {
+        return view('pages.projets.show', compact('project'));
     }
 
     public function create()
@@ -22,12 +27,9 @@ class ProjetsController extends Controller
         return view('pages.projets.create');
     }
 
-    public function store(Request $request)
+    public function store(): RedirectResponse
     {
-    }
-
-    public function show($id)
-    {
+        return redirect('projets');
     }
 
     public function edit($id)
