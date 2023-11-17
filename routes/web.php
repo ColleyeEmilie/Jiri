@@ -3,6 +3,7 @@
 use App\Http\Controllers\ContactsController;
 use App\Http\Controllers\JiriController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProjetsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -30,6 +31,7 @@ Route::middleware('auth')->group(function () {
         ->name('jiris.show');
 
     Route::resource('contacts', ContactsController::class);
+    Route::resource('projets', ProjetsController::class);
 
 
     Route::get('/profile', [ProfileController::class, 'edit'])
