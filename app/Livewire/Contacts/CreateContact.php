@@ -20,7 +20,7 @@ class CreateContact extends Component
     }
     public function newContact(){
         $this->validate();
-        Contact::factory()->create([
+        Contact::factory()->update([
             'name' => $this->name,
             'firstname' => $this->firstname,
             'email' => $this->email,
