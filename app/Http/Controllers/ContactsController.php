@@ -39,9 +39,8 @@ class ContactsController extends Controller
 
     public function update(Request $request, Contact $contact)
     {
-        dd($contact);
-        $contact->update($request->validated());
-        return redirect('/contacts/' . $contact->id);
+        $contact->update($request->only('name', 'firstname', 'email'));
+        return redirect('contacts');
     }
 
     public function destroy($id)
