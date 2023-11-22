@@ -34,12 +34,17 @@ class ProjetsController extends Controller
         return redirect('projets');
     }
 
-    public function edit($id)
+    public function edit($projectId)
     {
+        $project = Project::findOrFail($projectId);
+        return view('pages.projets.edit', compact('project'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $projectId)
     {
+        $project = Project::findOrFail($projectId);
+        $project->update($request->only('name','link', 'ponderation', 'description'));
+        return redirect('projets');
     }
 
     public function destroy($id)
