@@ -43,7 +43,9 @@ class ContactsController extends Controller
         return redirect('contacts');
     }
 
-    public function destroy($id)
+    public function destroy(Contact $contact)
     {
+        $contact->delete();
+        return redirect('contacts');
     }
 }
