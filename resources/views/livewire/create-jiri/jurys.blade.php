@@ -9,15 +9,17 @@
                 <div>
                     @if($jurys)
                         @foreach($jurys as $jury)
-                            <p>{{$jury->name }}, {{$jury->firstname}},{{$jury->role }}, {{$jury->token }}, {{$jury->jiri_id }}, {{$jury->contact_id }}</p>
+                            <p>
+                                {{$jury['name'] }}, {{$jury['firstname']}},{{$jury['role'] }},{{$jury['token'] }},{{$jury['jiri_id'] }}, {{$jury['contact_id'] }}
+                            </p>
                         @endforeach
                     @endif
                 </div>
                 <form wire:submit="newUser">
                     <div class="mb-4">
-                        <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Rechercher
+                        <label for="currentUser" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Rechercher
                             un contact par nom </label>
-                        <input type="text" id="name" name="name" wire:model.live="currentUser"
+                        <input type="text" id="currentUser" name="currentUser" wire:model.live="currentUser"
                                @input="splitString($wire.currentUser)" list="jury"
                                class="w-96 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         <datalist id="jury">

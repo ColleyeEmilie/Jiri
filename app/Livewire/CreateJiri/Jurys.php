@@ -27,23 +27,21 @@ class Jurys extends Component
         return $this->currentUser ? Contact::where('name', 'like', '%' . $this->name . '%')->get() : new Collection();
     }
     public function addJurys(){
-        return $this->jurys = Contact::
+         $this->jurys = Contact::
         join('attendances', 'contacts.id', '=', 'attendances.contact_id')
+             ->select('contacts.name', 'contacts.firstname', 'attendances.role', 'attendances.token', 'attendances.jiri_id', 'attendances.contact_id')
             ->where('role', '=', 'jury')
-            ->select('contacts.*', 'attendances.*')
-            ->get();
+            ->where('jiri_id', '=', $this->lastJiri->id)
+            ->get()->toArray();
     }
-
     public function lastJiri()
     {
         $this->lastJiri = Jiri::orderBy('created_at', 'desc')->first();
     }
-
     public function lastJury()
     {
         $this->lastJury = Contact::where('email', '=', $this->email)->first();
     }
-
     public function mount($juryId = 0): void
     {
         $this->juryId = $juryId;
@@ -66,6 +64,11 @@ class Jurys extends Component
     {
         if($this->email ===''){
             $this->infoCurrentUser = preg_split("/[,:]+/", $this->currentUser);
+            if (count($this->infoCurrentUser) === 3) {
+                $this->firstname = $this->infoCurrentUser[0];
+                $this->name = $this->infoCurrentUser[1];
+                $this->email = $this->infoCurrentUser[2];
+            }
             $this->firstname = $this->infoCurrentUser[0];
             $this->name= $this->infoCurrentUser[1];
             $this->email = $this->infoCurrentUser[2];
@@ -87,15 +90,10 @@ class Jurys extends Component
         $this->lastJury();
         $this->addJuryRole();
         $this->addJurys();
+        $this->reset('currentUser','name', 'firstname', 'email');
+
     }
     public function addJuryRole(){
-        $this->addJury = Attendance::create([
-            'role' => 'jury',
-            'token' => bin2hex(random_bytes(16)),
-            'contact_id' => $this->lastJury->id,
-            'jiri_id' => $this->lastJiri->id,
-        ]);
-
         $this->addJury = auth()
             ->user()
             ?->attendances()
