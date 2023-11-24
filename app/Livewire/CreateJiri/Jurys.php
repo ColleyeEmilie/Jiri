@@ -11,7 +11,7 @@ use Livewire\Component;
 
 class Jurys extends Component
 {
-    public $first;
+    public $jurys;
     public $name = '';
     public $firstname = '';
     public $email='';
@@ -20,12 +20,18 @@ class Jurys extends Component
     public $lastJiri;
     public int|null $juryId;
     public $lastJury;
-    public $currentJury = [];
 
     #[computed]
     public function users()
     {
         return $this->currentUser ? Contact::where('name', 'like', '%' . $this->name . '%')->get() : new Collection();
+    }
+    public function addJurys(){
+        return $this->jurys = Contact::
+        join('attendances', 'contacts.id', '=', 'attendances.contact_id')
+            ->where('role', '=', 'jury')
+            ->select('contacts.*', 'attendances.*')
+            ->get();
     }
 
     public function lastJiri()
@@ -41,7 +47,6 @@ class Jurys extends Component
     public function mount($juryId = 0): void
     {
         $this->juryId = $juryId;
-
         if ($juryId) {
             $jury = auth()
                 ->user()
@@ -57,11 +62,8 @@ class Jurys extends Component
             $this->email = '';
         }
     }
-
-
     public function newUser()
     {
-
         if($this->email ===''){
             $this->infoCurrentUser = preg_split("/[,:]+/", $this->currentUser);
             $this->firstname = $this->infoCurrentUser[0];
@@ -84,16 +86,31 @@ class Jurys extends Component
         $this->lastJiri();
         $this->lastJury();
         $this->addJuryRole();
-        array_push($this->currentJury, Attendance::where('role', '=', 'jury')->orderBy('created_at', 'asc')->get());
+        $this->addJurys();
     }
-
     public function addJuryRole(){
-        Attendance::factory()->create([
+        $this->addJury = Attendance::create([
             'role' => 'jury',
             'token' => bin2hex(random_bytes(16)),
             'contact_id' => $this->lastJury->id,
             'jiri_id' => $this->lastJiri->id,
         ]);
+
+        $this->addJury = auth()
+            ->user()
+            ?->attendances()
+            ->firstOrCreate(
+                [
+                    'contact_id' => $this->lastJury->id,
+                    'jiri_id' => $this->lastJiri->id
+                ],
+                [
+                    'role' => 'jury',
+                    'token' => bin2hex(random_bytes(16)),
+                    'contact_id' => $this->lastJury->id,
+                    'jiri_id' => $this->lastJiri->id,
+                ]
+            );
     }
 
 }
