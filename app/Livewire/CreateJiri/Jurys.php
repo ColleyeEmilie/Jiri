@@ -2,6 +2,7 @@
 
 namespace App\Livewire\CreateJiri;
 
+use App\Models\Attendance;
 use App\Models\Contact;
 use App\Models\Jiri;
 use Illuminate\Database\Eloquent\Collection;
@@ -16,10 +17,10 @@ class Jurys extends Component
     public $email='';
     public $currentUser = '';
     public $infoCurrentUser;
-
     public $lastJiri;
     public int|null $juryId;
     public $lastJury;
+    public $currentJury = [];
 
     #[computed]
     public function users()
@@ -60,8 +61,6 @@ class Jurys extends Component
 
     public function newUser()
     {
-        $this->lastJiri();
-        $this->lastJury();
 
         if($this->email ===''){
             $this->infoCurrentUser = preg_split("/[,:]+/", $this->currentUser);
@@ -81,5 +80,20 @@ class Jurys extends Component
                     'user_id' => auth()->id(),
                 ]
             )->id;
+
+        $this->lastJiri();
+        $this->lastJury();
+        $this->addJuryRole();
+        array_push($this->currentJury, Attendance::where('role', '=', 'jury')->orderBy('created_at', 'asc')->get());
     }
+
+    public function addJuryRole(){
+        Attendance::factory()->create([
+            'role' => 'jury',
+            'token' => bin2hex(random_bytes(16)),
+            'contact_id' => $this->lastJury->id,
+            'jiri_id' => $this->lastJiri->id,
+        ]);
+    }
+
 }

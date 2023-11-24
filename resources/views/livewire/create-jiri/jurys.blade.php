@@ -6,6 +6,11 @@
         </div>
         <div x-show="open" x-cloak x-transition>
             <div class="mb-8  px-5" x-data="contactsList">
+                <div>
+                    @foreach($this->currentJury as $jury)
+                        <p>{{$jury}}</p>
+                    @endforeach
+                </div>
                 <form wire:submit="newUser">
                     <div class="mb-4">
                         <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Rechercher un contact par nom </label>
