@@ -81,6 +81,5 @@ class Jurys extends Component
                     'user_id' => auth()->id(),
                 ]
             )->id;
-        dd($this->email);
     }
 }
