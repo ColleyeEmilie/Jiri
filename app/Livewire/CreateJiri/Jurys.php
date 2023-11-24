@@ -39,6 +39,8 @@ class Jurys extends Component
 
     public function mount($juryId = 0): void
     {
+        $this->juryId = $juryId;
+
         if ($juryId) {
             $jury = auth()
                 ->user()
@@ -55,21 +57,23 @@ class Jurys extends Component
         }
     }
 
+
     public function newUser()
     {
-        $this->infoCurrentUser = preg_split("/[,:]+/", $this->currentUser);
-        $this->firstname = $this->infoCurrentUser[0];
-        $this->name= $this->infoCurrentUser[1];
-        $this->email = $this->infoCurrentUser[2];
-
         $this->lastJiri();
         $this->lastJury();
-        dd($this->lastJiri, $this->lastJury);
+
+        if($this->email ===''){
+            $this->infoCurrentUser = preg_split("/[,:]+/", $this->currentUser);
+            $this->firstname = $this->infoCurrentUser[0];
+            $this->name= $this->infoCurrentUser[1];
+            $this->email = $this->infoCurrentUser[2];
+        }
         $this->juryId = auth()
             ->user()
             ?->contacts()
             ->updateOrCreate(
-                ['id' => $this->juryId],
+                ['email' => $this->email],
                 [
                     'name' => $this->name,
                     'firstname' => $this->firstname,
@@ -77,5 +81,6 @@ class Jurys extends Component
                     'user_id' => auth()->id(),
                 ]
             )->id;
+        dd($this->email);
     }
 }
