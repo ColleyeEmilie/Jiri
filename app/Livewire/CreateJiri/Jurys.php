@@ -2,7 +2,7 @@
 
 namespace App\Livewire\CreateJiri;
 
-use App\Models\Attendance;
+
 use App\Models\Contact;
 use App\Models\Jiri;
 use Illuminate\Database\Eloquent\Collection;
