@@ -22,6 +22,15 @@ return new class extends Migration {
         Schema::table('attendances', function (Blueprint $table) {
             $table->foreignId('jiri_id')->constrained();
         });
+        Schema::table('duties', function (Blueprint $table) {
+            $table->foreignId('contact_id')->constrained();
+        });
+        Schema::table('duties', function (Blueprint $table) {
+            $table->foreignId('jiri_id')->constrained();
+        });
+        Schema::table('duties', function (Blueprint $table) {
+            $table->foreignId('project_id')->constrained();
+        });
         Schema::table('projects', function (Blueprint $table) {
             $table->foreignId('user_id')->constrained();
         });
