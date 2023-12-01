@@ -16,6 +16,7 @@
                     @endif
                 </div>
                 <form wire:submit="newUser">
+                    @csrf
                     <div class="mb-4">
                         <label for="currentUser" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Rechercher
                             un contact par nom </label>
@@ -70,9 +71,7 @@
                     currentUser: [],
 
                     splitString(name) {
-                        console.log(name)
                         this.currentUser = name.split(/[,:]+/);
-                        console.log(this.currentUser);
                         return this.currentUser;
                     },
                     noValue() {

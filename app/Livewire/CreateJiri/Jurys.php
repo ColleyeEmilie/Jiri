@@ -59,6 +59,9 @@ class Jurys extends Component
             $this->firstname = '';
             $this->email = '';
         }
+
+        $this->lastJiri();
+        $this->addJurys();
     }
     public function newUser()
     {

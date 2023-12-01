@@ -61,6 +61,8 @@ class Students extends Component
             $this->studentFirstname = '';
             $this->studentEmail = '';
         }
+        $this->lastJiri();
+        $this->addStudents();
     }
 
     public function newStudent()
@@ -89,7 +91,6 @@ class Students extends Component
                 ]
             )->id;
 
-        $this->lastJiri();
         $this->lastStudent();
         $this->addStudentRole();
         $this->addStudents();

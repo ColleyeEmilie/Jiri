@@ -10,7 +10,7 @@
                     @if($students)
                         @foreach($students as $student)
                             <p>
-                                {{$student['name'] }}, {{$student['firstname']}},{{$student['role'] }},{{$student['token'] }},{{$student['jiri_id'] }}, {{$student['contact_id'] }}
+                                {{$student['name'] }} {{$student['firstname']}} , {{$student['role'] }} , {{$student['jiri_id'] }} , {{$student['contact_id'] }}
                             </p>
                         @endforeach
                     @endif
