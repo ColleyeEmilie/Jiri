@@ -6,15 +6,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Attendance extends Model
+class Duty extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'role',
-        'token',
         'contact_id',
         'jiri_id',
+        'project_id',
     ];
 
     public function jiri(): BelongsTo
@@ -27,5 +26,11 @@ class Attendance extends Model
     {
         return $this
             ->belongsTo(Contact::class);
+    }
+
+    public function project(): BelongsTo
+    {
+        return $this
+            ->belongsTo(Project::class);
     }
 }

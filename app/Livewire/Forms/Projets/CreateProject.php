@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Projets;
+namespace App\Livewire\Forms\Projets;
 
 use App\Models\Project;
 use Livewire\Attributes\Rule;
@@ -10,16 +10,22 @@ class CreateProject extends Component
 {
     #[Rule('required', message: 'Le nom du projet doit être entré!')]
     public $name = '';
+
     #[Rule('required', message: 'L URL doit être entrée')]
     public $link = '';
+
     #[Rule('required', message: 'Il doit y avoir une pondération')]
     public $ponderation = '';
+
     public $description = '';
+
     public function render()
     {
         return view('livewire.projets.create-project');
     }
-    public function newProject(){
+
+    public function newProject()
+    {
         $this->validate();
 
         Project::factory()->create([
@@ -30,6 +36,4 @@ class CreateProject extends Component
             'user_id' => auth()->id(),
         ]);
     }
-
-
 }

@@ -4,7 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      */
@@ -21,6 +22,15 @@ return new class extends Migration {
         });
         Schema::table('attendances', function (Blueprint $table) {
             $table->foreignId('jiri_id')->constrained();
+        });
+        Schema::table('duties', function (Blueprint $table) {
+            $table->foreignId('contact_id')->constrained();
+        });
+        Schema::table('duties', function (Blueprint $table) {
+            $table->foreignId('jiri_id')->constrained();
+        });
+        Schema::table('duties', function (Blueprint $table) {
+            $table->foreignId('project_id')->constrained();
         });
         Schema::table('projects', function (Blueprint $table) {
             $table->foreignId('user_id')->constrained();

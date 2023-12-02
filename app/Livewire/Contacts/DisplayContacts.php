@@ -12,6 +12,6 @@ class DisplayContacts extends Component
 
     public function render()
     {
-        return view('livewire.contacts.display-contacts', ['contacts' => Contact::orderBy('name','asc')->paginate(15)]);
+        return view('livewire.contacts.display-contacts', ['contacts' => Contact::orderBy('name', 'asc')->paginate(15)]);
     }
 }

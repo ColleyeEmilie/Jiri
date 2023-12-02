@@ -9,7 +9,6 @@ use App\Models\Project;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
-use function Laravel\Prompts\password;
 
 class DatabaseSeeder extends Seeder
 {
@@ -47,7 +46,7 @@ class DatabaseSeeder extends Seeder
                     $jiri->$role()->attach([
                         $contact->id => [
                             'role' => str($role)->beforeLast('s'),
-                        ]
+                        ],
                     ]);
 
                     if ($role === 'students') {

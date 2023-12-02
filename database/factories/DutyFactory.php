@@ -2,13 +2,13 @@
 
 namespace Database\Factories;
 
-use App\Models\Jiri;
+use App\Models\Duty;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<Jiri>
+ * @extends Factory<Duty>
  */
-class JiriFactory extends Factory
+class DutyFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -18,7 +18,7 @@ class JiriFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => 'Jiri '.$this->faker->word,
-            'starting_at' => $this->faker->dateTimeBetween('-1 year', '+1 year'), ];
+            //
+        ];
     }
 }

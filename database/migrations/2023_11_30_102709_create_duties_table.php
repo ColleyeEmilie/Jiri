@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-
-        Schema::table('contacts', function (Blueprint $table) {
-            $table->unique(['email', 'user_id']);
+        Schema::create('duties', function (Blueprint $table) {
+            $table->id();
+            $table->timestamps();
         });
     }
 
@@ -22,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('duties');
     }
 };
