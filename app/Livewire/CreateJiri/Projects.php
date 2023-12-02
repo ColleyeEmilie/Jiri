@@ -120,6 +120,7 @@ class Projects extends Component
             )->id;
 
         $this->lastJiri();
+        $this->projects();
         $this->lastProject();
         $this->students();
         $this->addDuties();
