@@ -10,9 +10,8 @@ class ProjetsController extends Controller
 {
     public function index()
     {
-        $projects = Project
-            ::orderBy('created_at','asc')
-            ->get();
+        $projects = Project::orderBy('created_at', 'asc')
+                ->get();
 
         return view('pages.projets.index', compact('projects'));
     }
@@ -20,12 +19,14 @@ class ProjetsController extends Controller
     public function show($projectId)
     {
         $project = Project::findOrFail($projectId);
+
         return view('pages.projets.show', compact('project'));
     }
 
     public function create()
     {
         info('ProjetsController@index');
+
         return view('pages.projets.create');
     }
 
@@ -37,13 +38,15 @@ class ProjetsController extends Controller
     public function edit($projectId)
     {
         $project = Project::findOrFail($projectId);
+
         return view('pages.projets.edit', compact('project'));
     }
 
     public function update(Request $request, $projectId)
     {
         $project = Project::findOrFail($projectId);
-        $project->update($request->only('name','link', 'ponderation', 'description'));
+        $project->update($request->only('name', 'link', 'ponderation', 'description'));
+
         return redirect('projets');
     }
 
@@ -51,6 +54,7 @@ class ProjetsController extends Controller
     {
         $project = Project::findOrFail($projectId);
         $project->delete();
+
         return redirect('projets');
     }
 }

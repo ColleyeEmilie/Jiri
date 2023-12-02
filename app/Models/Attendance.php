@@ -14,7 +14,7 @@ class Attendance extends Model
         'role',
         'token',
         'contact_id',
-        'jiri_id'
+        'jiri_id',
     ];
 
     public function jiri(): BelongsTo

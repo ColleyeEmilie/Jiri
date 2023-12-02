@@ -1,28 +1,29 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Contact;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class ContactsController extends Controller
 {
     public function index()
     {
-        $contacts = Contact
-            ::orderBy('name','desc')->get();
+        $contacts = Contact::orderBy('name', 'desc')->get();
 
-        return view('pages.contacts.index',compact('contacts'));
+        return view('pages.contacts.index', compact('contacts'));
     }
 
     public function show(Contact $contact)
     {
         return view('pages.contacts.show', compact('contact'));
     }
+
     public function create()
     {
         info('ContactController@index');
+
         return view('pages.contacts.create');
     }
 
@@ -30,7 +31,6 @@ class ContactsController extends Controller
     {
         return redirect('contacts');
     }
-
 
     public function edit(Contact $contact)
     {
@@ -40,12 +40,14 @@ class ContactsController extends Controller
     public function update(Request $request, Contact $contact)
     {
         $contact->update($request->only('name', 'firstname', 'email'));
+
         return redirect('contacts');
     }
 
     public function destroy(Contact $contact)
     {
         $contact->delete();
+
         return redirect('contacts');
     }
 }

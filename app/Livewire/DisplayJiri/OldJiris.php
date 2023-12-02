@@ -9,9 +9,10 @@ use Livewire\Component;
 class OldJiris extends Component
 {
     public $oldJiris;
+
     public function mount()
     {
-        $this->oldJiris = Jiri::orderBy('created_at','asc')->whereDate('starting_at', '<', Carbon::today()->toDateString())->get();
+        $this->oldJiris = Jiri::orderBy('created_at', 'asc')->whereDate('starting_at', '<', Carbon::today()->toDateString())->get();
     }
 
     public function render()

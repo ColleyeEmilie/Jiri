@@ -59,7 +59,7 @@ class Jiri extends Model
     {
         return $this
             ->belongsToMany(Contact::class, 'attendances', 'jiri_id', 'contact_id')
-            ->withPivot('role','token')
+            ->withPivot('role', 'token')
             ->wherePivot('role', 'evaluator');
     }
 

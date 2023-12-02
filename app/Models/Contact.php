@@ -16,7 +16,7 @@ class Contact extends Model
         'name',
         'firstname',
         'email',
-        'user_id'
+        'user_id',
     ];
 
     public function user(): BelongsTo

@@ -13,9 +13,9 @@ class ProjectFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->words(3,true),
+            'name' => $this->faker->words(3, true),
             'link' => $this->faker->text(),
-            'ponderation' => $this->faker->numberBetween(1,100),
+            'ponderation' => $this->faker->numberBetween(1, 100),
             'description' => $this->faker->text(),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),

@@ -33,7 +33,6 @@ Route::middleware('auth')->group(function () {
     Route::resource('contacts', ContactsController::class);
     Route::resource('projets', ProjetsController::class);
 
-
     Route::get('/profile', [ProfileController::class, 'edit'])
         ->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])
@@ -42,4 +41,4 @@ Route::middleware('auth')->group(function () {
         ->name('profile.destroy');
 });
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';

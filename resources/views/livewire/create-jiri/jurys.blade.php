@@ -31,7 +31,6 @@
                         </datalist>
                         @error('name') <p class="text-red-400">{{ $message }}</p> @enderror
                     </div>
-
                     <div class="mb-4">
                         <label for="name"
                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Nom </label>
@@ -39,7 +38,6 @@
                                class="w-96 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         @error('name') <p class="text-red-400">{{ $message }}</p> @enderror
                     </div>
-
                     <div class="mb-4">
                         <label for="firstname" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">
                             Prénom </label>
@@ -48,7 +46,6 @@
                                class="w-96 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         @error('firstname') <p class="text-red-400">{{ $message }}</p> @enderror
                     </div>
-
                     <div class="mb-4">
                         <label for="email"
                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Email </label>
@@ -58,7 +55,7 @@
                     </div>
                     <button type="submit" @click="noValue()"
                             class="transition duration-150 bg-gray-300 hover:bg-gray-300 rounded-lg px-6 py-4 border-solid border-2 border-light-blue-500">
-                        Ajouter un contact
+                        Ajouter un Jury
                     </button>
                 </form>
             </div>

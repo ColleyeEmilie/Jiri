@@ -11,9 +11,8 @@ class JiriController extends Controller
 {
     public function index()
     {
-        $jiris = Jiri
-            ::orderBy('starting_at','asc')
-            ->get();
+        $jiris = Jiri::orderBy('starting_at', 'asc')
+                ->get();
 
         return view('pages.jiris.index', compact('jiris'));
     }
@@ -22,9 +21,11 @@ class JiriController extends Controller
     {
         return view('pages.jiris.show', compact('jiri'));
     }
+
     public function create(): View
     {
         info('JiriController@index');
+
         return view('pages.jiris.create');
     }
 
@@ -36,6 +37,7 @@ class JiriController extends Controller
         ]);
 
         auth()->user()?->jiris()->create($data);
+
         return redirect('jiris');
     }
 }

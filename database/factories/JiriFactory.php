@@ -18,7 +18,7 @@ class JiriFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => 'Jiri ' . $this->faker->word,
-            'starting_at' => $this->faker->dateTimeBetween('-1 year', '+1 year'),];
+            'name' => 'Jiri '.$this->faker->word,
+            'starting_at' => $this->faker->dateTimeBetween('-1 year', '+1 year'), ];
     }
 }

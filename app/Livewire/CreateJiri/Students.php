@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Livewire\CreateJiri;
+
 use App\Models\Contact;
 use App\Models\Jiri;
 use Illuminate\Database\Eloquent\Collection;
@@ -9,25 +11,32 @@ use Livewire\Component;
 class Students extends Component
 {
     public $students;
+
     public $studentName = '';
+
     public $studentFirstname = '';
+
     public $studentEmail = '';
+
     public $currentStudent = '';
+
     public $infoCurrentStudent;
+
     public $lastJiri;
-    public int|null $studentId;
+
+    public ?int $studentId;
+
     public $lastStudent;
 
     #[computed]
     public function users()
     {
-        return $this->currentStudent ? Contact::where('name', 'like', '%' . $this->studentName . '%')->get() : new Collection();
+        return $this->currentStudent ? Contact::where('name', 'like', '%'.$this->studentName.'%')->get() : new Collection();
     }
 
     public function addStudents()
     {
-        $this->students = Contact::
-        join('attendances', 'contacts.id', '=', 'attendances.contact_id')
+        $this->students = Contact::join('attendances', 'contacts.id', '=', 'attendances.contact_id')
             ->select('contacts.name', 'contacts.firstname', 'attendances.role', 'attendances.token', 'attendances.jiri_id', 'attendances.contact_id')
             ->where('role', '=', 'student')
             ->where('jiri_id', '=', $this->lastJiri->id)
@@ -68,7 +77,7 @@ class Students extends Component
     public function newStudent()
     {
         if ($this->studentEmail === '') {
-            $this->infoCurrentStudent = preg_split("/[,:]+/", $this->currentStudent);
+            $this->infoCurrentStudent = preg_split('/[,:]+/', $this->currentStudent);
             if (count($this->infoCurrentStudent) === 3) {
                 $this->studentFirstname = $this->infoCurrentStudent[0];
                 $this->studentName = $this->infoCurrentStudent[1];
@@ -98,14 +107,15 @@ class Students extends Component
 
     }
 
-    public function addStudentRole(){
+    public function addStudentRole()
+    {
         $this->addStudent = auth()
             ->user()
             ?->attendances()
             ->firstOrCreate(
                 [
                     'contact_id' => $this->lastStudent->id,
-                    'jiri_id' => $this->lastJiri->id
+                    'jiri_id' => $this->lastJiri->id,
                 ],
                 [
                     'role' => 'student',
@@ -115,5 +125,4 @@ class Students extends Component
                 ]
             );
     }
-
 }
