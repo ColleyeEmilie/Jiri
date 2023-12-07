@@ -6,33 +6,23 @@ use App\Models\Contact;
 use App\Models\Jiri;
 use App\Models\Project;
 use Illuminate\Database\Eloquent\Collection;
+use JetBrains\PhpStorm\NoReturn;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 
 class Projects extends Component
 {
     public $projects;
-
     public $lastJiri;
-
-    public $lastProjects;
-
+    public $lastProject;
     public $students;
-
     public $addDuties;
-
     public $projectName = '';
-
     public $projectLink = '';
-
     public $projectPonderation = '';
-
     public $projectDescription = '';
-
     public $currentProject = '';
-
     public $infoCurrentProject;
-
     public ?int $projectId;
 
     #[computed]
@@ -41,7 +31,7 @@ class Projects extends Component
         return $this->currentProject ? Project::where('name', 'like', '%'.$this->projectName.'%')->get() : new Collection();
     }
 
-    public function students()
+    public function students(): void
     {
         $this->students = Contact::join('attendances', 'contacts.id', '=', 'attendances.contact_id')
             ->select('contacts.id', 'contacts.name', 'contacts.firstname', 'contacts.email', 'attendances.role')
@@ -50,19 +40,20 @@ class Projects extends Component
             ->get()->toArray();
     }
 
-    public function projects(){
+    public function projects(): void
+    {
         $this->projects = Project::join('duties','projects.id', '=', 'duties.project_id' )
             ->select('*')
             ->where('jiri_id', '=', $this->lastJiri->id)
             ->get()->toArray();
     }
 
-    public function lastJiri()
+    public function lastJiri(): void
     {
         $this->lastJiri = Jiri::orderBy('created_at', 'desc')->first();
     }
 
-    public function lastProject()
+    public function lastProject(): void
     {
         $this->lastProject = Project::where('name', '=', $this->projectName)->first();
     }
@@ -91,7 +82,7 @@ class Projects extends Component
         $this->students();
     }
 
-    public function newProject()
+    #[NoReturn] public function newProject()
     {
         if ($this->projectName === '') {
             $this->infoCurrentProject = preg_split('/[,:;]+/', $this->currentProject);
@@ -110,7 +101,7 @@ class Projects extends Component
             ->user()
             ?->projects()
             ->updateOrCreate(
-                ['name' => $this->projectName],
+                ['link' => $this->projectLink],
                 [
                     'name' => $this->projectName,
                     'link' => $this->projectLink,
@@ -120,13 +111,13 @@ class Projects extends Component
             )->id;
 
         $this->lastJiri();
-        $this->projects();
         $this->lastProject();
         $this->students();
         $this->addDuties();
+        $this->projects();
+        dd($this->projects);
         $this->reset('infoCurrentProject', 'projectName', 'projectLink', 'projectDescription', 'projectPonderation');
     }
-
     public function render()
     {
         return view('livewire.create-jiri.projects');

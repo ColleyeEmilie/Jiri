@@ -6,7 +6,7 @@
             <x-nav-link :href="route('contacts.index')" :active="request()->routeIs('contacts.index')"> {{ __("Contacts") }} </x-nav-link>
             <x-nav-link :href="route('contacts.create')" :active="request()->routeIs('contacts.create')"> {{ __("Créer un contact") }} </x-nav-link>
             <x-nav-link :href="route('projets.index')" :active="request()->routeIs('projets.index')"> {{ __("Projets") }} </x-nav-link>
-            <x-nav-link :href="route('projets.create')" :active="request()->routeIs('projets.create')"> {{ __("Créer un projets") }} </x-nav-link>
+            <x-nav-link :href="route('projets.create')" :active="request()->routeIs('projets.create')"> {{ __("Créer un projet") }} </x-nav-link>
         </div>
     </div>
 </div>
