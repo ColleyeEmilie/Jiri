@@ -1,15 +1,18 @@
 <div>
     <form wire:submit="newContact" action="{{ route('contacts.store') }}" method="post" enctype="multipart/form-data">
         @csrf
-
-
-        @if ($photo)
-            <img src="{{ $photo->temporaryUrl() }}" alt="">
-        @endif
-
-
-        <div class="image">
-            <input type="file" wire:model="photo">
+        <div class="image" x-data="{ uploading: false, progress: 0 }"
+             x-on:livewire-upload-start="uploading = true"
+             x-on:livewire-upload-finish="uploading = false"
+             x-on:livewire-upload-error="uploading = false"
+             x-on:livewire-upload-psrogress="progress = $event.detail.progress">
+            @if ($image)
+                <img src="{{ $image->temporaryUrl() }}" alt="">
+            @endif
+            <input accept="image/png, image/jpeg, image/jpg" type="file" wire:model="image">
+                <div x-show="uploading">
+                    <progress max="100" x-bind:value="progress"></progress>
+                </div>
         </div>
 
         <div class="mb-4">

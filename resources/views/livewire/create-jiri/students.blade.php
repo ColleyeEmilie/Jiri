@@ -1,11 +1,11 @@
-<div>
-    <div x-data="{open:false}" class="bg-gray-50">
-        <div class="flex justify-between px-5 py-2 mb-2 border-b-2">
+<div class="mb-4">
+    <div x-data="{open:false, contactsListStudent}" class="bg-gray-50">
+        <div @click="open=!open" class="cursor-pointer flex justify-between px-5 py-2 mb-2 border-b-2">
             <h3> {{ __("Ajouter des étudiants") }} </h3>
-            <button @click="open=!open" x-html="open ? '-' :'+' "></button>
+            <button x-html="open ? '-' :'+' "></button>
         </div>
         <div x-show="open" x-cloak x-transition>
-            <div class="mb-8  px-5" x-data="contactsListStudent">
+            <div class="mb-8  px-5">
                 <div>
                     @if($students)
                         @foreach($students as $student)
