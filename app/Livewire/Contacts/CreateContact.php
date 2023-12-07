@@ -5,9 +5,12 @@ namespace App\Livewire\Contacts;
 use App\Models\Contact;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class CreateContact extends Component
 {
+    use WithFileUploads;
+
     #[Rule('required', message: 'Un nom doit être entré!')]
     public $name = '';
 
@@ -17,14 +20,19 @@ class CreateContact extends Component
     #[Rule('required|unique:contacts,email', message: 'une adresse email doit être rentrée!')]
     public $email = '';
 
+    public $photo;
+    public $contact;
+
     public function render()
     {
         return view('livewire.contacts.create-contact');
     }
 
-    public function newContact(): \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View
+    public function newContact()
     {
+        $this->photo->store('photos');
         $this->validate();
+
         $this->contact = auth()
             ->user()
             ->contacts()
@@ -34,8 +42,11 @@ class CreateContact extends Component
             'name' => $this->name,
             'firstname' => $this->firstname,
             'email' => $this->email,
+            'image' => $this->photo,
             'user_id' => auth()->id(),
         ]);
+
+        dd($this->contact);
         $this->reset('name', 'email', 'firstname');
         return view('livewire.contacts.display-contacts');
     }
