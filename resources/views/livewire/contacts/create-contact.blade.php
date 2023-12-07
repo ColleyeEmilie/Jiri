@@ -1,12 +1,24 @@
 <div>
-    <form action="{{ route('contacts.store') }}" method="post">
+    <form wire:submit="newContact" action="{{ route('contacts.store') }}" method="post" enctype="multipart/form-data">
         @csrf
+
+
+        @if ($photo)
+            <img src="{{ $photo->temporaryUrl() }}" alt="">
+        @endif
+
+
+        <div class="image">
+            <input type="file" wire:model="photo">
+        </div>
+
         <div class="mb-4">
             <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Nom</label>
             <input wire:model.live="name" type="text" name="name" id="name"
                    class="w-96 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5" >
                    @error('name') <span class="error">{{ $message }}</span> @enderror
         </div>
+
         <div class="mb-4">
             <label for="firstname" class="block mb-2 text-sm font-medium text-gray-900">Prenom</label>
             <input wire:model.live="firstname" type="text" name="firstname" id="firstname"
@@ -20,7 +32,7 @@
             @error('email') <span class="error">{{ $message }}</span> @enderror
         </div>
         <div>
-            <button @if($errors->any()) disabled @endif @if(empty($email || $firstname || $name)) disabled @endif class="bg-white hover:bg-orange-400 text-orange-400 font-semibold hover:text-white py-2 px-4 border border-orange-400 hover:border-transparent rounded" type="submit" wire:click="newContact">
+            <button @if($errors->any()) disabled @endif @if(empty($email || $firstname || $name)) disabled @endif class="bg-white hover:bg-orange-400 text-orange-400 font-semibold hover:text-white py-2 px-4 border border-orange-400 hover:border-transparent rounded" type="submit">
                 {{ __(('+ Ajouter le contact')) }}
             </button>
         </div>
