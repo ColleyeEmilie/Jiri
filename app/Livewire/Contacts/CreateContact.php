@@ -22,15 +22,21 @@ class CreateContact extends Component
         return view('livewire.contacts.create-contact');
     }
 
-    public function newContact()
+    public function newContact(): \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View
     {
         $this->validate();
-        Contact::factory()->update([
+        $this->contact = auth()
+            ->user()
+            ->contacts()
+            ->updateOrCreate(
+                ['email' => $this->email,],
+                [
             'name' => $this->name,
             'firstname' => $this->firstname,
             'email' => $this->email,
             'user_id' => auth()->id(),
         ]);
-        $this->reset('name', 'email');
+        $this->reset('name', 'email', 'firstname');
+        return view('livewire.contacts.display-contacts');
     }
 }
