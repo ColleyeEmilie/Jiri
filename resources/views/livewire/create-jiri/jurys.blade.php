@@ -1,11 +1,11 @@
 <div class="mb-4">
-    <div x-data="{open:false, contactsList} " class="bg-gray-50">
-        <div @click="open=!open" class=" cursor-pointer flex justify-between px-5 py-2 mb-2 border-b-2">
-            <h3> {{ __("Ajouter des jurys") }} </h3>
+    <div x-data="{open:false, contactsList} " class="bg-gray-50 divide-y divide-slate-200 px-4 py-2">
+        <div @click="open=!open" class="cursor-pointer flex justify-between px-4 py-4">
+            <h3 class="text-lg font-semibold"> {{ __("Ajouter des jurys") }} </h3>
             <button x-html="open ? '-' :'+' "></button>
         </div>
         <div x-show="open" x-cloak x-transition x-data="contactsList">
-            <div class="mb-8 px-5">
+            <div class="max-w-7xl mx-auto ml-4 py-4">
                 <div class="mb-8 flex">
                     @if($jurys)
                         @foreach($jurys as $jury)
