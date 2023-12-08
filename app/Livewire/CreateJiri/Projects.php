@@ -16,9 +16,11 @@ class Projects extends Component
     public $lastJiri;
     public $lastProject;
     public $students;
-    public $addDuties;
+    public $addImplementations;
     public $projectName = '';
     public $projectLink = '';
+
+    public $addDuties;
     public $projectPonderation = '';
     public $projectDescription = '';
     public $currentProject = '';
@@ -47,6 +49,7 @@ class Projects extends Component
             ->where('jiri_id', '=', $this->lastJiri->id)
             ->get()->toArray();
     }
+
 
     public function lastJiri(): void
     {
@@ -113,6 +116,7 @@ class Projects extends Component
         $this->lastJiri();
         $this->lastProject();
         $this->students();
+        $this->addImplementations();
         $this->addDuties();
         $this->projects();
         $this->reset('infoCurrentProject', 'projectName', 'projectLink', 'projectDescription', 'projectPonderation');
@@ -122,12 +126,28 @@ class Projects extends Component
         return view('livewire.create-jiri.projects');
     }
 
-    public function addDuties()
+    public function addDuties(){
+        $this->addDuties = auth()
+            ->user()
+            ?->duties()
+            ->firstOrCreate(
+                [
+                    'project_id' => $this->lastProject->id,
+                    'jiri_id' => $this->lastJiri->id,
+                ],
+                [
+                    'jiri_id' => $this->lastJiri->id,
+                    'project_id' => $this->lastProject->id,
+                ]
+            );
+    }
+
+    public function addImplementations()
     {
         for ($i = 0; $i < count($this->students); $i++) {
-            $this->addDuties = auth()
+            $this->addImplementations = auth()
                 ->user()
-                ?->duties()
+                ?->implementations()
                 ->firstOrCreate(
                     [
                         'project_id' => $this->lastProject->id,

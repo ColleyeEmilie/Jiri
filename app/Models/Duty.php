@@ -11,7 +11,6 @@ class Duty extends Model
     use HasFactory;
 
     protected $fillable = [
-        'contact_id',
         'jiri_id',
         'project_id',
     ];
@@ -20,12 +19,6 @@ class Duty extends Model
     {
         return $this
             ->belongsTo(Jiri::class);
-    }
-
-    public function contact(): BelongsTo
-    {
-        return $this
-            ->belongsTo(Contact::class);
     }
 
     public function project(): BelongsTo
