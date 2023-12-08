@@ -12,12 +12,14 @@ class Jurys extends Component
 {
     public $jurys;
 
+    public $users;
     public $name = '';
 
     public $firstname = '';
 
     public $email = '';
 
+    public $students;
     public $currentUser = '';
 
     public $infoCurrentUser;
@@ -28,21 +30,37 @@ class Jurys extends Component
 
     public $lastJury;
 
-    #[computed]
-    public function users()
-    {
-        return $this->currentUser ? Contact::where('name', 'like', '%'.$this->name.'%')->get() : new Collection();
-    }
-
     public function addJurys()
     {
         $this->jurys = Contact::join('attendances', 'contacts.id', '=', 'attendances.contact_id')
-           ->select('contacts.name', 'contacts.firstname', 'attendances.role', 'attendances.token', 'attendances.jiri_id', 'attendances.contact_id')
+           ->select('contacts.id','contacts.name', 'contacts.firstname', 'attendances.role', 'attendances.token', 'attendances.jiri_id', 'attendances.contact_id')
            ->where('role', '=', 'jury')
            ->where('jiri_id', '=', $this->lastJiri->id)
            ->get()->toArray();
     }
 
+    public function addStudents()
+    {
+        $this->students = Contact::join('attendances', 'contacts.id', '=', 'attendances.contact_id')
+            ->select('contacts.id','contacts.name', 'contacts.firstname', 'attendances.role', 'attendances.token', 'attendances.jiri_id', 'attendances.contact_id')
+            ->where('role', '=', 'student')
+            ->where('jiri_id', '=', $this->lastJiri->id)
+            ->get()->toArray();
+    }
+
+    public function allContacts(){
+        $query = Contact::where('name', 'like', '%'.$this->name.'%')->get();
+
+        $jurysID = collect($this->jurys)->pluck('id')->toArray();
+
+        $studentsID = collect($this->students)->pluck('id')->toArray();
+
+        //dd($this->users->whereNotIn('id',$jurysID));
+        $query->whereNotIn('id',$jurysID);
+        $this->users = $query->whereNotIn('id',$studentsID);
+
+        //dd($jurysID, $studentsID);
+    }
     public function lastJiri()
     {
         $this->lastJiri = Jiri::orderBy('created_at', 'desc')->first();
@@ -71,8 +89,11 @@ class Jurys extends Component
             $this->email = '';
         }
 
+
         $this->lastJiri();
         $this->addJurys();
+        $this->addStudents();
+        $this->allContacts();
     }
 
     public function newUser()
