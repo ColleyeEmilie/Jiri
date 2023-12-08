@@ -11,25 +11,16 @@ use Livewire\Component;
 class Jurys extends Component
 {
     public $jurys;
-
     public $users;
     public $name = '';
-
     public $firstname = '';
-
     public $email = '';
-
     public $students;
     public $currentUser = '';
-
     public $infoCurrentUser;
-
     public $lastJiri;
-
     public ?int $juryId;
-
     public $lastJury;
-
     public function addJurys()
     {
         $this->jurys = Contact::join('attendances', 'contacts.id', '=', 'attendances.contact_id')

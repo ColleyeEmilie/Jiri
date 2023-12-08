@@ -1,5 +1,5 @@
 <div class="mb-4">
-    <div x-data="{open:false}" class="bg-gray-50 divide-y divide-slate-200 px-4 py-2">
+    <div x-data="{open:true}" class="bg-gray-50 divide-y divide-slate-200 px-4 py-2">
         <div @click="open=!open" class=" cursor-pointer flex justify-between px-4 py-4">
             <h3 class="font-semibold text-lg"> {{ __("Informations générales") }} </h3>
             <button x-html="open ? '-' :'+' " ></button>
