@@ -18,24 +18,26 @@
         <div class="flex justify-between px-4 py-4">
             <h3 class="text-lg font-semibold"> {{ __("Projets évalués") }} </h3>
         </div>
-        <div class="flex ml-4 mb-4 py-4">
+        <div class="flex-col ml-4 py-4">
             @if($projects)
                 @foreach($projects as $project)
-                    <div>
-                        <p class="mb-2 text-slate-500">{{ __("Nom du projet") }}</p>
-                        <p class="block mb-2 text-sm font-medium text-gray-900">{{$project['name'] }}</p>
-                    </div>
-                    <div class="ml-6 max-w-xs">
-                        <p class="mb-2 text-slate-500">{{ __("Lien du projet") }}</p>
-                        <p class="block mb-2 text-sm font-medium text-gray-900" >{{$project['link'] }}</p>
-                    </div>
-                    <div class="ml-6 max-w-xs">
-                        <p class="mb-2 text-slate-500">{{ __("Description du projet") }}</p>
-                        <p class="block mb-2 text-sm font-medium text-gray-900" >{{$project['description'] }}</p>
-                    </div>
-                    <div class="ml-6">
-                        <p class="mb-2 text-slate-500">{{ __("Pondération du projet") }}</p>
-                        <p class="block mb-2 text-sm font-medium text-gray-900" >{{$project['ponderation'].' %' }}</p>
+                    <div class="flex mb-8">
+                        <div>
+                            <p class="mb-2 text-slate-500">{{ __("Nom du projet") }}</p>
+                            <p class="block mb-2 text-sm font-medium text-gray-900">{{$project['name'] }}</p>
+                        </div>
+                        <div class="ml-6 w-96">
+                            <p class="mb-2 text-slate-500">{{ __("Lien du projet") }}</p>
+                            <p class="block mb-2 text-sm font-medium text-gray-900" >{{$project['link'] }}</p>
+                        </div>
+                        <div class="ml-6 w-96">
+                            <p class="mb-2 text-slate-500">{{ __("Description du projet") }}</p>
+                            <p class="block mb-2 text-sm font-medium text-gray-900" >{{$project['description'] }}</p>
+                        </div>
+                        <div class="ml-6">
+                            <p class="mb-2 text-slate-500">{{ __("Pondération du projet") }}</p>
+                            <p class="block mb-2 text-sm font-medium text-gray-900" >{{$project['ponderation'].' %' }}</p>
+                        </div>
                     </div>
                 @endforeach
             @endif
