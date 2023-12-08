@@ -1,7 +1,7 @@
 <div class="mb-4">
     <div x-data="{open:false}" class="bg-gray-50">
         <div @click="open=!open" class=" cursor-pointer flex justify-between px-5 py-4 mb-2 border-b-2">
-            <h3 class="text-xl font-semibold"> {{ __("Épreuves prévues") }} </h3>
+            <h3 class="text-lg font-semibold"> {{ __("Épreuves prévues") }} </h3>
             <button x-html="open ? '-' :'+' " ></button>
         </div>
         <div x-show="open" x-cloak x-transition>
