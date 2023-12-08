@@ -20,7 +20,8 @@ class CreateContact extends Component
     #[Rule('required|unique:contacts,email', message: 'une adresse email doit être rentrée!')]
     public $email = '';
 
-    public $photo;
+    public $image;
+    public $filePath =  "uploads/default.jpeg";
     public $contact;
 
     public function render()
@@ -30,8 +31,13 @@ class CreateContact extends Component
 
     public function newContact()
     {
-        $this->photo->store('photos');
         $this->validate();
+
+        if($this->image){
+            $this->filePath = $this->image->store('uploads', 'public');
+        } else {
+            $this->filePath = "uploads/default.jpeg";
+        }
 
         $this->contact = auth()
             ->user()
@@ -42,12 +48,11 @@ class CreateContact extends Component
             'name' => $this->name,
             'firstname' => $this->firstname,
             'email' => $this->email,
-            'image' => $this->photo,
+            'image' => $this->filePath,
             'user_id' => auth()->id(),
         ]);
 
-        dd($this->contact);
         $this->reset('name', 'email', 'firstname');
-        return view('livewire.contacts.display-contacts');
+        $this->redirect('/');
     }
 }

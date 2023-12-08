@@ -11,21 +11,13 @@ use Livewire\Component;
 class Students extends Component
 {
     public $students;
-
     public $studentName = '';
-
     public $studentFirstname = '';
-
     public $studentEmail = '';
-
     public $currentStudent = '';
-
     public $infoCurrentStudent;
-
     public $lastJiri;
-
     public ?int $studentId;
-
     public $lastStudent;
 
     #[computed]

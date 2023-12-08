@@ -1,25 +1,30 @@
-<div>
+<div class="mb-4">
     <div x-data="{open:false}" class="bg-gray-50">
-        <div class="flex justify-between px-5 py-2 mb-2 border-b-2">
+        <div @click="open=!open" class=" cursor-pointer flex justify-between px-5 py-2 mb-2 border-b-2">
             <h3> {{ __("Informations générales") }} </h3>
-            <button @click="open=!open" x-html="open ? '-' :'+' " ></button>
+            <button x-html="open ? '-' :'+' " ></button>
         </div>
 
         <div x-show="open" x-cloak x-transition>
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <form action="{{ route('jiris.store') }}" method="post">
+                <form class="flex" action="{{ route('jiris.store') }}" method="post">
                     @csrf
-                    <div>
-                        <label for="name">Nom de l'épreuve</label>
-                        <input type="text" name="name" id="name">
+                    <div class="mb-4">
+                        <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">
+                            Nom de l'épreuve </label>
+                        <input type="text" id="name" name="name"
+                               class="w-96 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 ">
                     </div>
-                    <div>
-                        <label for="starting_at">Date de l'épreuve</label>
-                        <input type="datetime-local" name="starting_at" id="starting_at">
+
+                    <div class="mb-4 ml-4">
+                        <label for="starting_at" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">
+                            Date de l'épreuve </label>
+                        <input type="date" id="starting_at" name="starting_at"
+                               class="w-96 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 ">
                     </div>
-                    <div>
-                        <button class="bg-transparent hover:bg-orange-400 text-orange-400 font-semibold hover:text-white py-2 px-4 border border-orange-400 hover:border-transparent rounded" type="submit">
-                            Créer le jury
+                    <div class="self-end">
+                        <button class="mb-4 ml-4 bg-transparent hover:bg-orange-400 text-orange-400 font-semibold hover:text-white py-2 px-4 border border-orange-400 hover:border-transparent rounded" type="submit">
+                            {{ __("Créer l'épreuve") }}
                         </button>
                     </div>
                 </form>
