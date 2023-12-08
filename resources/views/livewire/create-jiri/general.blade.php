@@ -24,7 +24,7 @@
                     </div>
                     <div class="self-end">
                         <button class="mb-4 ml-4 bg-transparent hover:bg-orange-400 text-orange-400 font-semibold hover:text-white py-2 px-4 border border-orange-400 hover:border-transparent rounded" type="submit">
-                            Créer le jury
+                            {{ __("Créer l'épreuve") }}
                         </button>
                     </div>
                 </form>

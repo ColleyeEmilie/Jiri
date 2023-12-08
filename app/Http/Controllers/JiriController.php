@@ -38,6 +38,6 @@ class JiriController extends Controller
 
         auth()->user()?->jiris()->create($data);
 
-        return redirect('jiris');
+        return redirect('jiris/create');
     }
 }
