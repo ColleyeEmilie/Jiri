@@ -17,12 +17,12 @@
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen flex bg-gray-100">
-            <div>
+            <div class="fixed py-16 bg-white">
                 @include('layouts.navigation')
             </div>
-            <div class="w-full">
+            <div class="w-full pl-40">
                 @if (isset($header))
-                    <header class="bg-white shadow">
+                    <header class="bg-white shadow pl-6">
                         <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                             {{ $header }}
                         </div>
@@ -30,7 +30,7 @@
                 @endif
 
                 <!-- Page Content -->
-                <main>
+                <main class="pl-6">
                     {{ $slot }}
                 </main>
             </div>

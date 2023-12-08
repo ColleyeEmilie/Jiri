@@ -1,12 +1,11 @@
 <div class="mb-4">
-    <div x-data="{open:false}" class="bg-gray-50">
-        <div @click="open=!open" class=" cursor-pointer flex justify-between px-5 py-2 mb-2 border-b-2">
-            <h3> {{ __("Informations générales") }} </h3>
+    <div x-data="{open:false}" class="bg-gray-50 divide-y divide-slate-200 px-4 py-2">
+        <div @click="open=!open" class=" cursor-pointer flex justify-between px-4 py-4">
+            <h3 class="font-semibold text-lg"> {{ __("Informations générales") }} </h3>
             <button x-html="open ? '-' :'+' " ></button>
         </div>
-
         <div x-show="open" x-cloak x-transition>
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="max-w-7xl mx-auto ml-4 py-4">
                 <form class="flex" action="{{ route('jiris.store') }}" method="post">
                     @csrf
                     <div class="mb-4">

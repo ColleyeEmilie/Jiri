@@ -24,9 +24,6 @@ return new class extends Migration
             $table->foreignId('jiri_id')->constrained();
         });
         Schema::table('duties', function (Blueprint $table) {
-            $table->foreignId('contact_id')->constrained();
-        });
-        Schema::table('duties', function (Blueprint $table) {
             $table->foreignId('jiri_id')->constrained();
         });
         Schema::table('duties', function (Blueprint $table) {

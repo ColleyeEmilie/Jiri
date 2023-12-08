@@ -1,4 +1,4 @@
-<div class="flex flex-col items-center min-h-screen overflow-hidden text-gray-700 rounded relative bg-white">
+<div class="flex flex-col mt-2 items-center min-h-screen overflow-hidden text-gray-700 relative bg-white">
     <div class="shrink-0">
         <div class="flex flex-col items-centermt-10">
             <x-nav-link :href="route('jiris.index')" :active="request()->routeIs('jiris.index') "> {{ __("Épreuves") }} </x-nav-link>
