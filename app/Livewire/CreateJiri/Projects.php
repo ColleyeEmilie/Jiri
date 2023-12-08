@@ -115,7 +115,6 @@ class Projects extends Component
         $this->students();
         $this->addDuties();
         $this->projects();
-        dd($this->projects);
         $this->reset('infoCurrentProject', 'projectName', 'projectLink', 'projectDescription', 'projectPonderation');
     }
     public function render()

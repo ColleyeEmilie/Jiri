@@ -1,3 +1,12 @@
 <x-app-layout>
-    <p>{{ $jiri->name }}</p>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __( $jiri->name) }}
+        </h2>
+    </x-slot>
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <livewire:jiri.show :jiri="$jiri"/>
+        </div>
+    </div>
 </x-app-layout>
