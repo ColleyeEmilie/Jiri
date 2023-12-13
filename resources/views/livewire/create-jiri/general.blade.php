@@ -6,6 +6,11 @@
         </div>
         <div x-show="open" x-cloak x-transition>
             <div class="max-w-7xl mx-auto ml-4 py-4">
+                @if (session('success'))
+                    <div class="p-4 mb-4 text-sm text-green-800 border-green-400 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
+                        <p>{{ session('success') }}</p>
+                    </div>
+                @endif
                 <form class="flex" action="{{ route('jiris.store') }}" method="post">
                     @csrf
                     <div class="mb-4">

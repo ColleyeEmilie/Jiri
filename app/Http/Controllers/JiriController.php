@@ -29,14 +29,20 @@ class JiriController extends Controller
         return view('pages.jiris.create');
     }
 
-    public function store(): RedirectResponse
+    public function store(Request $request): RedirectResponse
     {
-        $data = Request::validate([
+        $data = $request->validate([
             'name' => 'required',
             'starting_at' => 'required|date',
         ]);
 
-        auth()->user()?->jiris()->create($data);
+        $jiri = auth()->user()->jiris()->create($data);
+
+        if ($jiri) {
+            session()->flash('success', "$jiri->name a bien été créé.");
+        } else {
+            session()->flash('error', 'Erreur lors de la création du Jiri.');
+        }
 
         return redirect('jiris/create');
     }
