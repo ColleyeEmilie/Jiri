@@ -14,11 +14,11 @@ class Edit extends Component
     public $projects;
 
     public function mount($jiri){
-
         $this->jiri = $jiri;
         $this->addJurys();
         $this->students();
         $this->projects();
+
     }
 
     public function addJurys()

@@ -14,9 +14,11 @@
                     <input type="text" id="jiriName" name="jiriName" value="{{$jiri->name}}"
                            class="w-96 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 ">
                 </div>
-                <div class="ml-6">
-                    <p class="mb-2 text-slate-500">{{ __("Date de l'épreuve") }}</p>
-                    <p class="block mb-2 text-sm font-medium text-gray-900"> {{$jiri->starting_at}}</p>
+                <div class="mb-4 ml-4">
+                    <label value="{{$jiri->starting_at}}" for="starting_at" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">
+                        Date de l'épreuve </label>
+                    <input type="date" id="starting_at" name="starting_at"
+                           class="w-96 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 ">
                 </div>
             </div>
         </div>
@@ -47,6 +49,14 @@
                         </div>
                     @endforeach
                 @endif
+                <div x-data="{open:true}">
+                    <div @click="open=!open"class="bg-orange-400 rounded w-12 h-10 flex justify-center ">
+                        <img class="w-6 h-6 self-center" src="{{asset('icons/add-white.svg')}}" alt="ajouter un projet">
+                    </div>
+                    <div x-show="open" x-cloak x-transition>
+
+                    </div>
+                </div>
             </div>
         </div>
         <div class="divide-y divide-slate-200">
