@@ -5,14 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Jiri;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Request;
+use Illuminate\Http\Request;
 
 class JiriController extends Controller
 {
     public function index()
     {
         $jiris = Jiri::orderBy('starting_at', 'asc')
-                ->get();
+            ->get();
 
         return view('pages.jiris.index', compact('jiris'));
     }
@@ -50,7 +50,7 @@ class JiriController extends Controller
     public function update(Request $request, $jiriId)
     {
         $jiri = Jiri::findOrFail($jiriId);
-        $jiri->update($request->only('name'));
+        $jiri->update(Request::all());
 
         return redirect('jiris');
     }

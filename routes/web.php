@@ -23,17 +23,10 @@ Route::get('/jiris', [JiriController::class, 'index'])
 Route::middleware('auth')->group(function () {
     Route::get('/', [JiriController::class, 'index'])
         ->name('home');
-    Route::get('/jiris/create', [JiriController::class, 'create'])
-        ->name('jiris.create');
-    Route::post('/jiris', [JiriController::class, 'store'])
-        ->name('jiris.store');
-    Route::get('/jiris/{jiri}', [JiriController::class, 'show'])
-        ->name('jiris.show');
-    Route::get('/jiris/{jiri}/edit', [JiriController::class, 'edit'])
-        ->name('jiris.edit');
 
     Route::resource('contacts', ContactsController::class);
     Route::resource('projets', ProjetsController::class);
+    Route::resource('jiris', JiriController::class);
 
     Route::get('/profile', [ProfileController::class, 'edit'])
         ->name('profile.edit');
