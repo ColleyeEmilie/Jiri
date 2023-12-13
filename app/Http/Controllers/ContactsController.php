@@ -46,7 +46,7 @@ class ContactsController extends Controller
 
     public function destroy(Contact $contact)
     {
-        $contact->attendances()->delete();
+        //$contact->attendances()->delete();
         $contact->implementations()->delete();
         $contact->delete();
 
