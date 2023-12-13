@@ -49,6 +49,6 @@ class Edit extends Component
 
     public function render()
     {
-        return view('livewire.jiri.show');
+        return view('livewire.jiri.edit');
     }
 }

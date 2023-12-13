@@ -1,4 +1,5 @@
 <div class="bg-white px-4 py-4">
+
     <form action="{{ route('jiris.update', $jiri) }}" method="post">
         @csrf
         @method('PUT')
