@@ -8,7 +8,7 @@
                     @method('DELETE')
                     @csrf
                     <input type="hidden" name="_method" value="delete">
-                    <button type="submit"><img class="w-6 h-6" src="{{asset('icons/bouton-fermer.png')}}" alt="icon de suppression d'utilisateur"></button>
+                    <button type="submit"><img class="w-6 h-6" src="{{asset('icons/delete.svg')}}" alt="icon de suppression d'utilisateur"></button>
                 </form>
             </li>
         @endforeach

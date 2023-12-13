@@ -40,4 +40,26 @@ class JiriController extends Controller
 
         return redirect('jiris/create');
     }
+
+    public function edit($jiriId)
+    {
+        $jiri = Jiri::findOrFail($jiriId);
+        return view('pages.jiris.edit', compact('jiri'));
+    }
+
+    public function update(Request $request, $jiriId)
+    {
+        $jiri = Jiri::findOrFail($jiriId);
+        $jiri->update($request->only('name'));
+
+        return redirect('jiris');
+    }
+
+    public function destroy($jiriId)
+    {
+        $jiri = Jiri::findOrFail($jiriId);
+        $jiri->delete();
+
+        return redirect('jiris');
+    }
 }

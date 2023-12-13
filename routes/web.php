@@ -29,6 +29,8 @@ Route::middleware('auth')->group(function () {
         ->name('jiris.store');
     Route::get('/jiris/{jiri}', [JiriController::class, 'show'])
         ->name('jiris.show');
+    Route::get('/jiris/{jiri}/edit', [JiriController::class, 'edit'])
+        ->name('jiris.edit');
 
     Route::resource('contacts', ContactsController::class);
     Route::resource('projets', ProjetsController::class);

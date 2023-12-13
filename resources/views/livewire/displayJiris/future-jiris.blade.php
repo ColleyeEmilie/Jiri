@@ -7,7 +7,11 @@
         <div x-show="open" x-cloak x-transition>
             <ul class="list-none ml-4">
                 @foreach($futureJiris as $jiri)
-                    <li class="mb-2 py-2"><a href="/jiris/{{ $jiri->id }}"> {{ $jiri->name }} - pour le {{ $jiri->starting_at }} </a></li>
+                    <li class="mb-2 py-2">
+                        <a href="/jiris/{{ $jiri->id }}"> {{ $jiri->name }} - pour le {{ $jiri->starting_at }} </a>
+
+                        <a class="self-center ml-4" href="/jiris/{{ $jiri->id }}/edit"><img class="w-6 h-6" src="{{asset('icons/crayon.svg')}}" alt="icon de modification de jiri"></a>
+                    </li>
                 @endforeach
             </ul>
         </div>
