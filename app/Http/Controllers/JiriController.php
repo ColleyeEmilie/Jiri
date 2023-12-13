@@ -63,6 +63,8 @@ class JiriController extends Controller
         $jiri->implementations()->delete();
         $jiri->delete();
 
+        session()->flash('success', "$jiri->name a bien été supprimé.");
+
         return redirect('jiris');
     }
 }

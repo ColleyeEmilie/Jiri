@@ -18,8 +18,8 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $emilie = User::factory()
-            ->has(Jiri::factory()->count(2))
-            ->has(Project::factory()->count(5))
+            ->has(Jiri::factory()->count(7))
+            ->has(Project::factory()->count(10))
             ->has(Contact::factory()->count(20))
             ->create([
                 'name' => 'Emilie Colleye',
