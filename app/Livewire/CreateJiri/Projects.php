@@ -2,13 +2,11 @@
 
 namespace App\Livewire\CreateJiri;
 
-use App\Models\Attendance;
 use App\Models\Contact;
 use App\Models\Duty;
 use App\Models\Implementation;
 use App\Models\Jiri;
 use App\Models\Project;
-use JetBrains\PhpStorm\NoReturn;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 
@@ -115,7 +113,7 @@ class Projects extends Component
             ?->projects()
             ->updateOrCreate([
                 'link' => $this->projectLink,
-                'name'=>  $this->projectName,
+                'name' => $this->projectName,
             ],
                 [
                     'name' => $this->projectName,
@@ -178,6 +176,13 @@ class Projects extends Component
 
     public function deleteProjectFromJiri($project_id, $jiri_id): void
     {
+        for ($i = 0; $i < count($this->students); $i++) {
+            Implementation::where('project_id', $project_id)
+                ->where('jiri_id', $jiri_id)
+                ->where('contact_id', $this->students[$i])
+                ->delete();
+        }
+
         Duty::where('project_id', $project_id)
             ->where('jiri_id', $jiri_id)
             ->delete();
