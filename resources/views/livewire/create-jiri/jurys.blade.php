@@ -7,8 +7,8 @@
         <div x-show="open" x-cloak x-transition x-data="contactsList">
             <div class="max-w-7xl mx-auto ml-4 py-4">
                 <div class="mb-8 flex flex-wrap">
-                    @if($jurys)
-                        @foreach($jurys as $jury)
+                    @if($this->addJurys())
+                        @foreach($this->addJurys() as $jury)
                             <div class="flex mr-8 mb-4">
                                 <div class="relative w-12 h-12">
                                     <img src="{{ asset($jury['image'] ?? 'uploads/default.jpeg') }}" alt="avatar"
@@ -47,13 +47,13 @@
                     <div class="flex">
                         <div class="mb-4">
                             <label for="name"
-                                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Nom </label>
+                                   class="block mb-2 text-sm font-medium text-gray-900">Nom </label>
                             <input type="text" id="name" name="name" wire:model="name" :value="currentUser[1]"
                                    class="w-48 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 ">
                             @error('name') <p class="text-red-400">{{ $message }}</p> @enderror
                         </div>
                         <div class="mb-4 ml-4">
-                            <label for="firstname" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">
+                            <label for="firstname" class="block mb-2 text-sm font-medium text-gray-900">
                                 Prénom </label>
                             <input type="text" id="firstname" name="firstname" wire:model="firstname"
                                    :value="currentUser[0]"
@@ -62,7 +62,7 @@
                         </div>
                         <div class="mb-4 ml-4">
                             <label for="email"
-                                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Email </label>
+                                   class="block mb-2 text-sm font-medium text-gray-900">Email </label>
                             <input type="email" id="email" name="email" wire:model="email" :value="currentUser[2]"
                                    class="w-72 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 ">
                             @error('email') <p class="text-red-400">{{ $message }}</p> @enderror
@@ -87,8 +87,8 @@
         <div x-show="open" x-cloak x-transition>
             <div class="max-w-7xl mx-auto ml-4 py-4" x-data="contactsListStudent">
                 <div class="flex mb-8 flex-wrap">
-                    @if($students)
-                        @foreach($students as $student)
+                    @if($this->addStudents())
+                        @foreach($this->addStudents() as $student)
                             <div class="flex mr-8 mb-4">
                                 <div class="relative w-12 h-12">
                                     <img src="{{ asset($student['image'] ?? 'uploads/default.jpeg') }}" alt="avatar"
@@ -105,7 +105,7 @@
                     <div>
                         <div class="mb-4">
                             <label for="currentStudent"
-                                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Rechercher
+                                   class="block mb-2 text-sm font-medium text-gray-900">Rechercher
                                 un contact par nom </label>
                             <input type="text" id="currentStudent" name="currentStudent"
                                    wire:model.live="currentStudent"
@@ -123,7 +123,7 @@
                     <div class="flex">
                         <div class="mb-4">
                             <label for="studentName"
-                                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Nom </label>
+                                   class="block mb-2 text-sm font-medium text-gray-900 ">Nom </label>
                             <input type="text" id="studentName" name="studentName" wire:model="studentName"
                                    :value="currentStudent[1]"
                                    class="w-48 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5">
@@ -131,7 +131,7 @@
                         </div>
                         <div class="mb-4 ml-4">
                             <label for="studentFirstname"
-                                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">
+                                   class="block mb-2 text-sm font-medium text-gray-900 ">
                                 Prénom </label>
                             <input type="text" id="studentFirstname" name="studentFirstname"
                                    wire:model="studentFirstname"
@@ -141,7 +141,7 @@
                         </div>
                         <div class="mb-4 ml-4">
                             <label for="studentEmail"
-                                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Email </label>
+                                   class="block mb-2 text-sm font-medium text-gray-900 ">Email </label>
                             <input type="text" id="studentEmail" name="studentEmail" wire:model="studentEmail"
                                    :value="currentStudent[2]"
                                    class="w-72 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5">
