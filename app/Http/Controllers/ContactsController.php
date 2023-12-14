@@ -39,8 +39,7 @@ class ContactsController extends Controller
 
     public function update(Request $request, Contact $contact)
     {
-        $contact->update($request->only('name', 'firstname', 'email'));
-
+        $contact->update($request->only('name', 'firstname', 'email', 'image'));
         return redirect('contacts');
     }
 
