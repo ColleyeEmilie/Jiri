@@ -6,12 +6,19 @@
         </div>
         <div x-show="open" x-cloak x-transition>
             <div x-data="projectsList" class="max-w-7xl mx-auto ml-4 py-4">
-                <div>
+                <div class=" flex flex-wrap">
                     @if($this->addProjects())
                         @foreach($this->addProjects() as $project)
-                            <p>
-                                {{$project['name'] }}
-                            </p>
+                            <div class="flex mb-4 ml-4">
+                                <p>
+                                    {{$project['name'] }}
+                                </p>
+                                <div class="relative w-8 ml-2 self-center cursor-pointer">
+                                    <img src="{{asset('icons/delete.svg')}}"
+                                         wire:click="deleteProjectFromJiri({{$project['id']}},{{$lastJiri['id']}})"
+                                         class="w-6 h-6" alt="icon to delete a jury">
+                                </div>
+                            </div>
                         @endforeach
                     @endif
                 </div>
