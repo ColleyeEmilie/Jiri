@@ -1,5 +1,5 @@
 <div class="mb-4">
-    <div x-data="{open:false, contactsList} " class="bg-gray-50 divide-y divide-slate-200 px-4 py-2 mb-4">
+    <div x-data="{open:false, contactsList} " class="bg-white divide-y divide-slate-200 px-4 py-2 mb-4">
         <div @click="open=!open" class="cursor-pointer flex justify-between px-4 py-4">
             <h3 class="text-lg font-semibold"> {{ __("Ajouter des jurys") }} </h3>
             <button x-html="open ? '-' :'+' "></button>
@@ -17,11 +17,16 @@
                                 <p class="self-center ml-4">
                                     {{$jury['firstname'] }}, {{$jury['name']}}
                                 </p>
+                                <div class="relative w-8 ml-4 self-center cursor-pointer">
+                                    <img src="{{asset('icons/delete.svg')}}"
+                                         wire:click="deleteContactRole({{$jury['id']}},{{$lastJiri['id']}})"
+                                         class="w-6 h-6">
+                                </div>
                             </div>
                         @endforeach
                     @endif
                 </div>
-                <form wire:submit="newUser" class="flex flex-col">
+                <form wire:submit.prevent="newUser" class="flex flex-col">
                     @csrf
                     <div>
                         <div class="mb-4">
@@ -31,9 +36,9 @@
                                    @input="splitString($wire.currentUser)" list="jury"
                                    class="w-96 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 ">
                             <datalist id="jury">
-                                @foreach($this->users as $user)
-                                    <option wire:key="{{$user->id}}"
-                                            value="{{$user->firstname}},{{$user->name}}:{{$user->email}}">
+                                @foreach($this->filteredAvailableContacts($lastJiri->id) as $contact)
+                                    <option wire:key="{{$contact->id}}"
+                                            value="{{$contact->firstname}},{{$contact->name}}:{{$contact->email}}">
                                 @endforeach
                             </datalist>
                             @error('name') <p class="text-red-400">{{ $message }}</p> @enderror
@@ -74,7 +79,7 @@
         </div>
     </div>
 
-    <div x-data="{open:false}" class="bg-gray-50 divide-y divide-slate-200 px-4 py-2">
+    <div x-data="{open:false}" class="bg-white divide-y divide-slate-200 px-4 py-2">
         <div @click="open=!open" class="cursor-pointer flex justify-between px-4 py-4">
             <h3 class="text-lg font-semibold"> {{ __("Ajouter des étudiants") }} </h3>
             <button x-html="open ? '-' :'+' "></button>
@@ -96,7 +101,7 @@
                         @endforeach
                     @endif
                 </div>
-                <form wire:submit="newStudent">
+                <form wire:submit.prevent="newStudent">
                     <div>
                         <div class="mb-4">
                             <label for="currentStudent"
@@ -107,9 +112,9 @@
                                    @input="splitStringStudent($wire.currentStudent)" list="students"
                                    class="w-96 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5">
                             <datalist id="students">
-                                @foreach($this->users as $user)
-                                    <option wire:key="{{$user->id}}"
-                                            value="{{$user->firstname}},{{$user->name}}:{{$user->email}}">
+                                @foreach($this->filteredAvailableContacts($lastJiri->id) as $contact)
+                                    <option wire:key="{{$contact->id}}"
+                                            value="{{$contact->firstname}},{{$contact->name}}:{{$contact->email}}">
                                 @endforeach
                             </datalist>
                             @error('name') <p class="text-red-400">{{ $message }}</p> @enderror

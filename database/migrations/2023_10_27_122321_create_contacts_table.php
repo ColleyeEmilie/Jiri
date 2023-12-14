@@ -20,6 +20,7 @@ return new class extends Migration
             // The alternative would be to have a pivot table between users and contacts
             // but it would be overkill for this project.
             // $table->string('email')->unique();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

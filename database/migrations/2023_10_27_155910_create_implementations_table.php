@@ -14,6 +14,7 @@ return new class extends Migration
             $table->json('urls')->nullable();
             $table->json('tasks')->nullable();
             $table->json('scores')->nullable();
+            $table->softDeletes();
         });
     }
 

@@ -1,5 +1,5 @@
 <div class="mb-4">
-    <div x-data="{open:false}" class="bg-gray-50 divide-y divide-slate-200 px-4 py-2">
+    <div x-data="{open:false}" class="bg-white divide-y divide-slate-200 px-4 py-2">
         <div @click="open=!open" class="cursor-pointer flex justify-between px-4 py-4">
             <h3 class="text-lg font-semibold"> {{ __("Projets") }} </h3>
             <button  x-html="open ? '-' :'+' " ></button>
@@ -58,7 +58,7 @@
                         </div>
                         <div class="mb-4 ml-4 mt-6">
                             <button type="submit" @click="noValue()"
-                                    class="mb-4 ml-4 bg-transparent hover:bg-orange-400 text-orange-400 font-semibold hover:text-white py-2 px-4 border border-orange-400 hover:border-transparent rounded">
+                                    class="mb-4 ml-4 bg-grey-50 hover:bg-orange-400 text-orange-400 font-semibold hover:text-white py-2 px-4 border border-orange-400 hover:border-transparent rounded">
                                 Ajouter un projet
                             </button>
                         </div>

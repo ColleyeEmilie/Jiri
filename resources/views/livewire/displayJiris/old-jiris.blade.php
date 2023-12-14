@@ -1,5 +1,5 @@
 <div class="mb-4">
-    <div x-data="{open:false}" class="bg-gray-50">
+    <div x-data="{open:false}" class="bg-white">
         <div @click="open=!open" class="cursor-pointer flex justify-between px-5 py-4 mb-2 border-b-2">
             <h3 class="text-lg font-semibold" > {{ __("Anciennes épreuves") }} </h3>
             <button x-html="open ? '-' :'+' " ></button>

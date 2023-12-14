@@ -47,7 +47,7 @@ class ContactsController extends Controller
     public function destroy(Contact $contact)
     {
         //$contact->attendances()->delete();
-        $contact->implementations()->delete();
+        //$contact->implementations()->delete();
         $contact->delete();
 
         session()->flash('success', "$contact->name a bien été supprimé.");

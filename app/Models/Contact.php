@@ -7,10 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Contact extends Model
 {
-    use HasFactory;
+    use SoftDeletes, HasFactory;
 
     protected $fillable = [
         'name',
@@ -46,11 +47,16 @@ class Contact extends Model
             ->HasMany(Implementation::class);
     }
 
+    public function attendances(): HasMany
+    {
+        return $this->hasMany(Attendance::class);
+    }
+
     /*
      * Apply a query scope to retrieve only the contacts of the authenticated user
      */
     protected static function booted(): void
     {
-        static::addGlobalScope(new Scopes\AuthUserScope());
+        //static::addGlobalScope(new Scopes\AuthUserScope());
     }
 }

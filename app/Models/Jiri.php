@@ -7,10 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Jiri extends Model
 {
-    use HasFactory;
+    use SoftDeletes,HasFactory;
 
     protected $fillable = [
         'name',
@@ -60,7 +61,7 @@ class Jiri extends Model
         return $this
             ->belongsToMany(Contact::class, 'attendances', 'jiri_id', 'contact_id')
             ->withPivot('role', 'token')
-            ->wherePivot('role', 'evaluator');
+            ->wherePivot('role', 'jury');
     }
 
     /*
