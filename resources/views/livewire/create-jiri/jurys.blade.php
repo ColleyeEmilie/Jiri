@@ -20,7 +20,7 @@
                                 <div class="relative w-8 ml-4 self-center cursor-pointer">
                                     <img src="{{asset('icons/delete.svg')}}"
                                          wire:click="deleteContactRole({{$jury['id']}},{{$lastJiri['id']}})"
-                                         class="w-6 h-6">
+                                         class="w-6 h-6" alt="icon to delete a jury">
                                 </div>
                             </div>
                         @endforeach
@@ -97,6 +97,11 @@
                                 <p class="self-center ml-4">
                                     {{$student['firstname'] }}, {{$student['name']}}
                                 </p>
+                                <div class="relative w-8 ml-4 self-center cursor-pointer">
+                                    <img src="{{asset('icons/delete.svg')}}"
+                                         wire:click="deleteContactRole({{$student['id']}},{{$lastJiri['id']}})"
+                                         class="w-6 h-6" alt="icon to delete a jury">
+                                </div>
                             </div>
                         @endforeach
                     @endif

@@ -43,7 +43,7 @@ class Jurys extends Component
     public function addStudents()
     {
         return auth()->user()->contacts()->join('attendances', 'contacts.id', '=', 'attendances.contact_id')
-            ->select('contacts.id', 'contacts.name', 'contacts.firstname', 'attendances.role', 'attendances.token', 'attendances.jiri_id', 'attendances.contact_id')
+            ->select('contacts.id', 'contacts.name', 'contacts.firstname', 'attendances.role', 'attendances.token', 'attendances.jiri_id', 'attendances.contact_id', 'attendances.deleted_at')
             ->where('role', '=', 'student')
             ->where('attendances.deleted_at', null)
             ->where('jiri_id', '=', $this->lastJiri->id)
@@ -113,8 +113,8 @@ class Jurys extends Component
             $this->studentEmail = '';
         }
         $this->lastJiri();
-        $this->addJurys();
         $this->addStudents();
+        $this->addJurys();
 
     }
 
