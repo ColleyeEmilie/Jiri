@@ -70,6 +70,12 @@ class User extends Authenticatable
             ->hasManyThrough(Attendance::class, Jiri::class);
     }
 
+    public function implementations(): hasManyThrough
+    {
+        return $this
+            ->hasManyThrough(Implementation::class, Jiri::class);
+    }
+
     public function duties(): hasManyThrough
     {
         return $this

@@ -2,6 +2,7 @@
 
 namespace App\Livewire\CreateJiri;
 
+use App\Models\Attendance;
 use App\Models\Contact;
 use App\Models\Jiri;
 use App\Models\Project;
@@ -48,6 +49,7 @@ class Projects extends Component
             ->where('jiri_id', '=', $this->lastJiri->id)
             ->get()->toArray();
     }
+
     #[Computed]
     public function addProjects()
     {
@@ -91,7 +93,7 @@ class Projects extends Component
         $this->students();
     }
 
-    #[NoReturn] public function newProject()
+    public function newProject(): void
     {
         if ($this->projectName === '') {
             $this->infoCurrentProject = preg_split('/[,:;]+/', $this->currentProject);
@@ -126,12 +128,14 @@ class Projects extends Component
         $this->addImplementations();
         $this->reset('infoCurrentProject', 'projectName', 'projectLink', 'projectDescription', 'projectPonderation');
     }
-    public function render()
+
+    public function render(): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
     {
         return view('livewire.create-jiri.projects');
     }
 
-    public function addDuties(){
+    public function addDuties(): void
+    {
         $this->addDuties = auth()
             ->user()
             ?->duties()
@@ -147,24 +151,33 @@ class Projects extends Component
             );
     }
 
-    public function addImplementations()
+    public function addImplementations(): void
     {
         for ($i = 0; $i < count($this->students); $i++) {
             $this->addImplementations = auth()
                 ->user()
-                ?->implementations()
+                ->implementations()
                 ->firstOrCreate(
                     [
                         'project_id' => $this->lastProject->id,
                         'jiri_id' => $this->lastJiri->id,
-                        'contact_id'=>$this->students[$i]['id'],
+                        'contact_id' => $this->students[$i]['id'],
                     ],
                     [
-                        'contact_id'=>$this->students[$i]['id'],
+                        'contact_id' => $this->students[$i]['id'],
                         'jiri_id' => $this->lastJiri->id,
                         'project_id' => $this->lastProject->id,
                     ]
                 );
         }
     }
+
+    public function deleteProjectFromJiri($project_id, $jiri_id): void
+    {
+        Attendance::where('project_id', $project_id)
+            ->where('jiri_id', $jiri_id)
+            ->delete();
+    }
+
+
 }

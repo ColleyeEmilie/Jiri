@@ -11,6 +11,12 @@ class Implementation extends Model
 {
     use SoftDeletes,HasFactory;
 
+    protected $fillable = [
+        'jiri_id',
+        'contact_id',
+        'project_id',
+    ];
+
     public function author(): BelongsTo
     {
         return $this
@@ -21,6 +27,12 @@ class Implementation extends Model
     {
         return $this
             ->belongsTo(Jiri::class);
+    }
+
+    public function contact(): BelongsTo
+    {
+        return $this
+            ->belongsTo(Contact::class);
     }
 
     public function project(): BelongsTo
