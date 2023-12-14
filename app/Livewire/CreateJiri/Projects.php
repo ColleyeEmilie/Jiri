@@ -5,7 +5,6 @@ namespace App\Livewire\CreateJiri;
 use App\Models\Contact;
 use App\Models\Jiri;
 use App\Models\Project;
-use Illuminate\Database\Eloquent\Collection;
 use JetBrains\PhpStorm\NoReturn;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
@@ -19,7 +18,6 @@ class Projects extends Component
     public $addImplementations;
     public $projectName = '';
     public $projectLink = '';
-
     public $addDuties;
     public $projectPonderation = '';
     public $projectDescription = '';
@@ -27,10 +25,19 @@ class Projects extends Component
     public $infoCurrentProject;
     public ?int $projectId;
 
-    #[computed]
-    public function projectsList()
+    #[Computed]
+    public function filteredAvailableProjects($jiri_id)
     {
-        return $this->currentProject ? Project::where('name', 'like', '%'.$this->projectName.'%')->get() : new Collection();
+        return auth()->
+        user()->
+        projects()
+            ->where(function ($q) use ($jiri_id) {
+                $q->where('name', 'like', '%' . $this->projectName . '%')
+                    ->whereDoesntHave('duties', function ($query) use ($jiri_id) {
+                        $query->where('jiri_id', $jiri_id);
+                    });
+            })
+            ->get();
     }
 
     public function students(): void
@@ -41,15 +48,15 @@ class Projects extends Component
             ->where('jiri_id', '=', $this->lastJiri->id)
             ->get()->toArray();
     }
-
-    public function projects(): void
+    #[Computed]
+    public function addProjects()
     {
-        $this->projects = Project::join('duties','projects.id', '=', 'duties.project_id' )
+        return auth()->user()->projects()->join('duties', 'projects.id', '=', 'duties.project_id')
             ->select('*')
+            ->where('duties.deleted_at', null)
             ->where('jiri_id', '=', $this->lastJiri->id)
             ->get()->toArray();
     }
-
 
     public function lastJiri(): void
     {
@@ -81,7 +88,6 @@ class Projects extends Component
             $this->projectDescription = '';
         }
         $this->lastJiri();
-        $this->projects();
         $this->students();
     }
 
@@ -116,9 +122,8 @@ class Projects extends Component
         $this->lastJiri();
         $this->lastProject();
         $this->students();
-        $this->addImplementations();
         $this->addDuties();
-        $this->projects();
+        $this->addImplementations();
         $this->reset('infoCurrentProject', 'projectName', 'projectLink', 'projectDescription', 'projectPonderation');
     }
     public function render()

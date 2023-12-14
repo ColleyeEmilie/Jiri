@@ -53,10 +53,6 @@ class ProjetsController extends Controller
     public function destroy($projectId)
     {
         $project = Project::findOrFail($projectId);
-        //if($project->duties()){
-        //    $project->duties()->delete();
-        //}
-        //$project->implementations()->delete();
         $project->delete();
         session()->flash('success', "$project->name a bien été supprimé.");
         return redirect('projets');

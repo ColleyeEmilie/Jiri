@@ -64,11 +64,6 @@ class JiriController extends Controller
     public function destroy($jiriId)
     {
         $jiri = Jiri::findOrFail($jiriId);
-        //$jiri->attendances()->delete();
-        //if($jiri->duties()){
-        //   $jiri->duties()->delete();
-        //}
-        //$jiri->implementations()->delete();
         $jiri->delete();
 
         session()->flash('success', "$jiri->name a bien été supprimé.");

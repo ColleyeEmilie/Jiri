@@ -31,6 +31,12 @@ class Project extends Model
             ->hasMany(Implementation::class);
     }
 
+    public function duties(): HasMany
+    {
+        return $this
+            ->hasMany(Duty::class);
+    }
+
     /*
     * Apply a query scope to retrieve only the projects of the authenticated user
     */

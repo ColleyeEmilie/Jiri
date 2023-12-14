@@ -7,8 +7,8 @@
         <div x-show="open" x-cloak x-transition>
             <div x-data="projectsList" class="max-w-7xl mx-auto ml-4 py-4">
                 <div>
-                    @if($projects)
-                        @foreach($projects as $project)
+                    @if($this->addProjects())
+                        @foreach($this->addProjects() as $project)
                             <p>
                                 {{$project['name'] }}
                             </p>
@@ -19,12 +19,12 @@
                     @csrf
                     <div>
                         <div class="mb-4">
-                            <label for="currentProject" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Rechercher un projet par nom </label>
+                            <label for="currentProject" class="block mb-2 text-sm font-medium text-gray-900">Rechercher un projet par nom </label>
                             <input type="text" id="currentProject" name="currentProject" wire:model.live="currentProject"
                                    list="projectsList" @input="splitStringProject($wire.currentProject)"
                                    class="w-96 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 ">
                             <datalist id="projectsList">
-                                @foreach($this->projectsList as $project)
+                                @foreach($this->filteredAvailableProjects($lastJiri->id) as $project)
                                     <option wire:key="{{$project->id}}"
                                             value="{{$project->name}},{{$project->link}}:{{$project->ponderation}};{{$project->description}}">
                                 @endforeach
@@ -40,7 +40,7 @@
                         </div>
                         <div class="mb-4 ml-4">
                             <label for="projectLink"
-                                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"> Lien des consignes </label>
+                                   class="block mb-2 text-sm font-medium text-gray-900 "> Lien des consignes </label>
                             <input type="text" id="projectLink" name="projectLink" wire:model="projectLink" :value="currentProject[1]"
                                    class="w-48 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 ">
                         </div>
