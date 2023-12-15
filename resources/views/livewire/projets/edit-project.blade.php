@@ -6,12 +6,10 @@
             <label for="name" class="block mb-2 text-sm font-medium text-gray-900"> {{ __('Nom') }} </label>
             <input type="text" id="name" name="name" class="w-96 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 " value="{{ $project->name }}" required>
         </div>
-
         <div class="mb-8">
             <label for="link" class="block mb-2 text-sm font-medium text-gray-900"> {{ __('Lien') }} </label>
             <input type="text" id="link" name="link" class="w-96 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 " value="{{ $project->link }}" >
         </div>
-
         <div class="mb-8">
             <label for="ponderation" class="block mb-2 text-sm font-medium text-gray-900"> {{ __('Pondération') }} </label>
             <input type="number" id="ponderation" name="ponderation" class="w-96 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 " value="{{ $project->ponderation }}">
