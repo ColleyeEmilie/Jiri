@@ -15,7 +15,7 @@
                                 </p>
                                 <div class="relative w-8 ml-2 self-center cursor-pointer">
                                     <img src="{{asset('icons/delete.svg')}}"
-                                         wire:click="deleteProjectFromJiri({{$project['id']}},{{$lastJiri['id']}})"
+                                         wire:click="deleteProjectFromJiri({{$project['project_id']}},{{$lastJiri['id']}})"
                                          class="w-6 h-6" alt="icon to delete a jury">
                                 </div>
                             </div>

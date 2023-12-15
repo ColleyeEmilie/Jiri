@@ -27,6 +27,7 @@ class Jurys extends Component
     public $infoCurrentStudent;
     public ?int $studentId;
     public $lastStudent;
+    private $addImplementations;
 
 
     #[Computed]
@@ -39,7 +40,16 @@ class Jurys extends Component
             ->where('jiri_id', '=', $this->lastJiri->id)
             ->get()->toArray();
     }
-
+    #[Computed]
+    public function addProjects()
+    {
+        return auth()->user()->projects()
+            ->join('duties', 'projects.id', '=', 'duties.project_id')
+            ->select('*')
+            ->where('duties.deleted_at', null)
+            ->where('jiri_id', '=', $this->lastJiri->id)
+            ->get()->toArray();
+    }
     #[Computed]
     public function addStudents()
     {
@@ -50,7 +60,6 @@ class Jurys extends Component
             ->where('jiri_id', '=', $this->lastJiri->id)
             ->get()->toArray();
     }
-
     #[Computed]
     public function filteredAvailableContacts($jiri_id)
     {
@@ -80,7 +89,6 @@ class Jurys extends Component
     {
         $this->lastJury = auth()->user()->contacts()->where('email', '=', $this->email)->first();
     }
-
     public function mount($juryId = 0, $studentId = 0): void
     {
         $this->juryId = $juryId;
@@ -114,12 +122,11 @@ class Jurys extends Component
             $this->studentEmail = '';
         }
         $this->lastJiri();
-        $this->addStudents();
         $this->addJurys();
+        $this->addStudents();
 
     }
-
-    public function newUser()
+    public function newUser(): void
     {
         if ($this->email === '') {
             $this->infoCurrentUser = preg_split('/[,:]+/', $this->currentUser);
@@ -151,8 +158,7 @@ class Jurys extends Component
         $this->addJurys();
         $this->reset('currentUser', 'name', 'firstname', 'email');
     }
-
-    public function newStudent()
+    public function newStudent(): void
     {
         if ($this->studentEmail === '') {
             $this->infoCurrentStudent = preg_split('/[,:]+/', $this->currentStudent);
@@ -180,11 +186,12 @@ class Jurys extends Component
 
         $this->lastStudent();
         $this->addStudentRole();
+        $this->addImplementations();
         $this->addStudents();
         $this->reset('currentStudent', 'studentName', 'studentFirstname', 'studentEmail');
     }
 
-    public function addStudentRole()
+    public function addStudentRole(): void
     {
         $this->addStudent = auth()
             ->user()
@@ -202,8 +209,7 @@ class Jurys extends Component
                 ]
             );
     }
-
-    public function addJuryRole()
+    public function addJuryRole(): void
     {
         $this->addJury = auth()
             ->user()
@@ -229,4 +235,28 @@ class Jurys extends Component
             ->where('jiri_id', $jiri_id)
             ->delete();
     }
+
+    public function addImplementations(): void
+    {
+        foreach ($this->addStudents() as $index => $student){
+            foreach ($this->addProjects() as $index2 => $project){
+                $this->addImplementations = auth()
+                    ->user()
+                    ->implementations()
+                    ->create(
+                        [
+                            'project_id' => $this->addProjects()[$index2]['id'],
+                            'jiri_id' => $this->lastJiri->id,
+                            'contact_id' => $this->addStudents()[$index]['id'],
+                        ],
+                        [
+                            'contact_id' => $this->addStudents()[$index]['id'],
+                            'jiri_id' => $this->lastJiri->id,
+                            'project_id' => $this->addProjects()[$index2]['id'],
+                        ]
+                    );
+            }
+        }
+    }
+
 }

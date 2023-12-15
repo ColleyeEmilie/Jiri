@@ -9,7 +9,7 @@
                 <p class="block mb-2 text-sm font-medium text-gray-900">{{$jiri->name}}</p>
             </div>
             <div class="ml-6">
-                <p class="mb-2 text-slate-500">{{ __("Date de l'épreuve") }}</p>
+                <p class="mb-2 text-slate-500">{{ __("Lien des consignes") }}</p>
                 <p class="block mb-2 text-sm font-medium text-gray-900"> {{$jiri->starting_at}}</p>
             </div>
         </div>
