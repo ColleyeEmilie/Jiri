@@ -1,8 +1,13 @@
 <div class="mb-4">
     <div x-data="{open:false}" class="bg-white divide-y divide-slate-200 px-4 py-2">
         <div @click="open=!open" class="cursor-pointer flex justify-between px-4 py-4">
-            <h3 class="text-lg font-semibold"> {{ __("Projets") }} </h3>
-            <button  x-html="open ? '-' :'+' " ></button>
+            <div>
+                <h3 class="text-lg font-semibold mb-2"> {{ __("Projets") }} </h3>
+                <p class="font-extralight text-sm italic">{{__("Vous ajoutez actuellement des projets pour l'épreuve : ")}} <span class="">{{$lastJiri->name}}</span></p>
+            </div>
+            <div class="self-center">
+                <button  x-html="open ? '-' :'+' " ></button>
+            </div>
         </div>
         <div x-show="open" x-cloak x-transition>
             <div x-data="projectsList" class="max-w-7xl mx-auto ml-4 py-4">

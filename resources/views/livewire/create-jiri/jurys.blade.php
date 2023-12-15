@@ -7,7 +7,7 @@
 
         <div x-show="open" x-cloak x-transition x-data="contactsList">
             <div class="max-w-7xl mx-auto ml-4 py-4">
-                <div class="mb-8 flex flex-wrap">
+                <div class="flex flex-wrap">
                     @if($this->addedJurys->count())
                         @foreach($this->addedJurys as $attendance)
                             <div class="flex mr-8 mb-4" wire:key="{{$attendance->contact->id}}">
@@ -87,7 +87,7 @@
         </div>
         <div x-show="open" x-cloak x-transition>
             <div class="max-w-7xl mx-auto ml-4 py-4" x-data="contactsListStudent">
-                <div class="flex mb-8 flex-wrap">
+                <div class="flex flex-wrap">
                     @if($this->addedStudents->count())
                         @foreach($this->addedStudents as $attendance)
                             <div class="flex mr-8 mb-4" wire:key="{{$attendance->contact->id}}">
@@ -185,9 +185,7 @@
                 return ({
                     currentStudent: [],
                     splitStringStudent(name) {
-                        console.log(name)
                         this.currentStudent = name.split(/[,:]+/);
-                        console.log(this.currentStudent);
                         return this.currentStudent;
                     },
                     noValue() {
