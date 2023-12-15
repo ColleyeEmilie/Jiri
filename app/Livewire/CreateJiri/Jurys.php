@@ -9,7 +9,6 @@ use Livewire\Component;
 
 class Jurys extends Component
 {
-/*    protected $listeners = ['studentDeleted'];*/
     public $contactsList;
     public $users;
     public $name = '';
@@ -19,13 +18,13 @@ class Jurys extends Component
     public $infoCurrentUser;
     public $lastJiri;
     public ?int $juryId;
+    public ?int $studentId;
     public $lastJury;
     public $studentName = '';
     public $studentFirstname = '';
     public $studentEmail = '';
     public $currentStudent = '';
     public $infoCurrentStudent;
-    public ?int $studentId;
     public $lastStudent;
 
 
@@ -87,15 +86,15 @@ class Jurys extends Component
             ->get();
     }
 
-    public function lastJiri()
+    public function lastJiri(): void
     {
         $this->lastJiri = Jiri::orderBy('created_at', 'desc')->first();
     }
-    public function lastStudent()
+    public function lastStudent(): void
     {
         $this->lastStudent = auth()->user()->contacts()->where('email', '=', $this->studentEmail)->first();
     }
-    public function lastJury()
+    public function lastJury(): void
     {
         $this->lastJury = auth()->user()->contacts()->where('email', '=', $this->email)->first();
     }
