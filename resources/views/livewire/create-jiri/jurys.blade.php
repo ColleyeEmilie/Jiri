@@ -1,25 +1,26 @@
 <div class="mb-4">
-    <div x-data="{open:false, contactsList} " class="bg-white divide-y divide-slate-200 px-4 py-2 mb-4">
+    <div x-data="{open:false} " class="bg-white divide-y divide-slate-200 px-4 py-2 mb-4">
         <div @click="open=!open" class="cursor-pointer flex justify-between px-4 py-4">
             <h3 class="text-lg font-semibold"> {{ __("Ajouter des jurys") }} </h3>
             <button x-html="open ? '-' :'+' "></button>
         </div>
+
         <div x-show="open" x-cloak x-transition x-data="contactsList">
             <div class="max-w-7xl mx-auto ml-4 py-4">
                 <div class="mb-8 flex flex-wrap">
-                    @if($this->addJurys())
-                        @foreach($this->addJurys() as $jury)
-                            <div class="flex mr-8 mb-4">
+                    @if($this->addedJurys->count())
+                        @foreach($this->addedJurys as $attendance)
+                            <div class="flex mr-8 mb-4" wire:key="{{$attendance->contact->id}}">
                                 <div class="relative w-12 h-12">
-                                    <img src="{{ asset($jury['image'] ?? 'uploads/default.jpeg') }}" alt="avatar"
+                                    <img src="{{ asset($attendance->contact->image ?? 'uploads/default.jpeg') }}" alt="avatar"
                                          class=" w-12 h-12 rounded-full border border-gray-100 shadow-sm">
                                 </div>
                                 <p class="self-center ml-4">
-                                    {{$jury['firstname'] }}, {{$jury['name']}}
+                                    {{$attendance->contact->firstname }}, {{$attendance->contact->name}}
                                 </p>
                                 <div class="relative w-8 ml-4 self-center cursor-pointer">
                                     <img src="{{asset('icons/delete.svg')}}"
-                                         wire:click="deleteContactRole({{$jury['id']}},{{$lastJiri['id']}})"
+                                         wire:click="deleteContactRole({{$attendance->contact->id}},{{$lastJiri['id']}})"
                                          class="w-6 h-6" alt="icon to delete a jury">
                                 </div>
                             </div>
@@ -87,19 +88,19 @@
         <div x-show="open" x-cloak x-transition>
             <div class="max-w-7xl mx-auto ml-4 py-4" x-data="contactsListStudent">
                 <div class="flex mb-8 flex-wrap">
-                    @if($this->addStudents())
-                        @foreach($this->addStudents() as $student)
-                            <div class="flex mr-8 mb-4">
+                    @if($this->addedStudents->count())
+                        @foreach($this->addedStudents as $attendance)
+                            <div class="flex mr-8 mb-4" wire:key="{{$attendance->contact->id}}">
                                 <div class="relative w-12 h-12">
-                                    <img src="{{ asset($student['image'] ?? 'uploads/default.jpeg') }}" alt="avatar"
+                                    <img src="{{ asset($attendance->contact->image ?? 'uploads/default.jpeg') }}" alt="avatar"
                                          class=" w-12 h-12 rounded-full border border-gray-100 shadow-sm">
                                 </div>
                                 <p class="self-center ml-4">
-                                    {{$student['firstname'] }}, {{$student['name']}}
+                                    {{$attendance->contact->firstname }}, {{$attendance->contact->name}}
                                 </p>
                                 <div class="relative w-8 ml-4 self-center cursor-pointer">
                                     <img src="{{asset('icons/delete.svg')}}"
-                                         wire:click="deleteContactRole({{$student['id']}},{{$lastJiri['id']}})"
+                                         wire:click="deleteContactRole({{$attendance->contact->id}},{{$lastJiri['id']}})"
                                          class="w-6 h-6" alt="icon to delete a student">
                                 </div>
                             </div>
@@ -183,7 +184,6 @@
             Alpine.data('contactsListStudent', () => {
                 return ({
                     currentStudent: [],
-
                     splitStringStudent(name) {
                         console.log(name)
                         this.currentStudent = name.split(/[,:]+/);

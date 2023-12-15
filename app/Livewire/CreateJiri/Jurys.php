@@ -9,7 +9,7 @@ use Livewire\Component;
 
 class Jurys extends Component
 {
-    protected $listeners = ['studentDeleted'];
+/*    protected $listeners = ['studentDeleted'];*/
     public $contactsList;
     public $users;
     public $name = '';
@@ -27,18 +27,23 @@ class Jurys extends Component
     public $infoCurrentStudent;
     public ?int $studentId;
     public $lastStudent;
-    private $addImplementations;
 
 
     #[Computed]
-    public function addJurys()
+    public function addedJurys()
     {
-        return auth()->user()->contacts()->join('attendances', 'contacts.id', '=', 'attendances.contact_id')
+        return $this
+            ->lastJiri
+            ->attendances()
+            ->with('contact')
+            ->where('role','jury')
+            ->get();
+/*        return auth()->user()->contacts()->join('attendances', 'contacts.id', '=', 'attendances.contact_id')
             ->select('contacts.id', 'contacts.name', 'contacts.firstname', 'attendances.role', 'attendances.token', 'attendances.jiri_id', 'attendances.contact_id', 'attendances.deleted_at')
             ->where('role', '=', 'jury')
             ->where('attendances.deleted_at', null)
             ->where('jiri_id', '=', $this->lastJiri->id)
-            ->get()->toArray();
+            ->get()->toArray();*/
     }
     #[Computed]
     public function addProjects()
@@ -51,15 +56,22 @@ class Jurys extends Component
             ->get()->toArray();
     }
     #[Computed]
-    public function addStudents()
+    public function addedStudents()
     {
-        return auth()->user()->contacts()->join('attendances', 'contacts.id', '=', 'attendances.contact_id')
+        return $this
+            ->lastJiri
+            ->attendances()
+            ->with('contact')
+            ->where('role','student')
+            ->get();
+/*        return auth()->user()->contacts()->join('attendances', 'contacts.id', '=', 'attendances.contact_id')
             ->select('contacts.id', 'contacts.name', 'contacts.firstname', 'attendances.role', 'attendances.token', 'attendances.jiri_id', 'attendances.contact_id', 'attendances.deleted_at')
             ->where('role', '=', 'student')
             ->where('attendances.deleted_at', null)
             ->where('jiri_id', '=', $this->lastJiri->id)
-            ->get()->toArray();
+            ->get()->toArray();*/
     }
+
     #[Computed]
     public function filteredAvailableContacts($jiri_id)
     {
@@ -79,12 +91,10 @@ class Jurys extends Component
     {
         $this->lastJiri = Jiri::orderBy('created_at', 'desc')->first();
     }
-
     public function lastStudent()
     {
         $this->lastStudent = auth()->user()->contacts()->where('email', '=', $this->studentEmail)->first();
     }
-
     public function lastJury()
     {
         $this->lastJury = auth()->user()->contacts()->where('email', '=', $this->email)->first();
@@ -122,8 +132,6 @@ class Jurys extends Component
             $this->studentEmail = '';
         }
         $this->lastJiri();
-        $this->addJurys();
-        $this->addStudents();
 
     }
     public function newUser(): void
@@ -155,7 +163,7 @@ class Jurys extends Component
         $this->lastJiri();
         $this->lastJury();
         $this->addJuryRole();
-        $this->addJurys();
+        $this->addedJurys();
         $this->reset('currentUser', 'name', 'firstname', 'email');
     }
     public function newStudent(): void
@@ -187,7 +195,7 @@ class Jurys extends Component
         $this->lastStudent();
         $this->addStudentRole();
         $this->addImplementations();
-        $this->addStudents();
+        $this->addedStudents();
         $this->reset('currentStudent', 'studentName', 'studentFirstname', 'studentEmail');
     }
 
@@ -234,11 +242,14 @@ class Jurys extends Component
             ->where('contact_id', $contact_id)
             ->where('jiri_id', $jiri_id)
             ->delete();
+
+        unset($this->addStudents);
+        unset($this->addJurys);
     }
 
     public function addImplementations(): void
     {
-        foreach ($this->addStudents() as $index => $student){
+        foreach ($this->addedStudents() as $index => $student){
             foreach ($this->addProjects() as $index2 => $project){
                 $this->addImplementations = auth()
                     ->user()
@@ -247,10 +258,10 @@ class Jurys extends Component
                         [
                             'project_id' => $this->addProjects()[$index2]['id'],
                             'jiri_id' => $this->lastJiri->id,
-                            'contact_id' => $this->addStudents()[$index]['id'],
+                            'contact_id' => $this->addedStudents()[$index]['id'],
                         ],
                         [
-                            'contact_id' => $this->addStudents()[$index]['id'],
+                            'contact_id' => $this->addedStudents()[$index]['id'],
                             'jiri_id' => $this->lastJiri->id,
                             'project_id' => $this->addProjects()[$index2]['id'],
                         ]
