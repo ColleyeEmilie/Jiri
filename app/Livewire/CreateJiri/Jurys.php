@@ -9,6 +9,7 @@ use Livewire\Component;
 
 class Jurys extends Component
 {
+    protected $listeners = ['studentDeleted'];
     public $contactsList;
     public $users;
     public $name = '';
@@ -221,10 +222,10 @@ class Jurys extends Component
             );
     }
 
-
     public function deleteContactRole($contact_id, $jiri_id): void
     {
-        Attendance::where('contact_id', $contact_id)
+        auth()->user()->attendances()
+            ->where('contact_id', $contact_id)
             ->where('jiri_id', $jiri_id)
             ->delete();
     }

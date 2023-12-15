@@ -53,7 +53,8 @@ class Projects extends Component
     #[Computed]
     public function addProjects()
     {
-        return auth()->user()->projects()->join('duties', 'projects.id', '=', 'duties.project_id')
+        return auth()->user()->projects()
+            ->join('duties', 'projects.id', '=', 'duties.project_id')
             ->select('*')
             ->where('duties.deleted_at', null)
             ->where('jiri_id', '=', $this->lastJiri->id)
@@ -91,6 +92,7 @@ class Projects extends Component
         }
         $this->lastJiri();
         $this->students();
+        $this->addImplementations();
     }
 
     public function newProject(): void
@@ -156,37 +158,40 @@ class Projects extends Component
     public function addImplementations(): void
     {
         for ($i = 0; $i < count($this->students); $i++) {
-            $this->addImplementations = auth()
-                ->user()
-                ->implementations()
-                ->firstOrCreate(
-                    [
-                        'project_id' => $this->lastProject->id,
-                        'jiri_id' => $this->lastJiri->id,
-                        'contact_id' => $this->students[$i]['id'],
-                    ],
-                    [
-                        'contact_id' => $this->students[$i]['id'],
-                        'jiri_id' => $this->lastJiri->id,
-                        'project_id' => $this->lastProject->id,
-                    ]
-                );
+            for ($j = 0; $j < count($this->addProjects()); $j++) {
+                $this->addImplementations = auth()
+                    ->user()
+                    ->implementations()
+                    ->firstOrCreate(
+                        [
+                            'project_id' => $this->addProjects()[$i]['id'],
+                            'jiri_id' => $this->lastJiri->id,
+                            'contact_id' => $this->students[$i]['id'],
+                        ],
+                        [
+                            'contact_id' => $this->students[$i]['id'],
+                            'jiri_id' => $this->lastJiri->id,
+                            'project_id' => $this->addProjects()[$i]['id'],
+                        ]
+                    );
+            }
         }
     }
 
     public function deleteProjectFromJiri($project_id, $jiri_id): void
     {
         for ($i = 0; $i < count($this->students); $i++) {
-            Implementation::where('project_id', $project_id)
+            auth()->user()->implementations()
+                ->where('project_id', $project_id)
                 ->where('jiri_id', $jiri_id)
                 ->where('contact_id', $this->students[$i])
                 ->delete();
         }
 
-        Duty::where('project_id', $project_id)
+        auth()->user()->duties()
+            ->where('project_id', $project_id)
             ->where('jiri_id', $jiri_id)
             ->delete();
     }
-
 
 }

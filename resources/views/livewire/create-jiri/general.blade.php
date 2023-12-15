@@ -15,14 +15,14 @@
                     @csrf
                     <div class="mb-4">
                         <label for="name" class="block mb-2 text-sm font-medium text-gray-900 ">
-                            Nom de l'épreuve </label>
+                            Nom de l'épreuve<sup class="text-rose-600">*</sup></label>
                         <input type="text" id="name" name="name"
                                class="w-96 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 ">
                     </div>
 
                     <div class="mb-4 ml-4">
                         <label for="starting_at" class="block mb-2 text-sm font-medium text-gray-900 ">
-                            Date de l'épreuve </label>
+                            Date de l'épreuve<sup class="text-rose-600">*</sup></label>
                         <input type="date" id="starting_at" name="starting_at"
                                class="w-96 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 ">
                     </div>
