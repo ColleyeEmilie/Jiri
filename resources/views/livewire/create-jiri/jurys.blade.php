@@ -1,18 +1,19 @@
-<div class="mb-4">
-    <div x-data="{open:false} " class="bg-white divide-y divide-slate-200 px-4 py-2 mb-4">
-        <div @click="open=!open" class="cursor-pointer flex justify-between px-4 py-4">
+<div class="mb-4" x-data="lists">
+    <div class="bg-white divide-y divide-slate-200 px-4 py-2 mb-4">
+        <div @click="openJury=!openJury" class="cursor-pointer flex justify-between px-4 py-4">
             <h3 class="text-lg font-semibold"> {{ __("Ajouter des jurys") }} </h3>
-            <button x-html="open ? '-' :'+' "></button>
+            <button x-html="openJury ? '-' :'+' "></button>
         </div>
 
-        <div x-show="open" x-cloak x-transition x-data="contactsList">
+        <div x-show="openJury" x-cloak x-transition>
             <div class="max-w-7xl mx-auto ml-4 py-4">
                 <div class="flex flex-wrap">
                     @if($this->addedJurys->count())
                         @foreach($this->addedJurys as $attendance)
-                            <div class="flex mr-8 mb-4" wire:key="{{$attendance->contact->id}}">
+                            <div class="flex mr-8 mb-4" wire:key="{{$attendance->contact->id}}-{{$attendance->contact->email}}">
                                 <div class="relative w-12 h-12">
-                                    <img src="{{ asset($attendance->contact->image ?? 'uploads/default.jpeg') }}" alt="avatar"
+                                    <img src="{{ asset($attendance->contact->image ?? 'uploads/default.jpeg') }}"
+                                         alt="avatar"
                                          class=" w-12 h-12 rounded-full border border-gray-100 shadow-sm">
                                 </div>
                                 <p class="self-center ml-4">
@@ -34,7 +35,7 @@
                             <label for="currentUser" class="block mb-2 text-sm font-medium text-gray-900">Rechercher
                                 un contact par nom </label>
                             <input type="text" id="currentUser" name="currentUser" wire:model.live="currentUser"
-                                   @input="splitString($wire.currentUser)" list="jury"
+                                   @input="splitStringJury($wire.currentUser)" list="jury"
                                    class="w-96 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 ">
                             <datalist id="jury">
                                 @foreach($this->filteredAvailableContacts($lastJiri->id) as $contact)
@@ -49,7 +50,8 @@
                         <div class="mb-4">
                             <label for="name"
                                    class="block mb-2 text-sm font-medium text-gray-900">Nom </label>
-                            <input type="text" id="name" name="name" wire:model="name" :value="currentUser[1]"
+                            <input type="text" id="name" name="name" wire:model="name"
+                                   :value="currentJury[1]"
                                    class="w-48 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 ">
                             @error('name') <p class="text-red-400">{{ $message }}</p> @enderror
                         </div>
@@ -57,14 +59,15 @@
                             <label for="firstname" class="block mb-2 text-sm font-medium text-gray-900">
                                 Prénom </label>
                             <input type="text" id="firstname" name="firstname" wire:model="firstname"
-                                   :value="currentUser[0]"
+                                   :value="currentJury[0]"
                                    class="w-48 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 ">
                             @error('firstname') <p class="text-red-400">{{ $message }}</p> @enderror
                         </div>
                         <div class="mb-4 ml-4">
                             <label for="email"
                                    class="block mb-2 text-sm font-medium text-gray-900">Email </label>
-                            <input type="email" id="email" name="email" wire:model="email" :value="currentUser[2]"
+                            <input type="email" id="email" name="email" wire:model="email"
+                                   :value="currentJury[2]"
                                    class="w-72 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 ">
                             @error('email') <p class="text-red-400">{{ $message }}</p> @enderror
                         </div>
@@ -80,19 +83,20 @@
         </div>
     </div>
 
-    <div x-data="{open:false}" class="bg-white divide-y divide-slate-200 px-4 py-2">
-        <div @click="open=!open" class="cursor-pointer flex justify-between px-4 py-4">
+    <div class="bg-white divide-y divide-slate-200 px-4 py-2">
+        <div @click="openStudent=!openStudent" class="cursor-pointer flex justify-between px-4 py-4">
             <h3 class="text-lg font-semibold"> {{ __("Ajouter des étudiants") }} </h3>
-            <button x-html="open ? '-' :'+' "></button>
+            <button x-html="openStudent ? '-' :'+' "></button>
         </div>
-        <div x-show="open" x-cloak x-transition>
-            <div class="max-w-7xl mx-auto ml-4 py-4" x-data="contactsListStudent">
+        <div x-show="openStudent" x-cloak x-transition>
+            <div class="max-w-7xl mx-auto ml-4 py-4">
                 <div class="flex flex-wrap">
                     @if($this->addedStudents->count())
                         @foreach($this->addedStudents as $attendance)
-                            <div class="flex mr-8 mb-4" wire:key="{{$attendance->contact->id}}">
+                            <div class="flex mr-8 mb-4" wire:key="{{$attendance->contact->id}}-{{$attendance->contact->email}}">
                                 <div class="relative w-12 h-12">
-                                    <img src="{{ asset($attendance->contact->image ?? 'uploads/default.jpeg') }}" alt="avatar"
+                                    <img src="{{ asset($attendance->contact->image ?? 'uploads/default.jpeg') }}"
+                                         alt="avatar"
                                          class=" w-12 h-12 rounded-full border border-gray-100 shadow-sm">
                                 </div>
                                 <p class="self-center ml-4">
@@ -165,34 +169,27 @@
         </div>
     </div>
 
-    <script defer>
+    <script>
         document.addEventListener('alpine:init', () => {
-            Alpine.data('contactsList', () => {
-                return ({
-                    currentUser: [],
-                    splitString(name) {
-                        this.currentUser = name.split(/[,:]+/);
-                        return this.currentUser;
-                    },
-                    noValue() {
-                        return this.currentUser = [];
-                    }
-                });
-            })
-        })
-        document.addEventListener('alpine:init', () => {
-            Alpine.data('contactsListStudent', () => {
-                return ({
-                    currentStudent: [],
-                    splitStringStudent(name) {
-                        this.currentStudent = name.split(/[,:]+/);
-                        return this.currentStudent;
-                    },
-                    noValue() {
-                        return this.currentStudent = [];
-                    }
-                });
-            })
+            Alpine.data('lists', () => ({
+                openStudent: false,
+                openJury: false,
+                currentJury: [],
+                currentStudent: [],
+                splitStringJury(name) {
+                    this.currentJury = name.split(/[,:]+/);
+                    return this.currentJury;
+                },
+                splitStringStudent(name) {
+                    this.currentStudent = name.split(/[,:]+/);
+                    return this.currentStudent;
+                },
+                noValue() {
+                    this.currentStudent = [];
+                    this.currentJury = [];
+                }
+
+            }))
         })
     </script>
 </div>

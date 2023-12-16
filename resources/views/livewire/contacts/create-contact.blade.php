@@ -1,21 +1,19 @@
 <div>
     <form wire:submit="newContact" action="{{ route('contacts.store') }}" method="post" enctype="multipart/form-data">
         @csrf
-        <div x-data="{ uploading: false, progress: 0 }"
-             x-on:livewire-upload-start="uploading = true"
-             x-on:livewire-upload-finish="uploading = false"
-             x-on:livewire-upload-error="uploading = false"
-             x-on:livewire-upload-psrogress="progress = $event.detail.progress">
-            <input accept="image/png, image/jpeg, image/jpg" type="file" wire:model="image">
-            <div x-show="uploading">
-                <progress max="100" x-bind:value="progress"></progress>
-            </div>
-        </div>
-        <div class="relative w-12 h-12 ">
+        <div class="flex mb-4">
             @if ($image)
-                <img class="w-12 h-12 rounded-full border border-gray-100" src="{{ $image->temporaryUrl() }}" alt="">
+                <div class="relative w-12 h-12 ml-4 ">
+                    <img class="w-12 h-12 rounded-full border border-gray-100" src="{{ $image->temporaryUrl() }}" alt="">
+                </div>
+            @else
+                <div class="relative w-12 h-12 ml-4 ">
+                    <img class="w-12 h-12 rounded-full border border-gray-100" src="{{ asset('uploads/default.jpeg') }}" alt="default image">
+                </div>
             @endif
+            <input accept="image/png, image/jpeg, image/jpg" type="file" wire:model="image" class="ml-4 self-center">
         </div>
+
 
         <div class="mb-4">
             <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Nom</label>
