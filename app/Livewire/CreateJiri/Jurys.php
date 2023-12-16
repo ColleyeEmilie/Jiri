@@ -2,7 +2,6 @@
 
 namespace App\Livewire\CreateJiri;
 
-use App\Models\Attendance;
 use App\Models\Jiri;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
@@ -37,12 +36,6 @@ class Jurys extends Component
             ->with('contact')
             ->where('role','jury')
             ->get();
-/*        return auth()->user()->contacts()->join('attendances', 'contacts.id', '=', 'attendances.contact_id')
-            ->select('contacts.id', 'contacts.name', 'contacts.firstname', 'attendances.role', 'attendances.token', 'attendances.jiri_id', 'attendances.contact_id', 'attendances.deleted_at')
-            ->where('role', '=', 'jury')
-            ->where('attendances.deleted_at', null)
-            ->where('jiri_id', '=', $this->lastJiri->id)
-            ->get()->toArray();*/
     }
     #[Computed]
     public function addProjects()
@@ -63,12 +56,6 @@ class Jurys extends Component
             ->with('contact')
             ->where('role','student')
             ->get();
-/*        return auth()->user()->contacts()->join('attendances', 'contacts.id', '=', 'attendances.contact_id')
-            ->select('contacts.id', 'contacts.name', 'contacts.firstname', 'attendances.role', 'attendances.token', 'attendances.jiri_id', 'attendances.contact_id', 'attendances.deleted_at')
-            ->where('role', '=', 'student')
-            ->where('attendances.deleted_at', null)
-            ->where('jiri_id', '=', $this->lastJiri->id)
-            ->get()->toArray();*/
     }
 
     #[Computed]
@@ -98,40 +85,9 @@ class Jurys extends Component
     {
         $this->lastJury = auth()->user()->contacts()->where('email', '=', $this->email)->first();
     }
-    public function mount($juryId = 0, $studentId = 0): void
+    public function mount(): void
     {
-        $this->juryId = $juryId;
-        if ($juryId) {
-            $jury = auth()
-                ->user()
-                ?->jiris()
-                ->findOrFail($juryId);
-            $this->name = $jury->name;
-            $this->firstname = $jury->firstname;
-            $this->email = $jury->email;
-        } else {
-            $this->name = '';
-            $this->firstname = '';
-            $this->email = '';
-        }
-
-        $this->studentId = $studentId;
-        if ($studentId) {
-            $student = auth()
-                ->user()
-                ?->jiris()
-                ->findOrFail($studentId);
-
-            $this->studentName = $student->name;
-            $this->studentFirstname = $student->firstname;
-            $this->studentEmail = $student->email;
-        } else {
-            $this->studentName = '';
-            $this->studentFirstname = '';
-            $this->studentEmail = '';
-        }
         $this->lastJiri();
-
     }
     public function newUser(): void
     {
@@ -162,7 +118,6 @@ class Jurys extends Component
         $this->lastJiri();
         $this->lastJury();
         $this->addJuryRole();
-        $this->addedJurys();
         $this->reset('currentUser', 'name', 'firstname', 'email');
     }
     public function newStudent(): void
@@ -194,10 +149,8 @@ class Jurys extends Component
         $this->lastStudent();
         $this->addStudentRole();
         $this->addImplementations();
-        $this->addedStudents();
         $this->reset('currentStudent', 'studentName', 'studentFirstname', 'studentEmail');
     }
-
     public function addStudentRole(): void
     {
         $this->addStudent = auth()
@@ -238,14 +191,14 @@ class Jurys extends Component
     public function deleteContactRole($contact_id, $jiri_id): void
     {
         auth()->user()->attendances()
-            ->where('contact_id', $contact_id)
-            ->where('jiri_id', $jiri_id)
+            ->where([
+                ['contact_id', '=', $contact_id],
+                ['jiri_id', '=', $jiri_id]
+            ])
             ->delete();
-
         unset($this->addStudents);
         unset($this->addJurys);
     }
-
     public function addImplementations(): void
     {
         foreach ($this->addedStudents() as $index => $student){

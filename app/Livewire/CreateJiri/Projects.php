@@ -70,25 +70,8 @@ class Projects extends Component
     {
         $this->lastProject = Project::where('name', '=', $this->projectName)->first();
     }
-    public function mount($projectId = 0): void
+    public function mount(): void
     {
-        $this->projectId = $projectId;
-        if ($projectId) {
-            $project = auth()
-                ->user()
-                ?->projects()
-                ->findOrFail($projectId);
-
-            $this->projectName = $project->name;
-            $this->projectLink = $project->link;
-            $this->projectPonderation = $project->ponderation;
-            $this->projectDescription = $project->description;
-        } else {
-            $this->projectName = '';
-            $this->projectLink = '';
-            $this->projectPonderation = '';
-            $this->projectDescription = '';
-        }
         $this->lastJiri();
         $this->addStudents();
     }
