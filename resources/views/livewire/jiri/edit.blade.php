@@ -61,7 +61,7 @@
         </div>
         <div class="divide-y divide-slate-200">
             <div class="flex justify-between px-4 py-4 ">
-                <h3 class="text-lg font-semibold"> {{ __("Jurys présents ") }} </h3>
+                <h3 class="text-lg font-semibold"> {{ __("Contacts présents ") }} </h3>
             </div>
             <div class="flex ml-4 py-4">
                 @if($jurys)

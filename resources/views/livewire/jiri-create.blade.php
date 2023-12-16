@@ -1,5 +1,7 @@
 <div>
     <livewire:createJiri.general/>
     <livewire:createJiri.projects/>
-    <livewire:createJiri.jurys/>
+    <livewire:createJiri.contacts/>
+    <livewire:createJiri.students/>
+
 </div>

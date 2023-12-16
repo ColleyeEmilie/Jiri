@@ -21,7 +21,7 @@
                                 </p>
                                 <div class="relative w-8 ml-4 self-center cursor-pointer">
                                     <img src="{{asset('icons/delete.svg')}}"
-                                         wire:click="deleteContactRole({{$attendance->contact->id}},{{$lastJiri['id']}})"
+                                         wire:click="deleteContactRole({{$attendance->contact->id}},{{$this->lastJiri()->id}})"
                                          class="w-6 h-6" alt="icon to delete a jury">
                                 </div>
                             </div>
@@ -38,7 +38,7 @@
                                    @input="splitStringJury($wire.currentUser)" list="jury"
                                    class="w-96 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 ">
                             <datalist id="jury">
-                                @foreach($this->filteredAvailableContacts($lastJiri->id) as $contact)
+                                @foreach($this->filteredAvailableContacts($this->lastJiri()->id) as $contact)
                                     <option wire:key="{{$contact->id}}"
                                             value="{{$contact->firstname}},{{$contact->name}}:{{$contact->email}}">
                                 @endforeach
@@ -104,7 +104,7 @@
                                 </p>
                                 <div class="relative w-8 ml-4 self-center cursor-pointer">
                                     <img src="{{asset('icons/delete.svg')}}"
-                                         wire:click="deleteContactRole({{$attendance->contact->id}},{{$lastJiri['id']}})"
+                                         wire:click="deleteContactRole({{$attendance->contact->id}},{{$this->lastJiri()->id}})"
                                          class="w-6 h-6" alt="icon to delete a student">
                                 </div>
                             </div>
@@ -122,7 +122,7 @@
                                    @input="splitStringStudent($wire.currentStudent)" list="students"
                                    class="w-96 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5">
                             <datalist id="students">
-                                @foreach($this->filteredAvailableContacts($lastJiri->id) as $contact)
+                                @foreach($this->filteredAvailableContacts($this->lastJiri()->id) as $contact)
                                     <option wire:key="{{$contact->id}}"
                                             value="{{$contact->firstname}},{{$contact->name}}:{{$contact->email}}">
                                 @endforeach
