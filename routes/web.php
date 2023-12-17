@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ContactsController;
 use App\Http\Controllers\JiriController;
+use App\Http\Controllers\JuryController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjetsController;
 use Illuminate\Support\Facades\Route;
@@ -19,6 +20,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/jiris', [JiriController::class, 'index'])
     ->name('jiris.index');
+
+Route::middleware('jury')->group(function (){
+    Route::resource('jury', JuryController::class);
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/', [JiriController::class, 'index'])
