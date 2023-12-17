@@ -2,7 +2,6 @@
 
 namespace App\Livewire\CreateJiri;
 
-use App\Models\Implementation;
 use App\Models\Jiri;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -23,6 +22,7 @@ class Students extends Component
     {
         return Jiri::orderBy('created_at', 'desc')->first();
     }
+
     #[Computed]
     public function addedStudents(): Collection|array|_IH_Attendance_C
     {
@@ -30,9 +30,10 @@ class Students extends Component
             ->lastJiri()
             ->attendances()
             ->with('contact')
-            ->where('role','student')
+            ->where('role', 'student')
             ->get();
     }
+
     #[Computed]
     public function addedProjects()
     {
@@ -44,9 +45,21 @@ class Students extends Component
             ->get();
     }
 
-    public function mount(){
-
+    #[Computed]
+    public function checkboxes(){
+        foreach ($this->addedProjects() as $project) {
+            foreach ($this->addedStudents() as $attendance) {
+                $this->tasks[$project->project_id . '-' . $attendance['contact_id']]['back'] = true;
+                $this->tasks[$project->project_id . '-' . $attendance['contact_id']]['front'] = true;
+                $this->tasks[$project->project_id . '-' . $attendance['contact_id']]['design'] = true;
+            }
+        }
     }
+    public function mount()
+    {
+        $this->checkboxes();
+    }
+
     public function deleteContactRole($contact_id, $jiri_id): void
     {
         auth()->user()->attendances()
@@ -64,22 +77,27 @@ class Students extends Component
         return view('livewire.create-jiri.students');
     }
 
-    public function test(){
-        dd($this->option, $this->checkboxes);
-
-    }
-
     public function enregistrer($attendance)
     {
-        auth()->user()
-            ->implementations()
-            ->update(
-                ['jiri_id' => $attendance['jiri_id'],
-                    'contact_id'=> $attendance['contact_id'] ],
-                [
-                    'jiri_id' => $attendance['jiri_id'],
-                    'contact_id'=> $attendance['contact_id'],
-                    'tasks' =>json_encode($this->tasks),
-                ]);
+        foreach ($this->addedProjects as $project) {
+            $implementation = auth()->user()
+                ->implementations()
+                ->where('jiri_id', $attendance['jiri_id'])
+                ->where('contact_id', $attendance['contact_id'])
+                ->where('project_id', $project->project_id)
+                ->first();
+
+            if ($implementation) {
+                if(array_key_exists($project->project_id . '-' . $attendance['contact_id'], $this->tasks)){
+                    $this->tasks[$project->project_id . '-' . $attendance['contact_id']]['back'] = false;
+                    $this->tasks[$project->project_id . '-' . $attendance['contact_id']]['front'] = false;
+                    $this->tasks[$project->project_id . '-' . $attendance['contact_id']]['design'] = false;
+                } else {
+                    $implementation->update([
+                        'tasks' => json_encode($this->tasks[$project->project_id . '-' . $attendance['contact_id']]),
+                    ]);
+                }
+            }
+        }
     }
 }

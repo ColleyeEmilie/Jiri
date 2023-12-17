@@ -204,7 +204,7 @@ class Contacts extends Component
     {
         foreach ($this->addedStudents() as $index => $student){
             foreach ($this->addedProjects() as $index2 => $project){
-                $this->addImplementations = auth()
+                auth()
                     ->user()
                     ->implementations()
                     ->firstOrCreate(
