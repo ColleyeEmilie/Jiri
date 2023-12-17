@@ -2,6 +2,7 @@
 
 namespace App\Livewire\CreateJiri;
 
+use App\Models\Implementation;
 use App\Models\Jiri;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -15,13 +16,13 @@ class Students extends Component
 {
 
     public Jiri $lastJiri;
+    public $tasks = [];
 
     #[Computed]
     public function lastJiri(): Jiri
     {
         return Jiri::orderBy('created_at', 'desc')->first();
     }
-
     #[Computed]
     public function addedStudents(): Collection|array|_IH_Attendance_C
     {
@@ -32,7 +33,6 @@ class Students extends Component
             ->where('role','student')
             ->get();
     }
-
     #[Computed]
     public function addedProjects()
     {
@@ -44,6 +44,9 @@ class Students extends Component
             ->get();
     }
 
+    public function mount(){
+
+    }
     public function deleteContactRole($contact_id, $jiri_id): void
     {
         auth()->user()->attendances()
@@ -59,5 +62,24 @@ class Students extends Component
     public function render(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
         return view('livewire.create-jiri.students');
+    }
+
+    public function test(){
+        dd($this->option, $this->checkboxes);
+
+    }
+
+    public function enregistrer($attendance)
+    {
+        auth()->user()
+            ->implementations()
+            ->update(
+                ['jiri_id' => $attendance['jiri_id'],
+                    'contact_id'=> $attendance['contact_id'] ],
+                [
+                    'jiri_id' => $attendance['jiri_id'],
+                    'contact_id'=> $attendance['contact_id'],
+                    'tasks' =>json_encode($this->tasks),
+                ]);
     }
 }

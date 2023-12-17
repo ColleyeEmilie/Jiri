@@ -12,6 +12,9 @@ class Implementation extends Model
     use SoftDeletes,HasFactory;
 
     protected $fillable = [
+        'urls',
+        'tasks',
+        'scores',
         'jiri_id',
         'contact_id',
         'project_id',

@@ -12,9 +12,7 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->json('urls')->nullable();
-            $table->boolean('design')->nullable();
-            $table->boolean('front')->nullable();
-            $table->boolean('back')->nullable();
+            $table->json('tasks')->nullable();
             $table->json('scores')->nullable();
             $table->softDeletes();
         });

@@ -207,16 +207,16 @@ class Contacts extends Component
                 $this->addImplementations = auth()
                     ->user()
                     ->implementations()
-                    ->create(
+                    ->firstOrCreate(
                         [
-                            'project_id' => $this->addedProjects()[$index2]['id'],
+                            'project_id' =>$project->project_id,
                             'jiri_id' => $this->lastJiri()->id,
-                            'contact_id' => $this->addedStudents()[$index]['id'],
+                            'contact_id' => $this->addedStudents()[$index]->contact->id,
                         ],
                         [
-                            'contact_id' => $this->addedStudents()[$index]['id'],
+                            'contact_id' => $this->addedStudents()[$index]->contact->id,
                             'jiri_id' => $this->lastJiri()->id,
-                            'project_id' => $this->addedProjects()[$index2]['id'],
+                            'project_id' => $project->project_id,
                         ]
                     );
             }

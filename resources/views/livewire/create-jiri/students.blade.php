@@ -5,11 +5,12 @@
             <button x-html="open ? '-' :'+' " ></button>
         </div>
         <div x-show="open" x-cloak x-transition>
-            <div class="max-w-7xl mx-auto ml-4 py-4">
-                <form wire:submit="newProject" class="flex flex-col" wire:poll>
-                    @csrf
+            <div class="max-w-7xl flex-col mx-auto ml-4 py-4" wire:poll>
+
                     @if($this->addedStudents->count())
                         @foreach($this->addedStudents as $attendance)
+                        <form wire:submit.prevent="enregistrer({{$attendance}})">
+                            @csrf
                             <div class="flex mr-8 mb-4" wire:key="{{$attendance->contact->id}}-{{$attendance->contact->email}}">
                                 <div class="relative w-12 h-12">
                                     <img src="{{ asset($attendance->contact->image ?? 'uploads/default.jpeg') }}"
@@ -25,38 +26,48 @@
                                          class="w-6 h-6" alt="icon to delete a student">
                                 </div>
                             </div>
+
+                            <input type="text" wire:model="tasks.design" />
+                            <input type="text" wire:model="tasks.front" />
+                            <input type="text" wire:model="tasks.back" />
+
+                            <button type="submit">Enregistrer</button>
+
+
                             <div class="flex">
                                 @foreach($this->addedProjects as $project)
                                     <div wire:key="{{$attendance->id}}" class="ml-4 mb-4 ">
                                         <div class="flex-col">
                                             <label for="tasks">{{ $project['name'] }}</label>
-                                            <select name="languages" id="tasks">
+                                            <select name="languages" id="tasks" wire:model.live="option">
                                                 <option value="presente">Presente</option>
                                                 <option value="nepresentepas">Ne presente pas</option>
                                                 <option value="reussi">Réussi</option>
                                             </select>
                                         </div>
+                                        <button wire:click="test">
+                                            TEST OPTION
+                                        </button>
                                         <div>
                                             <div>
-                                                <input type="checkbox" id="design" name="design"/>
+                                                <input type="checkbox" id="design" name="design" wire:model.live="checkbox1"/>
                                                 <label for="design">Design</label>
                                             </div>
-
                                             <div>
-                                                <input type="checkbox" id="front" name="front" />
+                                                <input type="checkbox" id="front" name="front" wire:model.live="checkbox2" />
                                                 <label for="front">Intégration</label>
                                             </div>
                                             <div>
-                                                <input type="checkbox" id="back" name="back" />
+                                                <input type="checkbox" id="back" name="back" wire:model.live="checkbox3"/>
                                                 <label for="back">Back-end</label>
                                             </div>
                                         </div>
                                     </div>
                                 @endforeach
                             </div>
+                        </form>
                         @endforeach
                     @endif
-                </form>
             </div>
         </div>
     </div>

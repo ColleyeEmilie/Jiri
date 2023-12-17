@@ -42,24 +42,24 @@ class Projects extends Component
             ->get();
     }
     #[Computed]
-    public function addStudents()
+    public function addedProjects()
     {
-        return auth()->user()->contacts()->join('attendances', 'contacts.id', '=', 'attendances.contact_id')
-            ->select('contacts.id', 'contacts.name', 'contacts.firstname', 'attendances.role', 'attendances.token', 'attendances.jiri_id', 'attendances.contact_id', 'attendances.deleted_at')
-            ->where('role', '=', 'student')
-            ->where('attendances.deleted_at', null)
-            ->where('jiri_id', '=', $this->lastJiri->id)
-            ->get()->toArray();
-    }
-    #[Computed]
-    public function addProjects()
-    {
-        return auth()->user()->projects()
+        return auth()->user()
+            ->projects()
             ->join('duties', 'projects.id', '=', 'duties.project_id')
-            ->select('*')
             ->where('duties.deleted_at', null)
             ->where('jiri_id', '=', $this->lastJiri->id)
-            ->get()->toArray();
+            ->get();
+    }
+    #[Computed]
+    public function addedStudents()
+    {
+        return $this
+            ->lastJiri
+            ->attendances()
+            ->with('contact')
+            ->where('role','student')
+            ->get();
     }
 
     public function lastJiri(): void
@@ -73,7 +73,7 @@ class Projects extends Component
     public function mount(): void
     {
         $this->lastJiri();
-        $this->addStudents();
+        $this->addedStudents();
     }
     public function newProject(): void
     {
@@ -136,21 +136,21 @@ class Projects extends Component
 
     public function addImplementations(): void
     {
-        foreach ($this->addStudents() as $index => $student){
-            foreach ($this->addProjects() as $index2 => $project){
-                $this->addImplementations = auth()
+        foreach ($this->addedStudents() as $index => $student){
+            foreach ($this->addedProjects() as $index2 => $project){
+                 auth()
                     ->user()
                     ->implementations()
-                    ->create(
+                    ->firstOrCreate(
                         [
-                            'project_id' => $this->addProjects()[$index2]['id'],
+                            'project_id' => $project->project_id,
                             'jiri_id' => $this->lastJiri->id,
-                            'contact_id' => $this->addStudents()[$index]['id'],
+                            'contact_id' => $student->contact->id,
                         ],
                         [
-                            'contact_id' => $this->addStudents()[$index]['id'],
+                            'contact_id' => $student->contact->id,
                             'jiri_id' => $this->lastJiri->id,
-                            'project_id' => $this->addProjects()[$index2]['id'],
+                            'project_id' => $project->project_id,
                         ]
                     );
             }
@@ -159,11 +159,11 @@ class Projects extends Component
 
     public function deleteProjectFromJiri($project_id, $jiri_id): void
     {
-        for ($i = 0; $i < count($this->addStudents()); $i++) {
+        for ($i = 0; $i < count($this->addedStudents()); $i++) {
             auth()->user()->implementations()
                 ->where('project_id', $project_id)
                 ->where('jiri_id', $jiri_id)
-                ->where('contact_id', $this->addStudents()[$i])
+                ->where('contact_id', $this->addedStudents()[$i])
                 ->delete();
         }
 

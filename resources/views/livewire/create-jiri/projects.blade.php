@@ -12,8 +12,8 @@
         <div x-show="open" x-cloak x-transition>
             <div x-data="projectsList" class="max-w-7xl mx-auto ml-4 py-4">
                 <div class=" flex flex-wrap">
-                    @if($this->addProjects())
-                        @foreach($this->addProjects() as $project)
+                    @if($this->addedProjects())
+                        @foreach($this->addedProjects() as $project)
                             <div class="flex mb-4 ml-4">
                                 <p>
                                     {{$project['name'] }}
