@@ -46,7 +46,8 @@ class Students extends Component
     }
 
     #[Computed]
-    public function checkboxes(){
+    public function checkboxes()
+    {
         foreach ($this->addedProjects() as $project) {
             foreach ($this->addedStudents() as $attendance) {
                 $this->tasks[$project->project_id . '-' . $attendance['contact_id']]['back'] = true;
@@ -55,6 +56,7 @@ class Students extends Component
             }
         }
     }
+
     public function mount()
     {
         $this->checkboxes();
@@ -88,15 +90,22 @@ class Students extends Component
                 ->first();
 
             if ($implementation) {
-                if(array_key_exists($project->project_id . '-' . $attendance['contact_id'], $this->tasks)){
-                    $this->tasks[$project->project_id . '-' . $attendance['contact_id']]['back'] = false;
-                    $this->tasks[$project->project_id . '-' . $attendance['contact_id']]['front'] = false;
-                    $this->tasks[$project->project_id . '-' . $attendance['contact_id']]['design'] = false;
+                $task = $project->project_id . '-' . $attendance['contact_id'];
+
+                if (!array_key_exists($task, $this->tasks)) {
+                    $this->tasks[$task] = [
+                        'back' => false,
+                        'front' => false,
+                        'design' => false,
+                    ];
                 } else {
-                    $implementation->update([
-                        'tasks' => json_encode($this->tasks[$project->project_id . '-' . $attendance['contact_id']]),
-                    ]);
+                    $this->tasks[$task]['back'] = $this->tasks[$task]['back'] ?? false;
+                    $this->tasks[$task]['front'] = $this->tasks[$task]['front'] ?? false;
+                    $this->tasks[$task]['design'] = $this->tasks[$task]['design'] ?? false;
                 }
+                $implementation->update([
+                    'tasks' => json_encode($this->tasks[$task]),
+                ]);
             }
         }
     }
