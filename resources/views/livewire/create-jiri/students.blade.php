@@ -25,36 +25,28 @@
                                          wire:click="deleteContactRole({{$attendance->contact->id}},{{$this->lastJiri()->id}})"
                                          class="w-6 h-6" alt="icon to delete a student">
                                 </div>
-                                <p>{{$attendance->contact->id }}</p>
                             </div>
                             <div class="flex">
                                 @foreach($this->addedProjects as $project)
-                                    <div wire:key="{{$attendance->id}}" class="ml-4 mb-4 ">
-                                        <div class="flex-col">
-                                            <label for="tasks">{{ $project['name'] }}</label>
-                                            <select name="languages" id="tasks" wire:model.live="option">
-                                                <option value="presente">Presente</option>
-                                                <option value="nepresentepas">Ne presente pas</option>
-                                                <option value="reussi">Réussi</option>
-                                            </select>
-                                        </div>
-                                        <p>{{ $project['project_id'] }}, {{$attendance->contact->id }}</p>
-                                        <div>
+                                    <div class="flex-col" >
+                                        <div wire:key="{{$attendance->id}}" class="ml-4 mb-4 ">
                                             <div>
-                                                <input type="checkbox" id="design-{{$project['project_id']}}-{{$attendance->contact->id}}" name="design-{{$project['project_id']}}-{{$attendance->contact->id}}" wire:model="tasks.{{$project['project_id']}}-{{$attendance->contact->id}}.design"/>
-                                                <label for="design-{{$project['project_id']}}-{{$attendance->contact->id}}">Design</label>
-                                            </div>
-                                            <div>
-                                                <input type="checkbox" id="front-{{$project['project_id']}}-{{$attendance->contact->id}}" name="front-{{$project['project_id']}}-{{$attendance->contact->id}}" wire:model="tasks.{{$project['project_id']}}-{{$attendance->contact->id}}.front" />
-                                                <label for="front-{{$project['project_id']}}-{{$attendance->contact->id}}">Intégration</label>
-                                            </div>
-                                            <div>
-                                                <input type="checkbox" id="back-{{$project['project_id']}}-{{$attendance->contact->id}}" name="back-{{$project['project_id']}}-{{$attendance->contact->id}}" wire:model="tasks.{{$project['project_id']}}-{{$attendance->contact->id}}.back"/>
-                                                <label for="back">Back-end</label>
+                                                <div>
+                                                    <input type="checkbox"  class="accent-orange-400" id="design-{{$project['project_id']}}-{{$attendance->contact->id}}" name="design-{{$project['project_id']}}-{{$attendance->contact->id}}" wire:model="tasks.{{$project['project_id']}}-{{$attendance->contact->id}}.design"/>
+                                                    <label for="design-{{$project['project_id']}}-{{$attendance->contact->id}}">Design</label>
+                                                </div>
+                                                <div>
+                                                    <input type="checkbox" class="accent-orange-400" id="front-{{$project['project_id']}}-{{$attendance->contact->id}}" name="front-{{$project['project_id']}}-{{$attendance->contact->id}}" wire:model="tasks.{{$project['project_id']}}-{{$attendance->contact->id}}.front"/>
+                                                    <label for="front-{{$project['project_id']}}-{{$attendance->contact->id}}">Intégration</label>
+                                                </div>
+                                                <div>
+                                                    <input type="checkbox" class="accent-orange-400" id="back-{{$project['project_id']}}-{{$attendance->contact->id}}" name="back-{{$project['project_id']}}-{{$attendance->contact->id}}" wire:model="tasks.{{$project['project_id']}}-{{$attendance->contact->id}}.back" />
+                                                    <label for="back">Back-end</label>
+                                                </div>
                                             </div>
                                         </div>
+                                        <button type="submit" class="mb-4 ml-4 bg-transparent hover:bg-orange-400 text-orange-400 font-semibold hover:text-white py-2 px-4 border border-orange-400 hover:border-transparent rounded"> ENVOYER</button>
                                     </div>
-                                    <button type="submit"> ENVOYER</button>
                                 @endforeach
                             </div>
                         </form>

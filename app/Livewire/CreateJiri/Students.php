@@ -45,23 +45,6 @@ class Students extends Component
             ->get();
     }
 
-    #[Computed]
-    public function checkboxes()
-    {
-        foreach ($this->addedProjects() as $project) {
-            foreach ($this->addedStudents() as $attendance) {
-                $this->tasks[$project->project_id . '-' . $attendance['contact_id']]['back'] = true;
-                $this->tasks[$project->project_id . '-' . $attendance['contact_id']]['front'] = true;
-                $this->tasks[$project->project_id . '-' . $attendance['contact_id']]['design'] = true;
-            }
-        }
-    }
-
-    public function mount()
-    {
-        $this->checkboxes();
-    }
-
     public function deleteContactRole($contact_id, $jiri_id): void
     {
         auth()->user()->attendances()
