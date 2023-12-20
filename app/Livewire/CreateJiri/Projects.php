@@ -78,12 +78,7 @@ class Projects extends Component
     {
         if ($this->projectName === '') {
             $this->infoCurrentProject = preg_split('/[,:;]+/', $this->currentProject);
-            if (count($this->infoCurrentProject) === 4) {
-                $this->projectName = $this->infoCurrentProject[0];
-                $this->projectLink = $this->infoCurrentProject[1];
-                $this->projectPonderation = $this->infoCurrentProject[2];
-                $this->projectDescription = $this->infoCurrentProject[3];
-            }
+
             $this->projectName = $this->infoCurrentProject[0];
             $this->projectLink = $this->infoCurrentProject[1];
             $this->projectPonderation = $this->infoCurrentProject[2];

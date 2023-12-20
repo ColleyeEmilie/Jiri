@@ -28,10 +28,7 @@ class Students extends Component
     {
         return $this
             ->lastJiri()
-            ->attendances()
-            ->with('contact')
-            ->where('role', 'student')
-            ->get();
+            ->students;
     }
 
     #[Computed]

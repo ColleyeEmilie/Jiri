@@ -8,40 +8,40 @@
             <div class="max-w-7xl flex-col mx-auto ml-4 py-4" wire:poll>
 
                     @if($this->addedStudents->count())
-                        @foreach($this->addedStudents as $attendance)
-                        <form wire:submit.prevent="enregistrer({{$attendance}})">
+                        @foreach($this->addedStudents as $student)
+                        <form wire:submit.prevent="enregistrer({{$student}})">
                             @csrf
-                            <div class="flex mr-8 mb-4" wire:key="{{$attendance->contact->id}}-{{$attendance->contact->email}}">
+                            <div class="flex mr-8 mb-4" wire:key="{{$student->id}}-{{$student->email}}">
                                 <div class="relative w-12 h-12">
-                                    <img src="{{ asset($attendance->contact->image ?? 'uploads/default.jpeg') }}"
+                                    <img src="{{ asset($student->image ?? 'uploads/default.jpeg') }}"
                                          alt="avatar"
                                          class=" w-12 h-12 rounded-full border border-gray-100 shadow-sm">
                                 </div>
                                 <p class="self-center ml-4">
-                                    {{$attendance->contact->firstname }}, {{$attendance->contact->name}}
+                                    {{$student->firstname }}, {{$student->name}}
                                 </p>
                                 <div class="relative w-8 ml-4 self-center cursor-pointer">
                                     <img src="{{asset('icons/delete.svg')}}"
-                                         wire:click="deleteContactRole({{$attendance->contact->id}},{{$this->lastJiri()->id}})"
+                                         wire:click="deleteContactRole({{$student->id}},{{$this->lastJiri()->id}})"
                                          class="w-6 h-6" alt="icon to delete a student">
                                 </div>
                             </div>
                             <div class="flex">
                                 @foreach($this->addedProjects as $project)
                                     <div class="flex-col" >
-                                        <div wire:key="{{$attendance->id}}" class="ml-4 mb-4 ">
+                                        <div wire:key="{{$student->id}}" class="ml-4 mb-4 ">
                                             <div>
                                                 <p class="mb-4">{{$project->name}}</p>
                                                 <div>
-                                                    <input type="checkbox"  class="accent-orange-400" id="design-{{$project['project_id']}}-{{$attendance->contact->id}}" name="design-{{$project['project_id']}}-{{$attendance->contact->id}}" wire:model="tasks.{{$project['project_id']}}-{{$attendance->contact->id}}.design"/>
-                                                    <label for="design-{{$project['project_id']}}-{{$attendance->contact->id}}">Design</label>
+                                                    <input type="checkbox"  class="accent-orange-400" id="design-{{$project['project_id']}}-{{$student->id}}" name="design-{{$project['project_id']}}-{{$student->id}}" wire:model="tasks.{{$project['project_id']}}-{{$student->id}}.design"/>
+                                                    <label for="design-{{$project['project_id']}}-{{$student->id}}">Design</label>
                                                 </div>
                                                 <div>
-                                                    <input type="checkbox" class="accent-orange-400" id="front-{{$project['project_id']}}-{{$attendance->contact->id}}" name="front-{{$project['project_id']}}-{{$attendance->contact->id}}" wire:model="tasks.{{$project['project_id']}}-{{$attendance->contact->id}}.front"/>
-                                                    <label for="front-{{$project['project_id']}}-{{$attendance->contact->id}}">Intégration</label>
+                                                    <input type="checkbox" class="accent-orange-400" id="front-{{$project['project_id']}}-{{$student->id}}" name="front-{{$project['project_id']}}-{{$student->id}}" wire:model="tasks.{{$project['project_id']}}-{{$student->id}}.front"/>
+                                                    <label for="front-{{$project['project_id']}}-{{$student->id}}">Intégration</label>
                                                 </div>
                                                 <div>
-                                                    <input type="checkbox" class="accent-orange-400" id="back-{{$project['project_id']}}-{{$attendance->contact->id}}" name="back-{{$project['project_id']}}-{{$attendance->contact->id}}" wire:model="tasks.{{$project['project_id']}}-{{$attendance->contact->id}}.back" />
+                                                    <input type="checkbox" class="accent-orange-400" id="back-{{$project['project_id']}}-{{$student->id}}" name="back-{{$project['project_id']}}-{{$student->id}}" wire:model="tasks.{{$project['project_id']}}-{{$student->id}}.back" />
                                                     <label for="back">Back-end</label>
                                                 </div>
                                             </div>
