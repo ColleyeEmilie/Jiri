@@ -20,7 +20,7 @@ class Students extends Component
     #[Computed]
     public function lastJiri(): Jiri
     {
-        return Jiri::orderBy('created_at', 'desc')->first();
+        return auth()->user()->jiris()->orderBy('created_at', 'desc')->first();
     }
 
     #[Computed]
@@ -60,16 +60,16 @@ class Students extends Component
 
     public function enregistrer($attendance): void
     {
-        foreach ($this->addedProjects as $project) {
+        foreach ($this->addedProjects() as $project) {
             $implementation = auth()->user()
                 ->implementations()
-                ->where('jiri_id', $attendance['jiri_id'])
-                ->where('contact_id', $attendance['contact_id'])
+                ->where('jiri_id', $this->lastJiri()->id)
+                ->where('contact_id', $attendance['id'])
                 ->where('project_id', $project->project_id)
                 ->first();
 
             if ($implementation) {
-                $task = $project->project_id . '-' . $attendance['contact_id'];
+                $task = $project->project_id . '-' . $attendance['id'];
 
                 if (!array_key_exists($task, $this->tasks)) {
                     $this->tasks[$task] = [
