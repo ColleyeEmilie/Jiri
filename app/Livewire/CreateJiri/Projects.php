@@ -47,7 +47,6 @@ class Projects extends Component
         return auth()->user()
             ->projects()
             ->join('duties', 'projects.id', '=', 'duties.project_id')
-            ->where('duties.deleted_at', null)
             ->where('jiri_id', '=', $this->lastJiri->id)
             ->get();
     }
@@ -94,7 +93,6 @@ class Projects extends Component
             ->user()
             ?->projects()
             ->updateOrCreate([
-                'link' => $this->projectLink,
                 'name' => $this->projectName,
             ],
                 [

@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Jiri extends Model
 {
-    use SoftDeletes,HasFactory;
+    use HasFactory;
 
     protected $fillable = [
         'name',

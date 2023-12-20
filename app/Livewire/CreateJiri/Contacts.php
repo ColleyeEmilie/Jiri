@@ -3,6 +3,8 @@
 namespace App\Livewire\CreateJiri;
 
 use App\Models\Jiri;
+use Illuminate\Database\Eloquent\Collection;
+use LaravelIdea\Helper\App\Models\_IH_Attendance_C;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 
@@ -28,7 +30,7 @@ class Contacts extends Component
 
 
     #[Computed]
-    public function addedJurys()
+    public function addedJurys(): Collection|array|_IH_Attendance_C
     {
         return $this
             ->lastJiri()
@@ -43,12 +45,11 @@ class Contacts extends Component
         return auth()->user()
             ->projects()
             ->join('duties', 'projects.id', '=', 'duties.project_id')
-            ->where('duties.deleted_at', null)
             ->where('jiri_id', '=', $this->lastJiri()->id)
             ->get();
     }
     #[Computed]
-    public function addedStudents()
+    public function addedStudents(): Collection|array|_IH_Attendance_C
     {
         return $this
             ->lastJiri()
@@ -57,7 +58,6 @@ class Contacts extends Component
             ->where('role','student')
             ->get();
     }
-
     #[Computed]
     public function filteredAvailableContacts($jiri_id)
     {
@@ -72,7 +72,6 @@ class Contacts extends Component
             })
             ->get();
     }
-
     #[Computed]
     public function lastJiri(): Jiri
     {
@@ -85,10 +84,6 @@ class Contacts extends Component
     public function lastJury(): void
     {
         $this->lastJury = auth()->user()->contacts()->where('email', '=', $this->email)->first();
-    }
-    public function mount(): void
-    {
-
     }
     public function newUser(): void
     {
@@ -188,7 +183,6 @@ class Contacts extends Component
                 ]
             );
     }
-
     public function deleteContactRole($contact_id, $jiri_id): void
     {
         auth()->user()->attendances()

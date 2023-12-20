@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Attendance extends Model
 {
-    use SoftDeletes, HasFactory;
+    use HasFactory;
 
     protected $fillable = [
         'role',

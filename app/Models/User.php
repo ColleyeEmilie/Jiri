@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Livewire\CreateJiri\Contacts;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
@@ -67,7 +68,7 @@ class User extends Authenticatable
     public function attendances(): hasManyThrough
     {
         return $this
-            ->hasManyThrough(Attendance::class, Jiri::class);
+            ->hasManyThrough(Attendance::class, Contact::class);
     }
 
     public function implementations(): hasManyThrough

@@ -14,7 +14,6 @@ return new class extends Migration
             $table->string('link');
             $table->integer('ponderation');
             $table->text('description');
-            $table->softDeletes();
             $table->timestamps();
         });
     }

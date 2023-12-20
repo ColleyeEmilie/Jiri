@@ -1,5 +1,5 @@
 <div class="mb-4">
-    <div x-data="{open:true}" class="bg-white divide-y divide-slate-200 px-4 py-2">
+    <div x-data="{open:false}" class="bg-white divide-y divide-slate-200 px-4 py-2">
         <div @click="open=!open" class=" cursor-pointer flex justify-between px-4 py-4">
             <h3 class="font-semibold text-lg"> {{ __("Gestion des étudiants") }} </h3>
             <button x-html="open ? '-' :'+' " ></button>
@@ -31,6 +31,7 @@
                                     <div class="flex-col" >
                                         <div wire:key="{{$attendance->id}}" class="ml-4 mb-4 ">
                                             <div>
+                                                <p class="mb-4">{{$project->name}}</p>
                                                 <div>
                                                     <input type="checkbox"  class="accent-orange-400" id="design-{{$project['project_id']}}-{{$attendance->contact->id}}" name="design-{{$project['project_id']}}-{{$attendance->contact->id}}" wire:model="tasks.{{$project['project_id']}}-{{$attendance->contact->id}}.design"/>
                                                     <label for="design-{{$project['project_id']}}-{{$attendance->contact->id}}">Design</label>

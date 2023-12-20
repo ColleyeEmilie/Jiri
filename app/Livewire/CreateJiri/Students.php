@@ -40,7 +40,6 @@ class Students extends Component
         return auth()->user()
             ->projects()
             ->join('duties', 'projects.id', '=', 'duties.project_id')
-            ->where('duties.deleted_at', null)
             ->where('jiri_id', '=', $this->lastJiri()->id)
             ->get();
     }
@@ -62,7 +61,7 @@ class Students extends Component
         return view('livewire.create-jiri.students');
     }
 
-    public function enregistrer($attendance)
+    public function enregistrer($attendance): void
     {
         foreach ($this->addedProjects as $project) {
             $implementation = auth()->user()
