@@ -10,6 +10,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
+use phpDocumentor\Reflection\DocBlock\Tags\Author;
 
 class Projects extends Component
 {
@@ -26,6 +27,12 @@ class Projects extends Component
     public $currentProject = '';
     public $infoCurrentProject;
     public ?int $projectId;
+
+    public function mount(): void
+    {
+        $this->lastJiri();
+        $this->addedStudents();
+    }
 
     #[Computed]
     public function filteredAvailableProjects($jiri_id)
@@ -60,25 +67,21 @@ class Projects extends Component
             ->where('role','student')
             ->get();
     }
-
     public function lastJiri(): void
     {
         $this->lastJiri = Jiri::orderBy('created_at', 'desc')->first();
     }
     public function lastProject(): void
     {
-        $this->lastProject = Project::where('name', '=', $this->projectName)->first();
-    }
-    public function mount(): void
-    {
-        $this->lastJiri();
-        $this->addedStudents();
+        $this->lastProject = auth()->user()
+            ->projects()
+            ->where('name', '=', $this->projectName)
+            ->first();
     }
     public function newProject(): void
     {
         if ($this->projectName === '') {
             $this->infoCurrentProject = preg_split('/[,:;]+/', $this->currentProject);
-
             $this->projectName = $this->infoCurrentProject[0];
             $this->projectLink = $this->infoCurrentProject[1];
             $this->projectPonderation = $this->infoCurrentProject[2];
@@ -104,12 +107,6 @@ class Projects extends Component
         $this->addImplementations();
         $this->reset('infoCurrentProject', 'projectName', 'projectLink', 'projectDescription', 'projectPonderation');
     }
-
-    public function render(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
-    {
-        return view('livewire.create-jiri.projects');
-    }
-
     public function addDuties(): void
     {
         $this->addDuties = auth()
@@ -126,7 +123,6 @@ class Projects extends Component
                 ]
             );
     }
-
     public function addImplementations(): void
     {
         foreach ($this->addedStudents() as $index => $student){
@@ -149,7 +145,6 @@ class Projects extends Component
             }
         }
     }
-
     public function deleteProjectFromJiri($project_id, $jiri_id): void
     {
         for ($i = 0; $i < count($this->addedStudents()); $i++) {
@@ -165,5 +160,8 @@ class Projects extends Component
             ->where('jiri_id', $jiri_id)
             ->delete();
     }
-
+    public function render(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
+    {
+        return view('livewire.create-jiri.projects');
+    }
 }

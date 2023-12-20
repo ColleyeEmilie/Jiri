@@ -13,7 +13,6 @@ use Livewire\Component;
 
 class Students extends Component
 {
-
     public Jiri $lastJiri;
     public $tasks = [];
 
@@ -22,7 +21,6 @@ class Students extends Component
     {
         return auth()->user()->jiris()->orderBy('created_at', 'desc')->first();
     }
-
     #[Computed]
     public function addedStudents(): Collection|array|_IH_Attendance_C
     {
@@ -30,7 +28,6 @@ class Students extends Component
             ->lastJiri()
             ->students;
     }
-
     #[Computed]
     public function addedProjects()
     {
@@ -40,7 +37,6 @@ class Students extends Component
             ->where('jiri_id', '=', $this->lastJiri()->id)
             ->get();
     }
-
     public function deleteContactRole($contact_id, $jiri_id): void
     {
         auth()->user()->attendances()
@@ -52,12 +48,6 @@ class Students extends Component
         unset($this->addStudents);
         unset($this->addJurys);
     }
-
-    public function render(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
-    {
-        return view('livewire.create-jiri.students');
-    }
-
     public function enregistrer($attendance): void
     {
         foreach ($this->addedProjects() as $project) {
@@ -87,5 +77,9 @@ class Students extends Component
                 ]);
             }
         }
+    }
+    public function render(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
+    {
+        return view('livewire.create-jiri.students');
     }
 }
