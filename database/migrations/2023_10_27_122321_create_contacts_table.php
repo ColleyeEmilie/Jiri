@@ -14,6 +14,7 @@ return new class extends Migration
             $table->string('firstname');
             $table->string('email');
             $table->string('image')->nullable();
+            $table->softDeletes();
             // Not setting unique allows to have multiple contacts with the same email
             // It makes sense because one person can be a contact for multiple users
             // and we want to avoid that editing a contact for one user changes it for another.

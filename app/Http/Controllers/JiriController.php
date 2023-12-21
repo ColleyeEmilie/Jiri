@@ -42,7 +42,7 @@ class JiriController extends Controller
             session()->flash('success', "$jiri->name a bien été créé.");
         } else {
             session()->flash('error', 'Erreur lors de la création du Jiri.');
-        }
+        };
 
         return redirect('jiris/create');
     }
