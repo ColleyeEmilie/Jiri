@@ -3,7 +3,7 @@
         <div @click="open=!open" class="cursor-pointer flex justify-between px-4 py-4">
             <div>
                 <h3 class="text-lg font-semibold mb-2"> {{ __("Projets") }} </h3>
-                <p class="font-extralight text-sm italic">{{__("Vous ajoutez actuellement des projets pour l'épreuve : ")}} <span class="">{{$lastJiri->name}}</span></p>
+                <p class="font-extralight text-sm italic">{{__("Vous ajoutez actuellement des projets pour l'épreuve : ")}} <span class="">{{$this->getLastJiri()['name']}}</span></p>
             </div>
             <div class="self-center">
                 <button  x-html="open ? '-' :'+' " ></button>
@@ -20,7 +20,7 @@
                                 </p>
                                 <div class="relative w-8 ml-2 self-center cursor-pointer">
                                     <img src="{{asset('icons/delete.svg')}}"
-                                         wire:click="deleteProjectFromJiri({{$project['project_id']}},{{$lastJiri['id']}})"
+                                         wire:click="deleteProjectFromJiri({{$project['project_id']}},{{$this->getLastJiri()['id']}})"
                                          class="w-6 h-6" alt="icon to delete a jury">
                                 </div>
                             </div>
@@ -36,7 +36,7 @@
                                    list="projectsList" @input="splitStringProject($wire.currentProject)"
                                    class="w-96 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 ">
                             <datalist id="projectsList">
-                                @foreach($this->filteredAvailableProjects($lastJiri->id) as $project)
+                                @foreach($this->filteredAvailableProjects($this->getLastJiri()['id']) as $project)
                                     <option wire:key="{{$project->id}}"
                                             value="{{$project->name}},{{$project->link}}:{{$project->ponderation}};{{$project->description}}">
                                 @endforeach

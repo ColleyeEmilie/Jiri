@@ -5,6 +5,7 @@ namespace App\Livewire\CreateJiri;
 use App\Models\Contact;
 use App\Models\Jiri;
 use App\Models\Project;
+use App\Traits\CreateJiri;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
@@ -14,8 +15,9 @@ use phpDocumentor\Reflection\DocBlock\Tags\Author;
 
 class Projects extends Component
 {
+    use CreateJiri;
+
     public $projects;
-    public $lastJiri;
     public $lastProject;
     public $students;
     public $addImplementations;
@@ -30,10 +32,14 @@ class Projects extends Component
 
     public function mount(): void
     {
-        $this->lastJiri();
+        $this->getLastJiri();
         $this->addedStudents();
     }
 
+    #[Computed]
+    public function getLastJiri(){
+        return $this->lastJiri();
+    }
     #[Computed]
     public function filteredAvailableProjects($jiri_id)
     {
@@ -54,22 +60,18 @@ class Projects extends Component
         return auth()->user()
             ->projects()
             ->join('duties', 'projects.id', '=', 'duties.project_id')
-            ->where('jiri_id', '=', $this->lastJiri->id)
+            ->where('jiri_id', '=', $this->getLastJiri()->id)
             ->get();
     }
     #[Computed]
     public function addedStudents()
     {
         return $this
-            ->lastJiri
+            ->getLastJiri()
             ->attendances()
             ->with('contact')
             ->where('role','student')
             ->get();
-    }
-    public function lastJiri(): void
-    {
-        $this->lastJiri = Jiri::orderBy('created_at', 'desc')->first();
     }
     public function lastProject(): void
     {
@@ -101,7 +103,7 @@ class Projects extends Component
                 ]
             )->id;
 
-        $this->lastJiri();
+        $this->getLastJiri();
         $this->lastProject();
         $this->addDuties();
         $this->addImplementations();
@@ -115,10 +117,10 @@ class Projects extends Component
             ->firstOrCreate(
                 [
                     'project_id' => $this->lastProject->id,
-                    'jiri_id' => $this->lastJiri->id,
+                    'jiri_id' => $this->getLastJiri()->id,
                 ],
                 [
-                    'jiri_id' => $this->lastJiri->id,
+                    'jiri_id' => $this->getLastJiri()->id,
                     'project_id' => $this->lastProject->id,
                 ]
             );
@@ -133,25 +135,26 @@ class Projects extends Component
                     ->firstOrCreate(
                         [
                             'project_id' => $project->project_id,
-                            'jiri_id' => $this->lastJiri->id,
+                            'jiri_id' => $this->getLastJiri()->id,
                             'contact_id' => $student->contact->id,
                         ],
                         [
                             'contact_id' => $student->contact->id,
-                            'jiri_id' => $this->lastJiri->id,
+                            'jiri_id' => $this->getLastJiri()->id,
                             'project_id' => $project->project_id,
                         ]
                     );
             }
         }
     }
+
     public function deleteProjectFromJiri($project_id, $jiri_id): void
     {
         for ($i = 0; $i < count($this->addedStudents()); $i++) {
             auth()->user()->implementations()
                 ->where('project_id', $project_id)
                 ->where('jiri_id', $jiri_id)
-                ->where('contact_id', $this->addedStudents()[$i])
+                ->where('contact_id', $this->addedStudents()[$i]['contact_id'])
                 ->delete();
         }
 
