@@ -2,6 +2,9 @@
 
 namespace App\Livewire\Projets;
 
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Application;
 use Livewire\Component;
 
 class EditProject extends Component
@@ -13,7 +16,7 @@ class EditProject extends Component
         $this->project = $project;
     }
 
-    public function render()
+    public function render(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
         return view('livewire.projets.edit-project');
     }

@@ -2,6 +2,9 @@
 
 namespace App\Livewire\Contacts;
 
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -23,7 +26,7 @@ class CreateContact extends Component
     public $filePath =  "uploads/default.jpeg";
     public $contact;
 
-    public function render(): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
+    public function render(): View|\Illuminate\Foundation\Application|Factory|Application
     {
         return view('livewire.contacts.create-contact');
     }

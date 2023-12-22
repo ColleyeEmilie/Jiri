@@ -2,6 +2,9 @@
 
 namespace App\Livewire\Contacts;
 
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Application;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -17,7 +20,7 @@ class EditContact extends Component
         $this->contact = $contact;
     }
 
-    public function render()
+    public function render(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
         if($this->image){
             $this->filePath = $this->image->store('uploads', 'public');

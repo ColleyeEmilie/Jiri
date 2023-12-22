@@ -3,6 +3,9 @@
 namespace App\Livewire\Projets;
 
 use App\Models\Project;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Application;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
 
@@ -15,7 +18,7 @@ class CreateProject extends Component
     #[Rule('required', message: 'Il doit y avoir une pondération')]
     public $ponderation = '';
     public $description = '';
-    public function render()
+    public function render(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
         return view('livewire.projets.create-project');
     }

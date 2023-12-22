@@ -2,16 +2,12 @@
 
 namespace App\Livewire\CreateJiri;
 
-use App\Models\Contact;
-use App\Models\Jiri;
-use App\Models\Project;
 use App\Traits\CreateJiri;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
-use phpDocumentor\Reflection\DocBlock\Tags\Author;
 
 class Projects extends Component
 {

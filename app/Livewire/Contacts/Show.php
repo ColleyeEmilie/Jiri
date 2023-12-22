@@ -2,6 +2,9 @@
 
 namespace App\Livewire\Contacts;
 
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Application;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 
@@ -28,12 +31,12 @@ class Show extends Component
             ->where('contact_id', '=', $this->contact->id)
             ->get();
     }
-    public function mount($contact)
+    public function mount($contact): void
     {
         $this->contact = $contact;
     }
 
-    public function render()
+    public function render(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
         return view('livewire.contacts.show');
     }

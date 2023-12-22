@@ -4,6 +4,9 @@ namespace App\Livewire\Jiri;
 
 use App\Models\Contact;
 use App\Models\Project;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Application;
 use Livewire\Component;
 
 class Edit extends Component
@@ -13,7 +16,8 @@ class Edit extends Component
     public $students;
     public $projects;
 
-    public function mount($jiri){
+    public function mount($jiri): void
+    {
         $this->jiri = $jiri;
         $this->addJurys();
         $this->students();
@@ -23,8 +27,7 @@ class Edit extends Component
 
     public function addJurys()
     {
-        $this->jurys = Contact::join('attendances', 'contacts.id', '=', 'attendances.contact_id')
-            ->select('contacts.name', 'contacts.firstname', 'attendances.role', 'attendances.token', 'attendances.jiri_id', 'attendances.contact_id')
+        $this->jurys = auth()->user()->contacts()->join('attendances', 'contacts.id', '=', 'attendances.contact_id')
             ->where('role', '=', 'jury')
             ->where('jiri_id', '=', $this->jiri->id)
             ->get()->toArray();
@@ -32,8 +35,7 @@ class Edit extends Component
 
     public function students(): void
     {
-        $this->students = Contact::join('attendances', 'contacts.id', '=', 'attendances.contact_id')
-            ->select('contacts.id', 'contacts.name', 'contacts.firstname', 'contacts.email', 'attendances.role')
+        $this->students = auth()->user()->contacts()->join('attendances', 'contacts.id', '=', 'attendances.contact_id')
             ->where('role', '=', 'student')
             ->where('jiri_id', '=', $this->jiri->id)
             ->get()->toArray();
@@ -41,13 +43,12 @@ class Edit extends Component
 
     public function projects(): void
     {
-        $this->projects = Project::join('duties','projects.id', '=', 'duties.project_id' )
-            ->select('*')
+        $this->projects = auth()->user()->jiris()->join('duties','projects.id', '=', 'duties.project_id' )
             ->where('jiri_id', '=', $this->jiri->id)
             ->get()->toArray();
     }
 
-    public function render()
+    public function render(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
         return view('livewire.jiri.edit');
     }
