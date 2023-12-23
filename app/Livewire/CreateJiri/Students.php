@@ -3,6 +3,7 @@
 namespace App\Livewire\CreateJiri;
 
 use App\Models\Jiri;
+use App\Traits\CreateJiri;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection;
@@ -13,47 +14,32 @@ use Livewire\Component;
 
 class Students extends Component
 {
-    public Jiri $lastJiri;
+    use CreateJiri;
+
     public $tasks = [];
 
     #[Computed]
-    public function lastJiri(): Jiri
+    public function getLastJiri()
     {
-        return auth()->user()->jiris()->orderBy('created_at', 'desc')->first();
+        return $this->lastJiri();
     }
     #[Computed]
     public function addedStudents(): Collection|array|_IH_Attendance_C
     {
-        return $this
-            ->lastJiri()
-            ->students;
+        return $this->listOfJiriStudents();
     }
     #[Computed]
     public function addedProjects()
     {
-        return auth()->user()
-            ->projects()
-            ->join('duties', 'projects.id', '=', 'duties.project_id')
-            ->where('jiri_id', '=', $this->lastJiri()->id)
-            ->get();
+        return $this->listOfJiriProjects();
     }
-    public function deleteContactRole($contact_id, $jiri_id): void
-    {
-        auth()->user()->attendances()
-            ->where([
-                ['contact_id', '=', $contact_id],
-                ['jiri_id', '=', $jiri_id]
-            ])
-            ->delete();
-        unset($this->addStudents);
-        unset($this->addJurys);
-    }
+
     public function enregistrer($attendance): void
     {
         foreach ($this->addedProjects() as $project) {
             $implementation = auth()->user()
                 ->implementations()
-                ->where('jiri_id', $this->lastJiri()->id)
+                ->where('jiri_id', $this->getLastJiri()->id)
                 ->where('contact_id', $attendance['id'])
                 ->where('project_id', $project->project_id)
                 ->first();

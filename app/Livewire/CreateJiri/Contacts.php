@@ -3,6 +3,7 @@
 namespace App\Livewire\CreateJiri;
 
 use App\Models\Jiri;
+use App\Traits\CreateJiri;
 use Illuminate\Database\Eloquent\Collection;
 use LaravelIdea\Helper\App\Models\_IH_Attendance_C;
 use Livewire\Attributes\Computed;
@@ -10,6 +11,8 @@ use Livewire\Component;
 
 class Contacts extends Component
 {
+    use CreateJiri;
+
     public $contactsList;
     public $users;
     public $name = '';
@@ -17,7 +20,6 @@ class Contacts extends Component
     public $email = '';
     public $currentUser = '';
     public $infoCurrentUser;
-    public Jiri $lastJiri;
     public ?int $juryId;
     public ?int $studentId;
     public $lastJury;
@@ -30,33 +32,24 @@ class Contacts extends Component
 
 
     #[Computed]
+    public function getLastJiri()
+    {
+        return $this->lastJiri();
+    }
+    #[Computed]
     public function addedJurys(): Collection|array|_IH_Attendance_C
     {
-        return $this
-            ->lastJiri()
-            ->attendances()
-            ->with('contact')
-            ->where('role','jury')
-            ->get();
+        return $this->listOfJiriJurys();
     }
     #[Computed]
     public function addedProjects()
     {
-        return auth()->user()
-            ->projects()
-            ->join('duties', 'projects.id', '=', 'duties.project_id')
-            ->where('jiri_id', '=', $this->lastJiri()->id)
-            ->get();
+        return $this->listOfJiriProjects();
     }
     #[Computed]
     public function addedStudents(): Collection|array|_IH_Attendance_C
     {
-        return $this
-            ->lastJiri()
-            ->attendances()
-            ->with('contact')
-            ->where('role','student')
-            ->get();
+        return $this->listOfJiriStudents();
     }
     #[Computed]
     public function filteredAvailableContacts($jiri_id)
@@ -71,11 +64,6 @@ class Contacts extends Component
                     });
             })
             ->get();
-    }
-    #[Computed]
-    public function lastJiri(): Jiri
-    {
-        return Jiri::orderBy('created_at', 'desc')->first();
     }
     public function lastStudent(): void
     {
@@ -111,7 +99,7 @@ class Contacts extends Component
                 ]
             )->id;
 
-        $this->lastJiri();
+        $this->getLastJiri();
         $this->lastJury();
         $this->addJuryRole();
         $this->reset('currentUser', 'name', 'firstname', 'email');
@@ -155,13 +143,13 @@ class Contacts extends Component
             ->firstOrCreate(
                 [
                     'contact_id' => $this->lastStudent->id,
-                    'jiri_id' => $this->lastJiri()->id,
+                    'jiri_id' => $this->getLastJiri()->id,
                 ],
                 [
                     'role' => 'student',
                     'token' => bin2hex(random_bytes(16)),
                     'contact_id' => $this->lastStudent->id,
-                    'jiri_id' => $this->lastJiri()->id,
+                    'jiri_id' => $this->getLastJiri()->id,
                 ]
             );
     }
@@ -173,13 +161,13 @@ class Contacts extends Component
             ->firstOrCreate(
                 [
                     'contact_id' => $this->lastJury->id,
-                    'jiri_id' => $this->lastJiri()->id,
+                    'jiri_id' => $this->getLastJiri()->id,
                 ],
                 [
                     'role' => 'jury',
                     'token' => bin2hex(random_bytes(16)),
                     'contact_id' => $this->lastJury->id,
-                    'jiri_id' => $this->lastJiri()->id,
+                    'jiri_id' => $this->getLastJiri()->id,
                 ]
             );
     }
@@ -203,14 +191,14 @@ class Contacts extends Component
                     ->implementations()
                     ->firstOrCreate(
                         [
-                            'project_id' =>$project->project_id,
-                            'jiri_id' => $this->lastJiri()->id,
-                            'contact_id' => $this->addedStudents()[$index]->contact->id,
+                            'project_id' =>$project->id,
+                            'jiri_id' => $this->getLastJiri()->id,
+                            'contact_id' => $this->addedStudents()[$index]->id,
                         ],
                         [
-                            'contact_id' => $this->addedStudents()[$index]->contact->id,
-                            'jiri_id' => $this->lastJiri()->id,
-                            'project_id' => $project->project_id,
+                            'contact_id' => $this->addedStudents()[$index]->id,
+                            'jiri_id' => $this->getLastJiri()->id,
+                            'project_id' => $project->id,
                         ]
                     );
             }

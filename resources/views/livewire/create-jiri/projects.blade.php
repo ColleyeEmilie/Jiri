@@ -11,16 +11,16 @@
         </div>
         <div x-show="open" x-cloak x-transition>
             <div x-data="projectsList" class="max-w-7xl mx-auto ml-4 py-4">
-                <div class=" flex flex-wrap">
+                <div class=" flex flex-wrap" >
                     @if($this->addedProjects())
                         @foreach($this->addedProjects() as $project)
-                            <div class="flex mb-4 ml-4">
+                            <div class="flex mb-4 ml-4" wire:key="project_{{ $project['id'] }}">
                                 <p>
                                     {{$project['name'] }}
                                 </p>
                                 <div class="relative w-8 ml-2 self-center cursor-pointer">
                                     <img src="{{asset('icons/delete.svg')}}"
-                                         wire:click="deleteProjectFromJiri({{$project['project_id']}},{{$this->getLastJiri()['id']}})"
+                                         wire:click="deleteProjectFromJiri({{$project['id']}},{{$this->getLastJiri()['id']}})"
                                          class="w-6 h-6" alt="icon to delete a jury">
                                 </div>
                             </div>

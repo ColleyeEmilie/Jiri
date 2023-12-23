@@ -33,9 +33,11 @@ class Projects extends Component
     }
 
     #[Computed]
-    public function getLastJiri(){
+    public function getLastJiri()
+    {
         return $this->lastJiri();
     }
+
     #[Computed]
     public function filteredAvailableProjects($jiri_id)
     {
@@ -50,26 +52,19 @@ class Projects extends Component
             })
             ->get();
     }
+
     #[Computed]
     public function addedProjects()
     {
-        return auth()->user()
-            ->projects()
-            ->join('duties', 'projects.id', '=', 'duties.project_id')
-            ->where('duties.deleted_at', null)
-            ->where('jiri_id', '=', $this->getLastJiri()->id)
-            ->get();
+        return $this->listOfJiriProjects();
     }
+
     #[Computed]
     public function addedStudents()
     {
-        return $this
-            ->getLastJiri()
-            ->attendances()
-            ->with('contact')
-            ->where('role','student')
-            ->get();
+        return $this->listOfJiriStudents();
     }
+
     public function lastProject(): void
     {
         $this->lastProject = auth()->user()
@@ -77,6 +72,7 @@ class Projects extends Component
             ->where('name', '=', $this->projectName)
             ->first();
     }
+
     public function newProject(): void
     {
         if ($this->projectName === '') {
@@ -106,6 +102,7 @@ class Projects extends Component
         $this->addImplementations();
         $this->reset('infoCurrentProject', 'projectName', 'projectLink', 'projectDescription', 'projectPonderation');
     }
+
     public function addDuties(): void
     {
         $this->addDuties = auth()
@@ -122,23 +119,24 @@ class Projects extends Component
                 ]
             );
     }
+
     public function addImplementations(): void
     {
-        foreach ($this->addedStudents() as $index => $student){
-            foreach ($this->addedProjects() as $index2 => $project){
-                 auth()
+        foreach ($this->addedStudents() as $index => $student) {
+            foreach ($this->addedProjects() as $index2 => $project) {
+                auth()
                     ->user()
                     ->implementations()
                     ->firstOrCreate(
                         [
-                            'project_id' => $project->project_id,
+                            'project_id' => $project->id,
                             'jiri_id' => $this->getLastJiri()->id,
-                            'contact_id' => $student->contact->id,
+                            'contact_id' => $student->id,
                         ],
                         [
-                            'contact_id' => $student->contact->id,
+                            'contact_id' => $student->id,
                             'jiri_id' => $this->getLastJiri()->id,
-                            'project_id' => $project->project_id,
+                            'project_id' => $project->id,
                         ]
                     );
             }
@@ -151,7 +149,7 @@ class Projects extends Component
             auth()->user()->implementations()
                 ->where('project_id', $project_id)
                 ->where('jiri_id', $jiri_id)
-                ->where('contact_id', $this->addedStudents()[$i]['contact_id'])
+                ->where('contact_id', $this->addedStudents()[$i]['id'])
                 ->delete();
         }
 
@@ -160,6 +158,7 @@ class Projects extends Component
             ->where('jiri_id', $jiri_id)
             ->delete();
     }
+
     public function render(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
         return view('livewire.create-jiri.projects');

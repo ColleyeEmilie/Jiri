@@ -33,7 +33,8 @@ class Jiri extends Model
     public function projects(): BelongsToMany
     {
         return $this
-            ->belongsToMany(Project::class, 'implementations', 'jiri_id', 'project_id');
+            ->belongsToMany(Project::class, 'duties', 'jiri_id', 'project_id')
+            ->where("duties.deleted_at", null);
     }
 
     public function attendances(): HasMany
@@ -53,6 +54,7 @@ class Jiri extends Model
         return $this
             ->belongsToMany(Contact::class, 'attendances', 'jiri_id', 'contact_id')
             ->withPivot('role')
+            ->where('attendances.deleted_at', null)
             ->wherePivot('role', 'student');
     }
 
@@ -61,6 +63,7 @@ class Jiri extends Model
         return $this
             ->belongsToMany(Contact::class, 'attendances', 'jiri_id', 'contact_id')
             ->withPivot('role', 'token')
+            ->where('attendances.deleted_at', null)
             ->wherePivot('role', 'jury');
     }
 

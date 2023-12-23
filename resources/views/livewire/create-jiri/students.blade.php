@@ -20,11 +20,6 @@
                                 <p class="self-center ml-4">
                                     {{$student->firstname }}, {{$student->name}}
                                 </p>
-                                <div class="relative w-8 ml-4 self-center cursor-pointer">
-                                    <img src="{{asset('icons/delete.svg')}}"
-                                         wire:click="deleteContactRole({{$student->id}},{{$this->lastJiri()->id}})"
-                                         class="w-6 h-6" alt="icon to delete a student">
-                                </div>
                             </div>
                             <div class="flex">
                                 @foreach($this->addedProjects as $project)

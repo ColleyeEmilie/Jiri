@@ -9,19 +9,19 @@
             <div class="max-w-7xl mx-auto ml-4 py-4">
                 <div class="flex flex-wrap">
                     @if($this->addedJurys->count())
-                        @foreach($this->addedJurys as $attendance)
-                            <div class="flex mr-8 mb-4" wire:key="{{$attendance->contact->id}}-{{$attendance->contact->email}}">
+                        @foreach($this->addedJurys as $jury)
+                            <div class="flex mr-8 mb-4" wire:key="{{$jury->id}}-{{$jury->email}}">
                                 <div class="relative w-12 h-12">
-                                    <img src="{{ asset($attendance->contact->image ?? 'uploads/default.jpeg') }}"
+                                    <img src="{{ asset($jury->image ?? 'uploads/default.jpeg') }}"
                                          alt="avatar"
                                          class=" w-12 h-12 rounded-full border border-gray-100 shadow-sm">
                                 </div>
                                 <p class="self-center ml-4">
-                                    {{$attendance->contact->firstname }}, {{$attendance->contact->name}}
+                                    {{$jury->firstname }}, {{$jury->name}}
                                 </p>
                                 <div class="relative w-8 ml-4 self-center cursor-pointer">
                                     <img src="{{asset('icons/delete.svg')}}"
-                                         wire:click="deleteContactRole({{$attendance->contact->id}},{{$this->lastJiri()->id}})"
+                                         wire:click="deleteContactRole({{$jury->id}},{{$this->getLastJiri()['id']}})"
                                          class="w-6 h-6" alt="icon to delete a jury">
                                 </div>
                             </div>
@@ -38,7 +38,7 @@
                                    @input="splitStringJury($wire.currentUser)" list="jury"
                                    class="w-96 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 ">
                             <datalist id="jury">
-                                @foreach($this->filteredAvailableContacts($this->lastJiri()->id) as $contact)
+                                @foreach($this->filteredAvailableContacts($this->getLastJiri()['id']) as $contact)
                                     <option wire:key="{{$contact->id}}"
                                             value="{{$contact->firstname}},{{$contact->name}}:{{$contact->email}}">
                                 @endforeach
@@ -92,19 +92,19 @@
             <div class="max-w-7xl mx-auto ml-4 py-4">
                 <div class="flex flex-wrap">
                     @if($this->addedStudents->count())
-                        @foreach($this->addedStudents as $attendance)
-                            <div class="flex mr-8 mb-4" wire:key="{{$attendance->contact->id}}-{{$attendance->contact->email}}">
+                        @foreach($this->addedStudents as $student)
+                            <div class="flex mr-8 mb-4" wire:key="{{$student->id}}-{{$student->email}}">
                                 <div class="relative w-12 h-12">
-                                    <img src="{{ asset($attendance->contact->image ?? 'uploads/default.jpeg') }}"
+                                    <img src="{{ asset($student->image ?? 'uploads/default.jpeg') }}"
                                          alt="avatar"
                                          class=" w-12 h-12 rounded-full border border-gray-100 shadow-sm">
                                 </div>
                                 <p class="self-center ml-4">
-                                    {{$attendance->contact->firstname }}, {{$attendance->contact->name}}
+                                    {{$student->firstname }}, {{$student->name}}
                                 </p>
                                 <div class="relative w-8 ml-4 self-center cursor-pointer">
                                     <img src="{{asset('icons/delete.svg')}}"
-                                         wire:click="deleteContactRole({{$attendance->contact->id}},{{$this->lastJiri()->id}})"
+                                         wire:click="deleteContactRole({{$student->id}},{{$this->getLastJiri()['id']}})"
                                          class="w-6 h-6" alt="icon to delete a student">
                                 </div>
                             </div>
@@ -122,7 +122,7 @@
                                    @input="splitStringStudent($wire.currentStudent)" list="students"
                                    class="w-96 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5">
                             <datalist id="students">
-                                @foreach($this->filteredAvailableContacts($this->lastJiri()->id) as $contact)
+                                @foreach($this->filteredAvailableContacts($this->getLastJiri()['id']) as $contact)
                                     <option wire:key="{{$contact->id}}"
                                             value="{{$contact->firstname}},{{$contact->name}}:{{$contact->email}}">
                                 @endforeach
