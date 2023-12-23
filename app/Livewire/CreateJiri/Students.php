@@ -2,7 +2,6 @@
 
 namespace App\Livewire\CreateJiri;
 
-use App\Models\Jiri;
 use App\Traits\CreateJiri;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;

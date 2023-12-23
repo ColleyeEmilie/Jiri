@@ -2,7 +2,6 @@
 
 namespace App\Livewire\CreateJiri;
 
-use App\Models\Jiri;
 use App\Traits\CreateJiri;
 use Illuminate\Database\Eloquent\Collection;
 use LaravelIdea\Helper\App\Models\_IH_Attendance_C;
