@@ -12,7 +12,6 @@ class Contacts extends Component
 {
     use CreateJiri;
 
-    public $contactsList;
     public $users;
     public $name = '';
     public $firstname = '';
@@ -112,7 +111,7 @@ class Contacts extends Component
     }
     public function addStudentRole(): void
     {
-        $this->addStudent = auth()
+        auth()
             ->user()
             ?->attendances()
             ->firstOrCreate(
@@ -130,7 +129,7 @@ class Contacts extends Component
     }
     public function addJuryRole(): void
     {
-        $this->addJury = auth()
+        auth()
             ->user()
             ?->attendances()
             ->firstOrCreate(
