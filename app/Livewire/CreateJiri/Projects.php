@@ -73,35 +73,6 @@ class Projects extends Component
             ->first();
     }
 
-    public function newProject(): void
-    {
-        if ($this->projectName === '') {
-            $this->infoCurrentProject = preg_split('/[,:;]+/', $this->currentProject);
-            $this->projectName = $this->infoCurrentProject[0];
-            $this->projectLink = $this->infoCurrentProject[1];
-            $this->projectPonderation = $this->infoCurrentProject[2];
-            $this->projectDescription = $this->infoCurrentProject[3];
-        }
-        $this->projectId = auth()
-            ->user()
-            ?->projects()
-            ->updateOrCreate([
-                'name' => $this->projectName,
-            ],
-                [
-                    'name' => $this->projectName,
-                    'link' => $this->projectLink,
-                    'ponderation' => $this->projectPonderation,
-                    'description' => $this->projectDescription,
-                ]
-            )->id;
-
-        $this->getLastJiri();
-        $this->lastProject();
-        $this->addDuties();
-        $this->addImplementations();
-        $this->reset('infoCurrentProject', 'projectName', 'projectLink', 'projectDescription', 'projectPonderation');
-    }
 
     public function addDuties(): void
     {
@@ -143,15 +114,46 @@ class Projects extends Component
         }
     }
 
+    public function newProject(): void
+    {
+        if ($this->projectName === '') {
+            $this->infoCurrentProject = preg_split('/[,:;]+/', $this->currentProject);
+            $this->projectName = $this->infoCurrentProject[0];
+            $this->projectLink = $this->infoCurrentProject[1];
+            $this->projectPonderation = $this->infoCurrentProject[2];
+            $this->projectDescription = $this->infoCurrentProject[3];
+        }
+
+        $project = auth()->user()->projects()
+            ->updateOrCreate(
+                ['name' => $this->projectName],
+                [
+                    'name' => $this->projectName,
+                    'link' => $this->projectLink,
+                    'ponderation' => $this->projectPonderation,
+                    'description' => $this->projectDescription,
+                ]
+            );
+
+        $this->projectId = $project->id;
+
+        $this->getLastJiri();
+        $this->lastProject();
+        $this->addDuties();
+        $this->addImplementations();
+
+        $this->reset('infoCurrentProject', 'projectName', 'projectLink', 'projectDescription', 'projectPonderation');
+    }
+
     public function deleteProjectFromJiri($project_id, $jiri_id): void
     {
-        for ($i = 0; $i < count($this->addedStudents()); $i++) {
-            auth()->user()->implementations()
-                ->where('project_id', $project_id)
-                ->where('jiri_id', $jiri_id)
-                ->where('contact_id', $this->addedStudents()[$i]['id'])
-                ->delete();
-        }
+        $studentIds = $this->addedStudents()->pluck('id')->toArray();
+
+        auth()->user()->implementations()
+            ->whereIn('contact_id', $studentIds)
+            ->where('project_id', $project_id)
+            ->where('jiri_id', $jiri_id)
+            ->delete();
 
         auth()->user()->duties()
             ->where('project_id', $project_id)

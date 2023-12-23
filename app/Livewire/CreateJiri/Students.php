@@ -36,32 +36,28 @@ class Students extends Component
 
     public function enregistrer($attendance): void
     {
-        foreach ($this->addedProjects() as $project) {
-            $implementation = auth()->user()
-                ->implementations()
-                ->where('jiri_id', $this->getLastJiri()->id)
-                ->where('contact_id', $attendance['id'])
-                ->where('project_id', $project->project_id)
-                ->first();
+        $lastJiriId = $this->getLastJiri()->id;
 
-            if ($implementation) {
-                $task = $project->project_id . '-' . $attendance['id'];
+        $implementations = auth()->user()->implementations()->query()
+            ->where('jiri_id', $lastJiriId)
+            ->whereIn('project_id', $this->addedProjects()->pluck('project_id'))
+            ->where('contact_id', $attendance['id'])
+            ->get();
 
-                if (!array_key_exists($task, $this->tasks)) {
-                    $this->tasks[$task] = [
-                        'back' => false,
-                        'front' => false,
-                        'design' => false,
-                    ];
-                } else {
-                    $this->tasks[$task]['back'] = $this->tasks[$task]['back'] ?? false;
-                    $this->tasks[$task]['front'] = $this->tasks[$task]['front'] ?? false;
-                    $this->tasks[$task]['design'] = $this->tasks[$task]['design'] ?? false;
-                }
-                $implementation->update([
-                    'tasks' => json_encode($this->tasks[$task]),
-                ]);
+        foreach ($implementations as $implementation) {
+            $taskKey = $implementation->project_id . '-' . $attendance['id'];
+
+            if (!isset($this->tasks[$taskKey])) {
+                $this->tasks[$taskKey] = [
+                    'back' => false,
+                    'front' => false,
+                    'design' => false,
+                ];
             }
+
+            $implementation->update([
+                'tasks' => json_encode($this->tasks[$taskKey]),
+            ]);
         }
     }
     public function render(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application

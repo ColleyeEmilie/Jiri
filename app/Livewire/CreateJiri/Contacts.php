@@ -75,29 +75,17 @@ class Contacts extends Component
     }
     public function newUser(): void
     {
-        if ($this->email === '') {
-            $this->infoCurrentUser = preg_split('/[,:]+/', $this->currentUser);
-            if (count($this->infoCurrentUser) === 3) {
-                $this->firstname = $this->infoCurrentUser[0];
-                $this->name = $this->infoCurrentUser[1];
-                $this->email = $this->infoCurrentUser[2];
-            }
-            $this->firstname = $this->infoCurrentUser[0];
-            $this->name = $this->infoCurrentUser[1];
-            $this->email = $this->infoCurrentUser[2];
-        }
-        $this->juryId = auth()
-            ->user()
-            ?->contacts()
-            ->updateOrCreate(
-                ['email' => $this->email],
-                [
-                    'name' => $this->name,
-                    'firstname' => $this->firstname,
-                    'email' => $this->email,
-                    'user_id' => auth()->id(),
-                ]
-            )->id;
+        $this->parseCurrentUser();
+
+        $this->juryId = auth()->user()->contacts()->updateOrCreate(
+            ['email' => $this->email],
+            [
+                'name' => $this->name,
+                'firstname' => $this->firstname,
+                'email' => $this->email,
+                'user_id' => auth()->id(),
+            ]
+        )->id;
 
         $this->getLastJiri();
         $this->lastJury();
@@ -106,29 +94,17 @@ class Contacts extends Component
     }
     public function newStudent(): void
     {
-        if ($this->studentEmail === '') {
-            $this->infoCurrentStudent = preg_split('/[,:]+/', $this->currentStudent);
-            if (count($this->infoCurrentStudent) === 3) {
-                $this->studentFirstname = $this->infoCurrentStudent[0];
-                $this->studentName = $this->infoCurrentStudent[1];
-                $this->studentEmail = $this->infoCurrentStudent[2];
-            }
-            $this->studentFirstname = $this->infoCurrentStudent[0];
-            $this->studentName = $this->infoCurrentStudent[1];
-            $this->studentEmail = $this->infoCurrentStudent[2];
-        }
-        $this->studentId = auth()
-            ->user()
-            ?->contacts()
-            ->updateOrCreate(
-                ['email' => $this->studentEmail],
-                [
-                    'name' => $this->studentName,
-                    'firstname' => $this->studentFirstname,
-                    'email' => $this->studentEmail,
-                    'user_id' => auth()->id(),
-                ]
-            )->id;
+        $this->parseCurrentStudent();
+
+        $this->studentId = auth()->user()->contacts()->updateOrCreate(
+            ['email' => $this->studentEmail],
+            [
+                'name' => $this->studentName,
+                'firstname' => $this->studentFirstname,
+                'email' => $this->studentEmail,
+                'user_id' => auth()->id(),
+            ]
+        )->id;
 
         $this->lastStudent();
         $this->addStudentRole();
@@ -179,29 +155,48 @@ class Contacts extends Component
                 ['jiri_id', '=', $jiri_id]
             ])
             ->delete();
-        unset($this->addStudents);
-        unset($this->addJurys);
     }
+
     public function addImplementations(): void
     {
-        foreach ($this->addedStudents() as $index => $student){
-            foreach ($this->addedProjects() as $index2 => $project){
-                auth()
-                    ->user()
-                    ->implementations()
+        $lastJiriId = $this->getLastJiri()->id;
+
+        foreach ($this->addedStudents() as $student) {
+            foreach ($this->addedProjects() as $project) {
+                auth()->user()->implementations()
                     ->firstOrCreate(
                         [
-                            'project_id' =>$project->id,
-                            'jiri_id' => $this->getLastJiri()->id,
-                            'contact_id' => $this->addedStudents()[$index]->id,
+                            'project_id' => $project->id,
+                            'jiri_id' => $lastJiriId,
+                            'contact_id' => $student->id,
                         ],
                         [
-                            'contact_id' => $this->addedStudents()[$index]->id,
-                            'jiri_id' => $this->getLastJiri()->id,
+                            'contact_id' => $student->id,
+                            'jiri_id' => $lastJiriId,
                             'project_id' => $project->id,
                         ]
                     );
             }
+        }
+    }
+
+    private function parseCurrentUser(): void
+    {
+        if ($this->email === '') {
+            $this->infoCurrentUser = preg_split('/[,:]+/', $this->currentUser);
+            $this->firstname = $this->infoCurrentUser[0];
+            $this->name = $this->infoCurrentUser[1];
+            $this->email = $this->infoCurrentUser[2];
+        }
+    }
+
+    private function parseCurrentStudent(): void
+    {
+        if ($this->studentEmail === '') {
+            $this->infoCurrentStudent = preg_split('/[,:]+/', $this->currentStudent);
+            $this->studentFirstname = $this->infoCurrentStudent[0];
+            $this->studentName = $this->infoCurrentStudent[1];
+            $this->studentEmail = $this->infoCurrentStudent[2];
         }
     }
 
