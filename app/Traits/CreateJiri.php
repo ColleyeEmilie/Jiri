@@ -8,23 +8,15 @@ trait CreateJiri
 {
     public function lastJiri()
     {
-        return auth()
-            ->user()
-            ->jiris()
-            ->orderBy('created_at', 'desc')
-            ->first();
+        return auth()->user()->jiris()->orderBy('created_at', 'desc')->first();
     }
     public function listOfJiriStudents(): Collection|array|_IH_Attendance_C
     {
-        return $this
-            ->getLastJiri()
-            ->students;
+        return $this->getLastJiri()->students;
     }
     public function listOfJiriJurys(): Collection|array|_IH_Attendance_C
     {
-        return $this
-            ->getLastJiri()
-            ->evaluators;
+        return $this->getLastJiri()->evaluators;
     }
     public function listOfJiriProjects()
     {
