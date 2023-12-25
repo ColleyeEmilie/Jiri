@@ -7,8 +7,8 @@
         <div x-show="open" x-cloak x-transition>
             <div class="max-w-7xl flex-col mx-auto ml-4 py-4" wire:poll>
 
-                    @if($this->addedStudents->count())
-                        @foreach($this->addedStudents as $student)
+                    @if($this->addedStudents()->count())
+                        @foreach($this->addedStudents() as $student)
                         <form wire:submit.prevent="enregistrer({{$student}})">
                             @csrf
                             <div class="flex mr-8 mb-4" wire:key="{{$student->id}}-{{$student->email}}">
@@ -22,7 +22,7 @@
                                 </p>
                             </div>
                             <div class="flex">
-                                @foreach($this->addedProjects as $project)
+                                @foreach($this->addedProjects() as $project)
                                     <div class="flex-col" >
                                         <div wire:key="{{$student->id}}" class="ml-4 mb-4 ">
                                             <div>

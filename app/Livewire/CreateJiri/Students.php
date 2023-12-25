@@ -25,12 +25,12 @@ class Students extends Component
     #[Computed]
     public function addedStudents(): Collection|array|_IH_Attendance_C
     {
-        return $this->listOfJiriStudents();
+        return $this->listOfJiriStudents($this->getLastJiri());
     }
     #[Computed]
     public function addedProjects()
     {
-        return $this->listOfJiriProjects();
+        return $this->listOfJiriProjects($this->getLastJiri());
     }
 
     public function enregistrer($attendance): void

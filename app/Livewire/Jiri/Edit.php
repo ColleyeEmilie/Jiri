@@ -4,50 +4,93 @@ namespace App\Livewire\Jiri;
 
 use App\Models\Contact;
 use App\Models\Project;
+use App\Traits\CreateJiri;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Application;
+use LaravelIdea\Helper\App\Models\_IH_Attendance_C;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 
 class Edit extends Component
 {
+    use CreateJiri;
+
+    public $tasks = [];
     public $jiri;
-    public $jurys;
-    public $students;
-    public $projects;
+    public $jiriName;
+    public $jiriDate;
 
     public function mount($jiri): void
     {
         $this->jiri = $jiri;
-        $this->addJurys();
-        $this->students();
-        $this->projects();
-
     }
 
-    public function addJurys()
+    #[Computed]
+    public function addedJurys(): Collection|array|_IH_Attendance_C
     {
-        $this->jurys = auth()->user()->contacts()->join('attendances', 'contacts.id', '=', 'attendances.contact_id')
-            ->where('role', '=', 'jury')
-            ->where('jiri_id', '=', $this->jiri->id)
-            ->get()->toArray();
+        return $this->listOfJiriJurys($this->jiri);
     }
 
-    public function students(): void
+    #[Computed]
+    public function addedStudents(): Collection|array|_IH_Attendance_C
     {
-        $this->students = auth()->user()->contacts()->join('attendances', 'contacts.id', '=', 'attendances.contact_id')
-            ->where('role', '=', 'student')
-            ->where('jiri_id', '=', $this->jiri->id)
-            ->get()->toArray();
+        return $this->listOfJiriStudents($this->jiri);
     }
-
-    public function projects(): void
+    #[Computed]
+    public function addedProjects()
     {
-        $this->projects = auth()->user()->jiris()->join('duties','projects.id', '=', 'duties.project_id' )
-            ->where('jiri_id', '=', $this->jiri->id)
-            ->get()->toArray();
+        return $this->listOfJiriProjects($this->jiri);
+    }
+    #[Computed]
+    public function filteredAvailableContacts($jiri_id)
+    {
+        return auth()->
+        user()->
+        contacts()
+            ->where(function ($q) use ($jiri_id) {
+                $q->where('name', 'like', '%' . $this->name . '%')
+                    ->whereDoesntHave('attendances', function ($query) use ($jiri_id) {
+                        $query->where('jiri_id', $jiri_id);
+                    });
+            })
+            ->get();
     }
 
+    public function enregistrer($attendance): void
+    {
+        $lastJiriId = $this->jiri->id;
+
+        $implementations = auth()->user()->implementations()->query()
+            ->where('jiri_id', $lastJiriId)
+            ->whereIn('project_id', $this->addedProjects()->pluck('project_id'))
+            ->where('contact_id', $attendance['id'])
+            ->get();
+
+        foreach ($implementations as $implementation) {
+            $taskKey = $implementation->project_id . '-' . $attendance['id'];
+
+            if (!isset($this->tasks[$taskKey])) {
+                $this->tasks[$taskKey] = [
+                    'back' => false,
+                    'front' => false,
+                    'design' => false,
+                ];
+            }
+
+            $implementation->update([
+                'tasks' => json_encode($this->tasks[$taskKey]),
+            ]);
+        }
+    }
+    public function editGeneral(): void
+    {
+        $this->jiri->update([
+            'name' => $this->jiriName,
+            'date' => $this->jiriDate,
+        ]);
+    }
     public function render(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
         return view('livewire.jiri.edit');
