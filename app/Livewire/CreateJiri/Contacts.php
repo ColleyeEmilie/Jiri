@@ -12,6 +12,7 @@ class Contacts extends Component
 {
     use CreateJiri;
 
+    public $jiri;
     public $users;
     public $name = '';
     public $firstname = '';
@@ -29,25 +30,24 @@ class Contacts extends Component
     public $lastStudent;
 
 
-    #[Computed]
-    public function getLastJiri()
+    public function mount($jiri): void
     {
-        return $this->lastJiri();
+        $this->jiri = $jiri;
     }
     #[Computed]
     public function addedJurys(): Collection|array|_IH_Attendance_C
     {
-        return $this->listOfJiriJurys();
+        return $this->listOfJiriJurys($this->jiri);
     }
     #[Computed]
     public function addedProjects()
     {
-        return $this->listOfJiriProjects();
+        return $this->listOfJiriProjects($this->jiri);
     }
     #[Computed]
     public function addedStudents(): Collection|array|_IH_Attendance_C
     {
-        return $this->listOfJiriStudents();
+        return $this->listOfJiriStudents($this->jiri);
     }
     #[Computed]
     public function filteredAvailableContacts($jiri_id)
@@ -85,7 +85,6 @@ class Contacts extends Component
             ]
         )->id;
 
-        $this->getLastJiri();
         $this->lastJury();
         $this->addJuryRole();
         $this->reset('currentUser', 'name', 'firstname', 'email');
@@ -117,13 +116,13 @@ class Contacts extends Component
             ->firstOrCreate(
                 [
                     'contact_id' => $this->lastStudent->id,
-                    'jiri_id' => $this->getLastJiri()->id,
+                    'jiri_id' => $this->jiri->id,
                 ],
                 [
                     'role' => 'student',
                     'token' => bin2hex(random_bytes(16)),
                     'contact_id' => $this->lastStudent->id,
-                    'jiri_id' => $this->getLastJiri()->id,
+                    'jiri_id' => $this->jiri->id,
                 ]
             );
     }
@@ -135,13 +134,13 @@ class Contacts extends Component
             ->firstOrCreate(
                 [
                     'contact_id' => $this->lastJury->id,
-                    'jiri_id' => $this->getLastJiri()->id,
+                    'jiri_id' => $this->jiri->id,
                 ],
                 [
                     'role' => 'jury',
                     'token' => bin2hex(random_bytes(16)),
                     'contact_id' => $this->lastJury->id,
-                    'jiri_id' => $this->getLastJiri()->id,
+                    'jiri_id' => $this->jiri->id,
                 ]
             );
     }
@@ -157,7 +156,7 @@ class Contacts extends Component
 
     public function addImplementations(): void
     {
-        $lastJiriId = $this->getLastJiri()->id;
+        $lastJiriId = $this->jiri->id;
 
         foreach ($this->addedStudents() as $student) {
             foreach ($this->addedProjects() as $project) {

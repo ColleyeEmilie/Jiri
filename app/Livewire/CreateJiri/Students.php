@@ -15,27 +15,27 @@ class Students extends Component
 {
     use CreateJiri;
 
+    public $jiri;
     public $tasks = [];
 
-    #[Computed]
-    public function getLastJiri()
+    public function mount($jiri)
     {
-        return $this->lastJiri();
+        $this->jiri = $jiri;
     }
     #[Computed]
     public function addedStudents(): Collection|array|_IH_Attendance_C
     {
-        return $this->listOfJiriStudents($this->getLastJiri());
+        return $this->listOfJiriStudents($this->jiri);
     }
     #[Computed]
     public function addedProjects()
     {
-        return $this->listOfJiriProjects($this->getLastJiri());
+        return $this->listOfJiriProjects($this->jiri);
     }
 
     public function enregistrer($attendance): void
     {
-        $lastJiriId = $this->getLastJiri()->id;
+        $lastJiriId = $this->jiri->id;
 
         $implementations = auth()->user()->implementations()->query()
             ->where('jiri_id', $lastJiriId)

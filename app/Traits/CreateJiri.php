@@ -10,17 +10,18 @@ trait CreateJiri
     {
         return auth()->user()->jiris()->orderBy('created_at', 'desc')->first();
     }
-    public function listOfJiriStudents(): Collection|array|_IH_Attendance_C
+
+    public function listOfJiriStudents($jiri): Collection|array|_IH_Attendance_C
     {
-        return $this->getLastJiri()->students;
+        return $this->jiri->students;
     }
-    public function listOfJiriJurys(): Collection|array|_IH_Attendance_C
+    public function listOfJiriJurys($jiri): Collection|array|_IH_Attendance_C
     {
-        return $this->getLastJiri()->evaluators;
+        return $this->jiri->evaluators;
     }
-    public function listOfJiriProjects()
+    public function listOfJiriProjects($jiri)
     {
-        return $this->getLastJiri()->projects;
+        return $this->jiri->projects;
     }
 
 

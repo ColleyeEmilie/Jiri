@@ -1,5 +1,5 @@
 <div class="mb-4" x-data="lists">
-    <div class="bg-white divide-y divide-slate-200 px-4 py-2 mb-4">
+    <div class="bg-white divide-y divide-slate-200 px-4 py-2 mb-4" >
         <div @click="openJury=!openJury" class="cursor-pointer flex justify-between px-4 py-4">
             <h3 class="text-lg font-semibold"> {{ __("Ajouter des jurys") }} </h3>
             <button x-html="openJury ? '-' :'+' "></button>
@@ -21,7 +21,7 @@
                                 </p>
                                 <div class="relative w-8 ml-4 self-center cursor-pointer">
                                     <img src="{{asset('icons/delete.svg')}}"
-                                         wire:click="deleteContactRole({{$jury->id}},{{$this->getLastJiri()['id']}})"
+                                         wire:click="deleteContactRole({{$jury->id}},{{$this->jiri->id}})"
                                          class="w-6 h-6" alt="icon to delete a jury">
                                 </div>
                             </div>
@@ -38,7 +38,7 @@
                                    @input="splitStringJury($wire.currentUser)" list="jury"
                                    class="w-96 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 ">
                             <datalist id="jury">
-                                @foreach($this->filteredAvailableContacts($this->getLastJiri()['id']) as $contact)
+                                @foreach($this->filteredAvailableContacts($this->jiri->id) as $contact)
                                     <option wire:key="{{$contact->id}}"
                                             value="{{$contact->firstname}},{{$contact->name}}:{{$contact->email}}">
                                 @endforeach
@@ -82,7 +82,6 @@
             </div>
         </div>
     </div>
-
     <div class="bg-white divide-y divide-slate-200 px-4 py-2">
         <div @click="openStudent=!openStudent" class="cursor-pointer flex justify-between px-4 py-4">
             <h3 class="text-lg font-semibold"> {{ __("Ajouter des étudiants") }} </h3>
@@ -104,7 +103,7 @@
                                 </p>
                                 <div class="relative w-8 ml-4 self-center cursor-pointer">
                                     <img src="{{asset('icons/delete.svg')}}"
-                                         wire:click="deleteContactRole({{$student->id}},{{$this->getLastJiri()['id']}})"
+                                         wire:click="deleteContactRole({{$student->id}},{{$this->jiri->id}})"
                                          class="w-6 h-6" alt="icon to delete a student">
                                 </div>
                             </div>
@@ -122,7 +121,7 @@
                                    @input="splitStringStudent($wire.currentStudent)" list="students"
                                    class="w-96 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5">
                             <datalist id="students">
-                                @foreach($this->filteredAvailableContacts($this->getLastJiri()['id']) as $contact)
+                                @foreach($this->filteredAvailableContacts($this->jiri->id) as $contact)
                                     <option wire:key="{{$contact->id}}"
                                             value="{{$contact->firstname}},{{$contact->name}}:{{$contact->email}}">
                                 @endforeach
@@ -170,13 +169,16 @@
     </div>
 
     <script>
+        console.log('On est dans le script')
         document.addEventListener('alpine:init', () => {
+            console.log('On est dans alpine')
             Alpine.data('lists', () => ({
                 openStudent: false,
                 openJury: false,
                 currentJury: [],
                 currentStudent: [],
                 splitStringJury(name) {
+                    console.log('On est dans la fonction')
                     this.currentJury = name.split(/[,:]+/);
                     return this.currentJury;
                 },

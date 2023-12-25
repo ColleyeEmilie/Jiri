@@ -2,6 +2,7 @@
 
 namespace App\Livewire\CreateJiri;
 
+use App\Models\Jiri;
 use App\Traits\CreateJiri;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -12,6 +13,8 @@ use Livewire\Component;
 class Projects extends Component
 {
     use CreateJiri;
+
+    public Jiri $jiri;
 
     public $projects;
     public $lastProject;
@@ -26,17 +29,11 @@ class Projects extends Component
     public $infoCurrentProject;
     public ?int $projectId;
 
-    public function mount(): void
+    public function mount(Jiri $jiri): void
     {
-        $this->getLastJiri();
-        $this->addedStudents();
+        $this->jiri = $jiri;
     }
 
-    #[Computed]
-    public function getLastJiri()
-    {
-        return $this->lastJiri();
-    }
 
     #[Computed]
     public function filteredAvailableProjects($jiri_id)
@@ -56,13 +53,13 @@ class Projects extends Component
     #[Computed]
     public function addedProjects()
     {
-        return $this->listOfJiriProjects();
+        return $this->listOfJiriProjects($this->jiri);
     }
 
     #[Computed]
     public function addedStudents()
     {
-        return $this->listOfJiriStudents();
+        return $this->listOfJiriStudents($this->jiri);
     }
 
     public function lastProject(): void
@@ -82,10 +79,10 @@ class Projects extends Component
             ->firstOrCreate(
                 [
                     'project_id' => $this->lastProject->id,
-                    'jiri_id' => $this->getLastJiri()->id,
+                    'jiri_id' => $this->jiri->id,
                 ],
                 [
-                    'jiri_id' => $this->getLastJiri()->id,
+                    'jiri_id' => $this->jiri->id,
                     'project_id' => $this->lastProject->id,
                 ]
             );
@@ -101,12 +98,12 @@ class Projects extends Component
                     ->firstOrCreate(
                         [
                             'project_id' => $project->id,
-                            'jiri_id' => $this->getLastJiri()->id,
+                            'jiri_id' => $this->jiri->id,
                             'contact_id' => $student->id,
                         ],
                         [
                             'contact_id' => $student->id,
-                            'jiri_id' => $this->getLastJiri()->id,
+                            'jiri_id' => $this->jiri->id,
                             'project_id' => $project->id,
                         ]
                     );
@@ -137,7 +134,6 @@ class Projects extends Component
 
         $this->projectId = $project->id;
 
-        $this->getLastJiri();
         $this->lastProject();
         $this->addDuties();
         $this->addImplementations();
