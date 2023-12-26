@@ -1,3 +1,4 @@
+
 <div class="mb-4">
     <div x-data="{open:false}" class="bg-white divide-y divide-slate-200 px-4 py-2">
         <div @click="open=!open" class="cursor-pointer flex justify-between px-4 py-4">
@@ -10,17 +11,17 @@
             </div>
         </div>
         <div x-show="open" x-cloak x-transition>
-            <div x-data="projectsList" class="max-w-7xl mx-auto ml-4 py-4">
+            <div x-data="lists" class="max-w-7xl mx-auto ml-4 py-4">
                 <div class=" flex flex-wrap" >
                     @if($this->addedProjects())
                         @foreach($this->addedProjects() as $project)
-                            <div class="flex mb-4 ml-4" wire:key="project_{{ $project['id'] }}">
+                            <div class="flex mb-4 ml-4" wire:key="project_{{ $project->id}}">
                                 <p>
-                                    {{$project['name'] }}
+                                    {{$project->name}}
                                 </p>
                                 <div class="relative w-8 ml-2 self-center cursor-pointer">
                                     <img src="{{asset('icons/delete.svg')}}"
-                                         wire:click="deleteProjectFromJiri({{$project['id']}},{{$this->$this->jiri->id}})"
+                                         wire:click="deleteProjectFromJiri({{$project->id}},{{$this->jiri->id}})"
                                          class="w-6 h-6" alt="icon to delete a jury">
                                 </div>
                             </div>
@@ -79,23 +80,4 @@
             </div>
         </div>
     </div>
-
-    <script>
-        document.addEventListener('alpine:init', () => {
-            Alpine.data('projectsList', () => {
-                return ({
-                    currentProject: [],
-
-                    splitStringProject(project) {
-                        this.currentProject = project.split(/[,:;]+/);
-                        return this.currentProject;
-                    },
-                    noValue() {
-                        return this.currentProject = [];
-                    }
-                });
-            })
-        })
-    </script>
-
 </div>

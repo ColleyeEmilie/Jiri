@@ -18,7 +18,7 @@ class Students extends Component
     public $jiri;
     public $tasks = [];
 
-    public function mount($jiri)
+    public function mount($jiri): void
     {
         $this->jiri = $jiri;
     }

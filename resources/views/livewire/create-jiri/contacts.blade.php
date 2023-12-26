@@ -1,3 +1,4 @@
+
 <div class="mb-4" x-data="lists">
     <div class="bg-white divide-y divide-slate-200 px-4 py-2 mb-4" >
         <div @click="openJury=!openJury" class="cursor-pointer flex justify-between px-4 py-4">
@@ -168,30 +169,4 @@
         </div>
     </div>
 
-    <script>
-        console.log('On est dans le script')
-        document.addEventListener('alpine:init', () => {
-            console.log('On est dans alpine')
-            Alpine.data('lists', () => ({
-                openStudent: false,
-                openJury: false,
-                currentJury: [],
-                currentStudent: [],
-                splitStringJury(name) {
-                    console.log('On est dans la fonction')
-                    this.currentJury = name.split(/[,:]+/);
-                    return this.currentJury;
-                },
-                splitStringStudent(name) {
-                    this.currentStudent = name.split(/[,:]+/);
-                    return this.currentStudent;
-                },
-                noValue() {
-                    this.currentStudent = [];
-                    this.currentJury = [];
-                }
-
-            }))
-        })
-    </script>
 </div>
