@@ -36,9 +36,7 @@
     <!-- Page Heading -->
 </div>
 <script>
-    console.log('On est dans le script')
     document.addEventListener('alpine:init', () => {
-        console.log('On est dans alpine')
         Alpine.data('lists', () => ({
             openStudent: false,
             openJury: false,
@@ -51,7 +49,6 @@
                 return this.currentProject;
             },
             splitStringJury(name) {
-                console.log('On est dans la fonction')
                 this.currentJury = name.split(/[,:]+/);
                 return this.currentJury;
             },

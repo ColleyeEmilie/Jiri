@@ -35,9 +35,9 @@ class Students extends Component
 
     public function enregistrer($attendance): void
     {
+        dd($this->addedProjects()->pluck('project_id'));
         $lastJiriId = $this->jiri->id;
-
-        $implementations = auth()->user()->implementations()->query()
+        $implementations = auth()->user()->implementations()
             ->where('jiri_id', $lastJiriId)
             ->whereIn('project_id', $this->addedProjects()->pluck('project_id'))
             ->where('contact_id', $attendance['id'])

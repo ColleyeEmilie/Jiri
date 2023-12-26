@@ -41,6 +41,7 @@
     @if($jiri)
         <livewire:createJiri.projects :jiri="$jiri"/>
         <livewire:createJiri.contacts :jiri="$jiri"/>
+        <livewire:create-jiri.added-students :jiri="$jiri"/>
         <livewire:createJiri.students :jiri="$jiri"/>
     @endif
 </div>
