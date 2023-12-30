@@ -1,4 +1,4 @@
-<div>
+<div class="bg-white relative content-position">
     <form action="{{ route('projets.store') }}" method="post">
         @csrf
         <div class="mb-4">

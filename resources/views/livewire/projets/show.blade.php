@@ -1,4 +1,4 @@
-<div>
+<div class="bg-white relative content-position">
     <div class="flex-col mb-8 bg-white px-6 py-8">
         <div class="ml-6 mb-6">
             <p class="mb-2 text-slate-500">{{ __("Nom du projet") }}</p>

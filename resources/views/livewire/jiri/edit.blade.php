@@ -1,4 +1,4 @@
-<div class="bg-white px-4 py-4">
+<div class="bg-white relative content-position">
     <div class="divide-y divide-slate-200">
         <div class="flex justify-between px-4 py-4">
             <h3 class="font-semibold text-lg"> {{ __("Informations générales") }} </h3>

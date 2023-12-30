@@ -1,4 +1,4 @@
-<div>
+<div class="bg-white relative content-position">
     <div class="mb-4">
         <div x-data="{open:true}" class="bg-white divide-y divide-slate-200 px-4 py-2">
             <div @click="open=!open" class=" cursor-pointer flex justify-between px-4 py-4">
