@@ -1,4 +1,4 @@
-<div>
+<div class="bg-white relative content-position">
     <form action="{{ route('contacts.update', $contact) }}" method="post">
         @csrf
         @method('PUT')

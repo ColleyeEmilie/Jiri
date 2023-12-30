@@ -1,4 +1,4 @@
-<div>
+<div class="bg-white relative content-position">
     <form wire:submit="newContact" action="{{ route('contacts.store') }}" method="post" enctype="multipart/form-data">
         @csrf
         <div class="flex mb-4">
