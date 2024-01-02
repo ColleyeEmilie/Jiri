@@ -5,8 +5,8 @@
             <tr class="flex mb-6">
                 <th class="w-12 flex font-bold">{{ __('IMAGE') }}</th>
                 <th class="w-48 ml-10 flex font-bold">{{ __('NOM') }}</th>
-                <th class="w-48 ml-7 flex font-bold">{{ __('PRENOM') }}</th>
-                <th class="w-72 ml-6 flex font-bold" >{{ __('EMAIL') }}L</th>
+                <th class="w-48 ml-10 flex font-bold">{{ __('PRENOM') }}</th>
+                <th class="w-72 ml-10 flex font-bold" >{{ __('EMAIL') }}L</th>
             </tr>
             </thead>
 
