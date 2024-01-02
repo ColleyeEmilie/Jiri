@@ -18,14 +18,14 @@
                             <label for="name" class="block mb-2 text-sm font-medium text-gray-900 ">
                                 Nom de l'épreuve<sup class="text-rose-600">*</sup></label>
                             <input type="text" id="name" name="name" wire:model="jiriName"
-                                   class="w-96 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 ">
+                                   class="w-72 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 ">
                         </div>
 
                         <div class="mb-4 ml-4">
                             <label for="starting_at" class="block mb-2 text-sm font-medium text-gray-900 ">
                                 Date de l'épreuve<sup class="text-rose-600">*</sup></label>
                             <input wire:model="jiriDate" type="date" id="starting_at" name="starting_at"
-                                   class="w-96 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 ">
+                                   class="w-72 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 ">
                         </div>
                         <div class="self-end">
                             <button class="mb-4 ml-4 hover:bg-orange-400 text-orange-400 font-semibold hover:text-white py-2 px-4 border border-orange-400 hover:border-transparent bg-gray-50 rounded" type="submit">
