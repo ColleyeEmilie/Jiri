@@ -1,6 +1,7 @@
 <div class="flex flex-col mt-2 items-center min-h-screen overflow-hidden text-gray-700 relative bg-white">
     <div class="shrink-0">
         <div class="flex flex-col mt-10 py-2">
+            <x-nav-link :href="route('dashboard.index')" :active="request()->routeIs('dashboard.index') "> {{ __("Dashboard") }} </x-nav-link>
             <x-nav-link :href="route('jiris.index')" :active="request()->routeIs('jiris.index') "> {{ __("Épreuves") }} </x-nav-link>
             <x-nav-link :href="route('jiris.create')" :active="request()->routeIs('jiris.create')"> {{ __("Créer une épreuve") }} </x-nav-link>
             <x-nav-link :href="route('contacts.index')" :active="request()->routeIs('contacts.index')"> {{ __("Contacts") }} </x-nav-link>
