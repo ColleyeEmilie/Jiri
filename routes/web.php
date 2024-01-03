@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ContactsController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\JiriController;
 use App\Http\Controllers\JuryController;
 use App\Http\Controllers\ProfileController;
@@ -29,6 +30,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/', [JiriController::class, 'index'])
         ->name('home');
 
+    Route::resource('dashboard', DashboardController::class);
     Route::resource('contacts', ContactsController::class);
     Route::resource('projets', ProjetsController::class);
     Route::resource('jiris', JiriController::class);
